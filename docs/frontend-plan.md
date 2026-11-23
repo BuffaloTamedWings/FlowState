@@ -2,17 +2,35 @@
 
 Steps from empty repo to the MVP, then polish. Each step has a **Done when** check. Tick boxes as work lands. Spec references are to `FlowState-PRD.md`.
 
-**MVP** = steps 1–10: downtown map, cars through signals, morning preset, lane-count options (`widen`, `roadDiet`), Run/Pause/edit with restart, heatmap.
+## Sequencing: test grid first
+
+**Everything gets built and proven on `test-grid` before any Dallas data is loaded.** The downtown import (step 8) moves to *after* the full vertical slice works end to end, so that when real data arrives the only new variable is the data itself.
+
+**Step numbers below are unchanged** — step 8 is still "step 8" even though it now runs late. Renumbering would invalidate the references in code comments, commit messages and this file's Log. Read the date table for the order of work, not the step numbers.
+
+**MVP** = steps 1–7, 9, 10 **on the test grid**: cars through signals, morning preset, lane-count options (`widen`, `roadDiet`), Run/Pause/edit with restart, heatmap. Downtown (step 8) is the second phase, not part of the MVP.
+
+**Known ceiling of this approach.** The test grid is deliberately clean and cannot exercise some things at all, so passing every test below is *not* evidence that real data will work:
+
+| Not covered by `test-grid` | Why it matters |
+|---|---|
+| 23 of 25 edges are straight 2-point lines; only the 2 ramps bend | Averaged-normal corner offsetting is barely tested; downtown is all multi-vertex curves |
+| No node with >4 approaches | Downtown has 5- and 6-way junctions |
+| No roundabout / `yield` / protected-left **selected** | Compile rules 8 and 10 stay unexercised by the golden file |
+| `residential` and `uturn` road classes absent; elevation only on 2 ramps | Untested geometry and classification paths |
+
+Mitigation: **step 4 ends with a hand-written "hard case" fixture** that fakes this nastiness without needing OSM, so the question moves from the last 48 hours to Tue 11/24.
 
 | Target date | Steps |
 |---|---|
-| Mon 11/23 | 1, 2 |
-| Tue 11/24 | 2 (sign-off), 3, 4 |
-| Wed 11/25 | 5, 6, start 8 |
-| Thu 11/26 | 8 |
-| Fri 11/27 | 7, 9 (test grid) |
-| Sat 11/28 | 9 (downtown), 10 |
-| Sun 11/29 – Mon 11/30 | 11, rehearsal |
+| Mon 11/23 | 1, 2, 3 ✅ |
+| Tue 11/24 | 4 (compile + golden + hard-case fixture) |
+| Wed 11/25 | 5, 6 |
+| Thu 11/26 | 7 |
+| Fri 11/27 | 9 (real engine, test grid) |
+| Sat 11/28 | 10 → **MVP complete on the test grid** |
+| Sun 11/29 | 8 (downtown import) |
+| Mon 11/30 | 8 finish, 11, rehearsal |
 
 ---
 
@@ -53,10 +71,12 @@ Steps from empty repo to the MVP, then polish. Each step has a **Done when** che
 - [ ] CLI: `npm run compile -- data/scenarios/test-grid.scenario.json out.json`.
 - [ ] **Golden test** vs `data/compiled/test-grid.compiled.json`: same path IDs and order, same `next`, lengths within 0.05 m, same conflicts/yields/phases.
 - [ ] Validation helper: no dead-end lanes, no unreachable lanes, every spawn reaches a sink (same checks as the reference).
+- [ ] **Hard-case fixture** `data/scenarios/hard-case.scenario.json`, hand-written, no OSM needed: multi-vertex curved centerlines, a 5-way intersection, a selected roundabout and a selected `yield` node, an edge with `elevation`, and a per-lane `width` override. It compiles and passes validation — there is no golden file to match, the point is that it doesn't crash or produce dead lanes. This is what stands in for real data until step 8.
 
-**Done when:** golden test passes.
+**Done when:** golden test passes, and the hard-case fixture compiles and validates.
 
 ## 5. First render of the test grid (`web/src/render/`)
+_Test grid only. Downtown is step 8._
 - [ ] Lane ribbons from geometry (one mesh per lane path, flat at z unless `elevation`).
 - [ ] Intersection fill polygons.
 - [ ] Simple lane-line rendering (plain lines are fine; the shader comes in step 11).
@@ -83,6 +103,7 @@ Steps from empty repo to the MVP, then polish. Each step has a **Done when** che
 **Done when:** pause → widen a section → Run restarts from empty with the new lane visible and cars using it.
 
 ## 8. Downtown import (`tools/import/`)
+**Runs after steps 9 and 10** — the whole slice is proven on the test grid first, so the only new variable here is the data. Needs internet and a Python toolchain, and is the highest-variance step in the plan; the hard-case fixture from step 4 is what de-risks it in advance. Per PRD §14, if this step goes badly the test grid can carry the demo.
 - [ ] `import_osm.py` per PRD §11: area polygon (Historic District core extended south to I-30), OSMnx pull with motorway excluded, projection, simplify/consolidate (never merge diamond signal pairs), clip with boundary/rampEnd nodes, classify, lanes with `estimated`, controls, restrictions (best effort), merge/diverge with `branch.side`, points, parking capacity estimate, option generation, raw `tags`/`osmIds`.
 - [ ] `overrides.json` applied last; lunch zones live there.
 - [ ] Validation before writing (same checks as step 4).
@@ -92,17 +113,18 @@ Steps from empty repo to the MVP, then polish. Each step has a **Done when** che
 **Done when:** downtown loads, passes validation, compiles, and looks right in the browser.
 
 ## 9. Integrate the real engine
+**Runs before step 8**, on the test grid.
 - [ ] Swap stub → Sashank's worker on the test grid.
-- [ ] Then downtown.
 - [ ] Fix contract mismatches together (no silent changes to `shared/`).
+- [ ] Downtown comes later, as part of step 8.
 
-**Done when:** downtown runs the morning preset with Sashank's engine, cars stop at signals, and edits work.
+**Done when:** the **test grid** runs the morning preset with Sashank's engine, cars stop at signals, and edits work.
 
 ## 10. Heatmap + HUD
 - [ ] Per-lane color from `stats` (`meanSpeed/speedLimit`: ≥0.7 green, 0.4–0.7 yellow, <0.4 red, blended).
 - [ ] HUD: preset picker, Run/Pause, speed 1×/4×, Skip 5 min, Reset, Revert all, sim clock, "© OpenStreetMap contributors".
 
-**Done when:** congestion visibly builds and clears in the morning preset. **← MVP complete**
+**Done when:** congestion visibly builds and clears in the morning preset **on the test grid**. **← MVP complete** (downtown is step 8, after this).
 
 ## 11. Polish (after MVP)
 - [ ] Lane-marking `ShaderMaterial` (lane lines, edge lines, bike green, transit red, stop bars).
@@ -124,3 +146,5 @@ _Add a line per session: date, what got done, anything blocked._
 - **2026-11-23 (contract fix)** — `flowstate-network` **v2**: added required `ConnectorPath.stop` after Sashank's review. §8.4 needs a full stop at `allStop` nodes and on the minor approaches of a `yield` node, but `majorEdges` lives in the scenario and never reaches the engine, and `yieldTo` can't stand in (a minor right turn with no conflict has an empty `yieldTo` and still faces a sign). Verified first that `make_sample.py` reproduces all five starter files byte-identically, then patched it to emit `stop` (plus rule 9 `yieldTo` for yield nodes, which the test grid doesn't exercise) and regenerated the golden — diff is exactly 12 `true` at `n02`, 81 `false`, and the version bump. Version bumped per §7.1 because a required field makes v1 files unreadable. Also tightened `CompiledPoint.type` from `string` to the `PointType` union. New tests: `stop` is boolean everywhere and true exactly at `allStop`, and all connectors leaving one lane agree on it (a car stops at the stop line before choosing a connector, so disagreement would be unsimulatable). Note for the record: `stop` is only strictly *necessary* for `yield` — `allStop` was already derivable from `CompiledNode.control`. Checked and found fine: the 5 permissive lefts with empty `yieldTo` are all lefts off one-way streets, so there is no oncoming traffic. Still open for Sashank: PRD rule 10 doesn't define `from`/`to`/`turn` for roundabout ring sections. 43 tests pass.
 
 - **2026-11-23 (step 3)** — Geometry module ported from `make_sample.py` by a Sonnet subagent, reviewed by Opus. `web/src/geometry/{vec2,polyline,laneLayout,connector,arcLength,index}.ts`, no Three.js or DOM. 185 new tests, 228 total, typecheck clean. Verified independently (not just via the agent's own suite): all 54 lane paths and all 93 connectors rebuilt from the scenario and diffed against the golden at **every** point, plus connector lengths, which the agent hadn't checked. Worst cases: lane length 0.0050 m, lane point 0.0047 m, connector sample 0.0066 m, connector length 0.0043 m. Those equal the golden file's 2 dp rounding quantum (0.005, or 0.005·√2 for a 2D distance), so the port is exact and the residual is only rounding — on that basis I tightened the test tolerance from the plan's 0.05 m to **0.01 m**. Ported quirks preserved on purpose: averaged-normal offset with no `1/cos(θ/2)` correction, `trim` past the end yielding a single-point polyline, and the midpoint-control Bézier that reduces to a straight line. One deliberate divergence: `laneCenterlines` honors a per-lane `width` override (PRD §7.1) where the reference always uses the type default; no effect on the golden, may matter for downtown. **For step 4:** the reference rounds each lane's `debugPolyline` to 2 dp and then derives connector headings and control points from the *rounded* points, so rounding must happen before connector geometry or connector lengths will drift. Also `round2` is half-even (Python's `round`), not JS half-up.
+
+- **2026-11-23 (resequencing)** — Dev's call: build and prove everything on `test-grid` first, load Dallas only afterwards. Step 8 (downtown import) moves after steps 9 and 10; MVP is now redefined as steps 1–7, 9, 10 on the test grid. Step numbers deliberately left alone so existing references in code comments, commits and this Log stay valid. Logged the ceiling of this approach in the header — the test grid has only 2 bent edges out of 25, no node above 4 approaches, and no roundabout/yield/protected-left selected, so compile rules 8 and 10 and all curve handling stay unexercised by the golden file. Added a hard-case fixture to step 4 as the mitigation, so that gap gets probed on 11/24 instead of 11/29.

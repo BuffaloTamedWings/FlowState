@@ -2,6 +2,9 @@
 
 Browser-based 3D traffic sandbox of downtown Dallas (CS 4366 graphics class project). The player picks a time of day (Morning / Afternoon / Night), watches traffic, pauses, swaps road sections and intersections between preset options, and runs again to see the ripple effects. Demo: Dec 1 / Dec 3, 2026.
 
+## Current phase: test grid first
+Everything is built and proven on `data/scenarios/test-grid.scenario.json` before any Dallas data is loaded — the downtown import (plan step 8) runs after the full slice works end to end. Don't reach for downtown data or the import pipeline unless the work is explicitly step 8. The test grid's blind spots (almost no curves, no node above 4 approaches, no roundabout/yield selected) are listed at the top of `docs/frontend-plan.md`; a hand-written hard-case fixture in step 4 stands in for real data until then.
+
 ## Read first
 - `FlowState-PRD.md` — the spec. §7 is the data contract both halves code against. §7.4 has the compile rules.
 - `docs/frontend-plan.md` — Dev's step-by-step plan with progress checkboxes. **Check it at the start of a session to see where we are; tick items off as they're finished.**
