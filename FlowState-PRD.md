@@ -551,23 +551,25 @@ Likely shape:
 
 ## 13. Schedule
 
+> **Sequencing change (11/23):** everything is built and proven on **`test-grid` first**; the downtown import moves to *after* the full slice runs end to end. When real data lands, the data is the only new variable. See `docs/frontend-plan.md` for the step order and for what the test grid structurally cannot cover.
+
 | Date | Dev | Sashank | Checkpoint |
 |---|---|---|---|
-| **Mon 11/23** | D1 | S1 | Starter files shared |
-| **Tue 11/24** | D1 sign-off, D2, D3 | S1, S2 | **Contract signed off** |
-| **Wed 11/25** | D4, D6 | S3, S4 | Engine runs headless on the test grid |
-| **Thu 11/26** (Thanksgiving) | D5 | S5, S7 | |
-| **Fri 11/27** | D7, D8 | S5, S8, S9 | **First integration** on the test grid |
-| **Sat 11/28** | D9, real downtown data in | S6, S10 | Downtown running, morning preset |
-| **Sun 11/29** | D10, D11 | S10 | All presets + options |
-| **Mon 11/30** | Polish, rehearsal | Tuning, rehearsal | Added-lane trap demo locked in |
+| **Mon 11/23** | D1, D2, D3 | S1, S2 | **Contract signed off**, geometry matches the golden |
+| **Tue 11/24** | D4 + hard-case fixture | S3, S4 | Golden compile passes; engine runs headless on the test grid |
+| **Wed 11/25** | D5, D6 | S5, S7 | Stub cars moving on the test grid |
+| **Thu 11/26** (Thanksgiving) | D7 | S8 | Edit → Run restart works |
+| **Fri 11/27** | D9 | S5, S9 | **First integration** on the test grid |
+| **Sat 11/28** | D10, D11 | S10 | **MVP complete on the test grid** — heatmap, HUD, all presets |
+| **Sun 11/29** | D8 (downtown import) | S10 | Downtown loads, validates, compiles |
+| **Mon 11/30** | D8 finish, polish, rehearsal | Tuning, rehearsal | Added-lane trap demo locked in |
 | **Tue 12/1 · Thu 12/3** | Demo | Demo | |
 
 ---
 
 ## 14. Priorities if time gets tight
 
-**Must have:** downtown map; cars moving through signals; morning preset; lane-count options (`widen`, `roadDiet`); Run/Pause/edit with restart; heatmap.
+**Must have:** cars moving through signals; morning preset; lane-count options (`widen`, `roadDiet`); Run/Pause/edit with restart; heatmap — **all demonstrable on the test grid**. The downtown map is a must-have for the *story* the demo tells, but it is deliberately the last thing built, so a bad import costs the setting, not the demo.
 **Should have:** afternoon and night presets; roundabout, all-way stop and protected-left options; bike/transit lanes; lighting; scores.
 **Nice to have:** `twoWay`/`oneWay`/`carFree`; re-routing; skip-ahead; buildings and parks.
 
