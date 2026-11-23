@@ -1,0 +1,3417 @@
+{
+ "format": "flowstate-scenario",
+ "version": 1,
+ "meta": {
+  "id": "test-grid",
+  "name": "Test grid (hand-made sample, not real data)",
+  "source": "hand",
+  "units": {
+   "length": "m",
+   "speed": "m/s",
+   "time": "s"
+  },
+  "origin": {
+   "lat": 32.779,
+   "lon": -96.8,
+   "note": "sample value; real file uses the downtown origin"
+  },
+  "bounds": {
+   "minX": -150.0,
+   "minY": -60.0,
+   "maxX": 420.0,
+   "maxY": 300.0
+  },
+  "attribution": "© OpenStreetMap contributors"
+ },
+ "nodes": [
+  {
+   "id": "n00",
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "1st Ave & Frontage Rd",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "eF2",
+       "eF1"
+      ]
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n01",
+   "x": 0.0,
+   "y": 100.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "1st Ave & B St",
+   "branch": null,
+   "restrictions": [
+    {
+     "fromEdge": "eB0",
+     "toEdge": "e1b",
+     "type": "noTurn"
+    }
+   ],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    },
+    {
+     "id": "roundabout",
+     "control": "roundabout",
+     "label": "Roundabout",
+     "params": {
+      "radius": 16
+     }
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "eB0",
+       "eB1"
+      ]
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n02",
+   "x": 0.0,
+   "y": 200.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "1st Ave & A St",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "allStop",
+     "params": {}
+    },
+    {
+     "id": "signal",
+     "control": "signal",
+     "label": "Traffic signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "roundabout",
+     "control": "roundabout",
+     "label": "Roundabout",
+     "params": {
+      "radius": 16
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "n10",
+   "x": 120.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "2nd Ave & Frontage Rd",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n11",
+   "x": 120.0,
+   "y": 100.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "2nd Ave & B St",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    },
+    {
+     "id": "roundabout",
+     "control": "roundabout",
+     "label": "Roundabout",
+     "params": {
+      "radius": 16
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n12",
+   "x": 120.0,
+   "y": 200.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "2nd Ave & A St",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "e2b",
+       "e2c"
+      ]
+     }
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n20",
+   "x": 240.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "3rd Ave & Frontage Rd",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "e3a"
+      ]
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n21",
+   "x": 240.0,
+   "y": 100.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "3rd Ave & B St",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "e3a",
+       "e3b"
+      ]
+     }
+    },
+    {
+     "id": "signalProtectedLeft",
+     "control": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "n22",
+   "x": 240.0,
+   "y": 200.0,
+   "z": 0.0,
+   "kind": "intersection",
+   "name": "3rd Ave & A St",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "control": "allStop",
+     "label": "All-way stop",
+     "params": {}
+    },
+    {
+     "id": "roundabout",
+     "control": "roundabout",
+     "label": "Roundabout",
+     "params": {
+      "radius": 16
+     }
+    },
+    {
+     "id": "yield",
+     "control": "yield",
+     "label": "Stop signs on side street",
+     "params": {
+      "majorEdges": [
+       "e3b",
+       "e3c"
+      ]
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "bFE",
+   "x": 420.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "Frontage Rd (east edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bFW",
+   "x": -150.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "Frontage Rd (west edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bW1",
+   "x": -150.0,
+   "y": 100.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "B St (west edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bE1",
+   "x": 420.0,
+   "y": 100.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "B St (east edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bW2",
+   "x": -150.0,
+   "y": 200.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "A St (west edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bE2",
+   "x": 420.0,
+   "y": 200.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "A St (east edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bN0",
+   "x": 0.0,
+   "y": 300.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "1st Ave (north edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bN1",
+   "x": 120.0,
+   "y": 300.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "2nd Ave (north edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bN2",
+   "x": 240.0,
+   "y": 300.0,
+   "z": 0.0,
+   "kind": "boundary",
+   "name": "3rd Ave (north edge)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "M",
+   "x": 330.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "merge",
+   "name": "Exit ramp merge",
+   "branch": {
+    "edge": "eROff",
+    "side": "left"
+   },
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "D",
+   "x": -60.0,
+   "y": 0.0,
+   "z": 0.0,
+   "kind": "diverge",
+   "name": "Entrance ramp split",
+   "branch": {
+    "edge": "eROn",
+    "side": "left"
+   },
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "rOff",
+   "x": 420.0,
+   "y": -28.0,
+   "z": -7.0,
+   "kind": "rampEnd",
+   "name": "Freeway exit ramp (top)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "rOn",
+   "x": -150.0,
+   "y": -28.0,
+   "z": -7.0,
+   "kind": "rampEnd",
+   "name": "Freeway entrance ramp (end)",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  }
+ ],
+ "edges": [
+  {
+   "id": "eF5",
+   "from": "bFE",
+   "to": "M",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     420.0,
+     0.0
+    ],
+    [
+     330.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eF4",
+   "from": "M",
+   "to": "n20",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     330.0,
+     0.0
+    ],
+    [
+     240.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eF3",
+   "from": "n20",
+   "to": "n10",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     240.0,
+     0.0
+    ],
+    [
+     120.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eF2",
+   "from": "n10",
+   "to": "n00",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     120.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eF1",
+   "from": "n00",
+   "to": "D",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     -60.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eF0",
+   "from": "D",
+   "to": "bFW",
+   "name": "Frontage Rd",
+   "roadClass": "frontage",
+   "centerline": [
+    [
+     -60.0,
+     0.0
+    ],
+    [
+     -150.0,
+     0.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eB0",
+   "from": "bW1",
+   "to": "n01",
+   "name": "B St",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     -150.0,
+     100.0
+    ],
+    [
+     0.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eB1",
+   "from": "n01",
+   "to": "n11",
+   "name": "B St",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     0.0,
+     100.0
+    ],
+    [
+     120.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eB2",
+   "from": "n11",
+   "to": "n21",
+   "name": "B St",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     120.0,
+     100.0
+    ],
+    [
+     240.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eB3",
+   "from": "n21",
+   "to": "bE1",
+   "name": "B St",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     240.0,
+     100.0
+    ],
+    [
+     420.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eA0",
+   "from": "bW2",
+   "to": "n02",
+   "name": "A St",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     -150.0,
+     200.0
+    ],
+    [
+     0.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eA1",
+   "from": "n02",
+   "to": "n12",
+   "name": "A St",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     0.0,
+     200.0
+    ],
+    [
+     120.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eA2",
+   "from": "n12",
+   "to": "n22",
+   "name": "A St",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     120.0,
+     200.0
+    ],
+    [
+     240.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eA3",
+   "from": "n22",
+   "to": "bE2",
+   "name": "A St",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     240.0,
+     200.0
+    ],
+    [
+     420.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e1a",
+   "from": "n00",
+   "to": "n01",
+   "name": "1st Ave",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e1b",
+   "from": "n01",
+   "to": "n02",
+   "name": "1st Ave",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     0.0,
+     100.0
+    ],
+    [
+     0.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e1c",
+   "from": "n02",
+   "to": "bN0",
+   "name": "1st Ave",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     0.0,
+     200.0
+    ],
+    [
+     0.0,
+     300.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": true,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "oneWay",
+     "kind": "oneWay",
+     "label": "Convert to one-way",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e2a",
+   "from": "n10",
+   "to": "n11",
+   "name": "2nd Ave",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     120.0,
+     0.0
+    ],
+    [
+     120.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "e2b",
+   "from": "n11",
+   "to": "n12",
+   "name": "2nd Ave",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     120.0,
+     100.0
+    ],
+    [
+     120.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "e2c",
+   "from": "n12",
+   "to": "bN1",
+   "name": "2nd Ave",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     120.0,
+     200.0
+    ],
+    [
+     120.0,
+     300.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": []
+    },
+    {
+     "id": "twoWay",
+     "kind": "twoWay",
+     "label": "Convert to two-way",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "e3a",
+   "from": "n20",
+   "to": "n21",
+   "name": "3rd Ave",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     240.0,
+     0.0
+    ],
+    [
+     240.0,
+     100.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 15.65,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "roadDiet",
+     "kind": "roadDiet",
+     "label": "Remove a lane",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e3b",
+   "from": "n21",
+   "to": "n22",
+   "name": "3rd Ave",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     240.0,
+     100.0
+    ],
+    [
+     240.0,
+     200.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 15.65,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "leftTurnLane",
+     "kind": "leftTurnLane",
+     "label": "Add left-turn lane",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car",
+       "turns": [
+        "left"
+       ]
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "widen",
+     "kind": "widen",
+     "label": "Add a lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "roadDiet",
+     "kind": "roadDiet",
+     "label": "Remove a lane",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "e3c",
+   "from": "n22",
+   "to": "bN2",
+   "name": "3rd Ave",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     240.0,
+     200.0
+    ],
+    [
+     240.0,
+     300.0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 15.65,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "roadDiet",
+     "kind": "roadDiet",
+     "label": "Remove a lane",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    },
+    {
+     "id": "bikeLane",
+     "kind": "bikeLane",
+     "label": "Protected bike lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "bike"
+      }
+     ]
+    },
+    {
+     "id": "transitLane",
+     "kind": "transitLane",
+     "label": "Bus/transit lane",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "transit"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eROff",
+   "from": "rOff",
+   "to": "M",
+   "name": "Freeway exit ramp",
+   "roadClass": "ramp",
+   "centerline": [
+    [
+     420.0,
+     -28.0
+    ],
+    [
+     380.0,
+     -14.0
+    ],
+    [
+     330.0,
+     0.0
+    ]
+   ],
+   "elevation": [
+    -7.0,
+    -3.5,
+    0.0
+   ],
+   "speedLimit": 15.65,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eROn",
+   "from": "D",
+   "to": "rOn",
+   "name": "Freeway entrance ramp",
+   "roadClass": "ramp",
+   "centerline": [
+    [
+     -60.0,
+     0.0
+    ],
+    [
+     -105.0,
+     -14.0
+    ],
+    [
+     -150.0,
+     -28.0
+    ]
+   ],
+   "elevation": [
+    0.0,
+    -3.5,
+    -7.0
+   ],
+   "speedLimit": 15.65,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  }
+ ],
+ "points": [
+  {
+   "id": "spawn-bFE",
+   "type": "edgeSpawn",
+   "name": "Frontage Rd (east edge)",
+   "node": "bFE",
+   "weight": 1
+  },
+  {
+   "id": "sink-bFW",
+   "type": "edgeSink",
+   "name": "Frontage Rd (west edge)",
+   "node": "bFW",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bW1",
+   "type": "edgeSpawn",
+   "name": "B St (west edge)",
+   "node": "bW1",
+   "weight": 1
+  },
+  {
+   "id": "sink-bE1",
+   "type": "edgeSink",
+   "name": "B St (east edge)",
+   "node": "bE1",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bW2",
+   "type": "edgeSpawn",
+   "name": "A St (west edge)",
+   "node": "bW2",
+   "weight": 1
+  },
+  {
+   "id": "sink-bW2",
+   "type": "edgeSink",
+   "name": "A St (west edge)",
+   "node": "bW2",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bE2",
+   "type": "edgeSpawn",
+   "name": "A St (east edge)",
+   "node": "bE2",
+   "weight": 1
+  },
+  {
+   "id": "sink-bE2",
+   "type": "edgeSink",
+   "name": "A St (east edge)",
+   "node": "bE2",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bN0",
+   "type": "edgeSpawn",
+   "name": "1st Ave (north edge)",
+   "node": "bN0",
+   "weight": 1
+  },
+  {
+   "id": "sink-bN0",
+   "type": "edgeSink",
+   "name": "1st Ave (north edge)",
+   "node": "bN0",
+   "weight": 1
+  },
+  {
+   "id": "sink-bN1",
+   "type": "edgeSink",
+   "name": "2nd Ave (north edge)",
+   "node": "bN1",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bN2",
+   "type": "edgeSpawn",
+   "name": "3rd Ave (north edge)",
+   "node": "bN2",
+   "weight": 1
+  },
+  {
+   "id": "sink-bN2",
+   "type": "edgeSink",
+   "name": "3rd Ave (north edge)",
+   "node": "bN2",
+   "weight": 1
+  },
+  {
+   "id": "spawn-rOff",
+   "type": "rampSpawn",
+   "name": "Freeway exit ramp",
+   "node": "rOff",
+   "weight": 3
+  },
+  {
+   "id": "sink-rOn",
+   "type": "rampSink",
+   "name": "Freeway entrance ramp",
+   "node": "rOn",
+   "weight": 3
+  },
+  {
+   "id": "park-g1",
+   "type": "parking",
+   "name": "Garage 1",
+   "at": {
+    "edge": "eB1",
+    "t": 0.5
+   },
+   "capacity": 400,
+   "estimated": {
+    "capacity": false
+   },
+   "osmIds": [],
+   "tags": {
+    "amenity": "parking",
+    "parking": "multi-storey"
+   }
+  },
+  {
+   "id": "park-g2",
+   "type": "parking",
+   "name": "Garage 2",
+   "at": {
+    "edge": "e3b",
+    "t": 0.4
+   },
+   "capacity": 250,
+   "estimated": {
+    "capacity": true
+   },
+   "osmIds": [],
+   "tags": {
+    "amenity": "parking",
+    "parking": "multi-storey"
+   }
+  },
+  {
+   "id": "park-l1",
+   "type": "parking",
+   "name": "Surface lot",
+   "at": {
+    "edge": "eA2",
+    "t": 0.5
+   },
+   "capacity": 80,
+   "estimated": {
+    "capacity": true
+   },
+   "osmIds": [],
+   "tags": {
+    "amenity": "parking",
+    "parking": "surface"
+   }
+  },
+  {
+   "id": "lunch-1",
+   "type": "lunchZone",
+   "name": "Lunch zone 1",
+   "at": {
+    "edge": "eA1",
+    "t": 0.5
+   },
+   "weight": 2
+  },
+  {
+   "id": "lunch-2",
+   "type": "lunchZone",
+   "name": "Lunch zone 2",
+   "at": {
+    "edge": "e1b",
+    "t": 0.5
+   },
+   "weight": 1
+  },
+  {
+   "id": "lunch-3",
+   "type": "lunchZone",
+   "name": "Lunch zone 3",
+   "at": {
+    "edge": "e3a",
+    "t": 0.6
+   },
+   "weight": 1
+  }
+ ],
+ "scenery": {
+  "freeways": [
+   {
+    "id": "fw-1",
+    "name": "Freeway mainline (static)",
+    "centerline": [
+     [
+      -200.0,
+      -45.0
+     ],
+     [
+      470.0,
+      -45.0
+     ]
+    ],
+    "width": 30.0,
+    "z": -7.0
+   }
+  ],
+  "buildings": [
+   {
+    "id": "bld-1",
+    "footprint": [
+     [
+      15,
+      15
+     ],
+     [
+      105,
+      15
+     ],
+     [
+      105,
+      85
+     ],
+     [
+      15,
+      85
+     ]
+    ],
+    "height": 45.0,
+    "levels": 12,
+    "use": "office",
+    "estimated": {
+     "height": false
+    },
+    "name": "Sample Office Tower"
+   },
+   {
+    "id": "bld-2",
+    "footprint": [
+     [
+      135,
+      115
+     ],
+     [
+      225,
+      115
+     ],
+     [
+      225,
+      185
+     ],
+     [
+      135,
+      185
+     ]
+    ],
+    "height": 24.0,
+    "levels": 6,
+    "use": "residential",
+    "estimated": {
+     "height": true
+    }
+   },
+   {
+    "id": "bld-3",
+    "footprint": [
+     [
+      15,
+      115
+     ],
+     [
+      105,
+      115
+     ],
+     [
+      105,
+      185
+     ],
+     [
+      15,
+      185
+     ]
+    ],
+    "height": 12.0,
+    "levels": 3,
+    "use": "retail",
+    "estimated": {
+     "height": true
+    }
+   },
+   {
+    "id": "bld-4",
+    "footprint": [
+     [
+      135,
+      15
+     ],
+     [
+      225,
+      15
+     ],
+     [
+      225,
+      85
+     ],
+     [
+      135,
+      85
+     ]
+    ],
+    "height": 90.0,
+    "levels": 24,
+    "use": "office",
+    "estimated": {
+     "height": false
+    }
+   }
+  ],
+  "parks": [
+   {
+    "id": "park-a",
+    "name": "Sample Plaza",
+    "polygon": [
+     [
+      255,
+      115
+     ],
+     [
+      400,
+      115
+     ],
+     [
+      400,
+      185
+     ],
+     [
+      255,
+      185
+     ]
+    ]
+   }
+  ]
+ }
+}

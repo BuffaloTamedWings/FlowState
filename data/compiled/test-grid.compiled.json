@@ -1,0 +1,11813 @@
+{
+ "format": "flowstate-network",
+ "version": 1,
+ "scenario": "test-grid",
+ "layout": {
+  "edges": {
+   "eF5": "current",
+   "eF4": "current",
+   "eF3": "current",
+   "eF2": "current",
+   "eF1": "current",
+   "eF0": "current",
+   "eB0": "current",
+   "eB1": "current",
+   "eB2": "current",
+   "eB3": "current",
+   "eA0": "current",
+   "eA1": "current",
+   "eA2": "current",
+   "eA3": "current",
+   "e1a": "current",
+   "e1b": "current",
+   "e1c": "current",
+   "e2a": "current",
+   "e2b": "current",
+   "e2c": "current",
+   "e3a": "current",
+   "e3b": "current",
+   "e3c": "current",
+   "eROff": "current",
+   "eROn": "current"
+  },
+  "nodes": {
+   "n00": "current",
+   "n01": "current",
+   "n02": "current",
+   "n10": "current",
+   "n11": "current",
+   "n12": "current",
+   "n20": "current",
+   "n21": "current",
+   "n22": "current",
+   "bFE": "current",
+   "bFW": "current",
+   "bW1": "current",
+   "bE1": "current",
+   "bW2": "current",
+   "bE2": "current",
+   "bN0": "current",
+   "bN1": "current",
+   "bN2": "current",
+   "M": "current",
+   "D": "current",
+   "rOff": "current",
+   "rOn": "current"
+  }
+ },
+ "units": {
+  "length": "m",
+  "speed": "m/s",
+  "time": "s"
+ },
+ "paths": [
+  {
+   "id": "L/eF5/f/0",
+   "kind": "lane",
+   "edge": "eF5",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "bFE",
+   "toNode": "M",
+   "length": 82.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/M/eF5/f/0>eF4/f/0"
+   ],
+   "debugPolyline": [
+    [
+     420.0,
+     -1.75
+    ],
+    [
+     338.0,
+     -1.75
+    ]
+   ],
+   "index": 0
+  },
+  {
+   "id": "L/eF5/f/1",
+   "kind": "lane",
+   "edge": "eF5",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "bFE",
+   "toNode": "M",
+   "length": 82.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/M/eF5/f/1>eF4/f/1"
+   ],
+   "debugPolyline": [
+    [
+     420.0,
+     1.75
+    ],
+    [
+     338.0,
+     1.75
+    ]
+   ],
+   "index": 1
+  },
+  {
+   "id": "L/eF4/f/0",
+   "kind": "lane",
+   "edge": "eF4",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "M",
+   "toNode": "n20",
+   "length": 70.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n20/eF4/f/0>eF3/f/0"
+   ],
+   "debugPolyline": [
+    [
+     322.0,
+     -1.75
+    ],
+    [
+     252.0,
+     -1.75
+    ]
+   ],
+   "index": 2
+  },
+  {
+   "id": "L/eF4/f/1",
+   "kind": "lane",
+   "edge": "eF4",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "M",
+   "toNode": "n20",
+   "length": 70.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n20/eF4/f/1>eF3/f/1",
+    "C/n20/eF4/f/1>e3a/f/1",
+    "C/n20/eF4/f/1>e3a/f/0"
+   ],
+   "debugPolyline": [
+    [
+     322.0,
+     1.75
+    ],
+    [
+     252.0,
+     1.75
+    ]
+   ],
+   "index": 3
+  },
+  {
+   "id": "L/eF3/f/0",
+   "kind": "lane",
+   "edge": "eF3",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n20",
+   "toNode": "n10",
+   "length": 96.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n10/eF3/f/0>eF2/f/0"
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     -1.75
+    ],
+    [
+     132.0,
+     -1.75
+    ]
+   ],
+   "index": 4
+  },
+  {
+   "id": "L/eF3/f/1",
+   "kind": "lane",
+   "edge": "eF3",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n20",
+   "toNode": "n10",
+   "length": 96.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n10/eF3/f/1>eF2/f/1",
+    "C/n10/eF3/f/1>e2a/f/1",
+    "C/n10/eF3/f/1>e2a/f/0"
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     1.75
+    ],
+    [
+     132.0,
+     1.75
+    ]
+   ],
+   "index": 5
+  },
+  {
+   "id": "L/eF2/f/0",
+   "kind": "lane",
+   "edge": "eF2",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n10",
+   "toNode": "n00",
+   "length": 96.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n00/eF2/f/0>eF1/f/0"
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     -1.75
+    ],
+    [
+     12.0,
+     -1.75
+    ]
+   ],
+   "index": 6
+  },
+  {
+   "id": "L/eF2/f/1",
+   "kind": "lane",
+   "edge": "eF2",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n10",
+   "toNode": "n00",
+   "length": 96.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/n00/eF2/f/1>eF1/f/1",
+    "C/n00/eF2/f/1>e1a/f/0"
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     1.75
+    ],
+    [
+     12.0,
+     1.75
+    ]
+   ],
+   "index": 7
+  },
+  {
+   "id": "L/eF1/f/0",
+   "kind": "lane",
+   "edge": "eF1",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n00",
+   "toNode": "D",
+   "length": 40.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/D/eF1/f/0>eF0/f/0",
+    "C/D/eF1/f/0>eROn/f/0"
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     -1.75
+    ],
+    [
+     -52.0,
+     -1.75
+    ]
+   ],
+   "index": 8
+  },
+  {
+   "id": "L/eF1/f/1",
+   "kind": "lane",
+   "edge": "eF1",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n00",
+   "toNode": "D",
+   "length": 40.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [
+    "C/D/eF1/f/1>eF0/f/1"
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     1.75
+    ],
+    [
+     -52.0,
+     1.75
+    ]
+   ],
+   "index": 9
+  },
+  {
+   "id": "L/eF0/f/0",
+   "kind": "lane",
+   "edge": "eF0",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "D",
+   "toNode": "bFW",
+   "length": 82.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     -68.0,
+     -1.75
+    ],
+    [
+     -150.0,
+     -1.75
+    ]
+   ],
+   "index": 10
+  },
+  {
+   "id": "L/eF0/f/1",
+   "kind": "lane",
+   "edge": "eF0",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "D",
+   "toNode": "bFW",
+   "length": 82.0,
+   "speedLimit": 17.88,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     -68.0,
+     1.75
+    ],
+    [
+     -150.0,
+     1.75
+    ]
+   ],
+   "index": 11
+  },
+  {
+   "id": "L/eB0/f/0",
+   "kind": "lane",
+   "edge": "eB0",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "bW1",
+   "toNode": "n01",
+   "length": 138.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n01/eB0/f/0>eB1/f/0"
+   ],
+   "debugPolyline": [
+    [
+     -150.0,
+     101.75
+    ],
+    [
+     -12.0,
+     101.75
+    ]
+   ],
+   "index": 12
+  },
+  {
+   "id": "L/eB0/f/1",
+   "kind": "lane",
+   "edge": "eB0",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "bW1",
+   "toNode": "n01",
+   "length": 138.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n01/eB0/f/1>eB1/f/1",
+    "C/n01/eB0/f/1>e1a/b/0"
+   ],
+   "debugPolyline": [
+    [
+     -150.0,
+     98.25
+    ],
+    [
+     -12.0,
+     98.25
+    ]
+   ],
+   "index": 13
+  },
+  {
+   "id": "L/eB1/f/0",
+   "kind": "lane",
+   "edge": "eB1",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n01",
+   "toNode": "n11",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n11/eB1/f/0>eB2/f/0",
+    "C/n11/eB1/f/0>e2b/f/0",
+    "C/n11/eB1/f/0>e2b/f/1"
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     101.75
+    ],
+    [
+     108.0,
+     101.75
+    ]
+   ],
+   "index": 14
+  },
+  {
+   "id": "L/eB1/f/1",
+   "kind": "lane",
+   "edge": "eB1",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n01",
+   "toNode": "n11",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n11/eB1/f/1>eB2/f/1"
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     98.25
+    ],
+    [
+     108.0,
+     98.25
+    ]
+   ],
+   "index": 15
+  },
+  {
+   "id": "L/eB2/f/0",
+   "kind": "lane",
+   "edge": "eB2",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n11",
+   "toNode": "n21",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n21/eB2/f/0>eB3/f/0",
+    "C/n21/eB2/f/0>e3b/f/0",
+    "C/n21/eB2/f/0>e3b/f/1"
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     101.75
+    ],
+    [
+     228.0,
+     101.75
+    ]
+   ],
+   "index": 16
+  },
+  {
+   "id": "L/eB2/f/1",
+   "kind": "lane",
+   "edge": "eB2",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n11",
+   "toNode": "n21",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n21/eB2/f/1>eB3/f/1",
+    "C/n21/eB2/f/1>e3a/b/1",
+    "C/n21/eB2/f/1>e3a/b/0"
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     98.25
+    ],
+    [
+     228.0,
+     98.25
+    ]
+   ],
+   "index": 17
+  },
+  {
+   "id": "L/eB3/f/0",
+   "kind": "lane",
+   "edge": "eB3",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n21",
+   "toNode": "bE1",
+   "length": 168.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     252.0,
+     101.75
+    ],
+    [
+     420.0,
+     101.75
+    ]
+   ],
+   "index": 18
+  },
+  {
+   "id": "L/eB3/f/1",
+   "kind": "lane",
+   "edge": "eB3",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n21",
+   "toNode": "bE1",
+   "length": 168.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     252.0,
+     98.25
+    ],
+    [
+     420.0,
+     98.25
+    ]
+   ],
+   "index": 19
+  },
+  {
+   "id": "L/eA0/f/0",
+   "kind": "lane",
+   "edge": "eA0",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "bW2",
+   "toNode": "n02",
+   "length": 138.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n02/eA0/f/0>eA1/f/0",
+    "C/n02/eA0/f/0>e1b/b/0",
+    "C/n02/eA0/f/0>e1c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     -150.0,
+     198.25
+    ],
+    [
+     -12.0,
+     198.25
+    ]
+   ],
+   "index": 20
+  },
+  {
+   "id": "L/eA0/b/0",
+   "kind": "lane",
+   "edge": "eA0",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n02",
+   "toNode": "bW2",
+   "length": 138.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     -12.0,
+     201.75
+    ],
+    [
+     -150.0,
+     201.75
+    ]
+   ],
+   "index": 21
+  },
+  {
+   "id": "L/eA1/f/0",
+   "kind": "lane",
+   "edge": "eA1",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n02",
+   "toNode": "n12",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n12/eA1/f/0>eA2/f/0",
+    "C/n12/eA1/f/0>e2c/f/0",
+    "C/n12/eA1/f/0>e2c/f/1"
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     198.25
+    ],
+    [
+     108.0,
+     198.25
+    ]
+   ],
+   "index": 22
+  },
+  {
+   "id": "L/eA1/b/0",
+   "kind": "lane",
+   "edge": "eA1",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n12",
+   "toNode": "n02",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n02/eA1/b/0>eA0/b/0",
+    "C/n02/eA1/b/0>e1b/b/0",
+    "C/n02/eA1/b/0>e1c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     201.75
+    ],
+    [
+     12.0,
+     201.75
+    ]
+   ],
+   "index": 23
+  },
+  {
+   "id": "L/eA2/f/0",
+   "kind": "lane",
+   "edge": "eA2",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n12",
+   "toNode": "n22",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n22/eA2/f/0>eA3/f/0",
+    "C/n22/eA2/f/0>e3b/b/1",
+    "C/n22/eA2/f/0>e3b/b/0",
+    "C/n22/eA2/f/0>e3c/f/0",
+    "C/n22/eA2/f/0>e3c/f/1"
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     198.25
+    ],
+    [
+     228.0,
+     198.25
+    ]
+   ],
+   "index": 24
+  },
+  {
+   "id": "L/eA2/b/0",
+   "kind": "lane",
+   "edge": "eA2",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n22",
+   "toNode": "n12",
+   "length": 96.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n12/eA2/b/0>eA1/b/0",
+    "C/n12/eA2/b/0>e2c/f/1",
+    "C/n12/eA2/b/0>e2c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     201.75
+    ],
+    [
+     132.0,
+     201.75
+    ]
+   ],
+   "index": 25
+  },
+  {
+   "id": "L/eA3/f/0",
+   "kind": "lane",
+   "edge": "eA3",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n22",
+   "toNode": "bE2",
+   "length": 168.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     252.0,
+     198.25
+    ],
+    [
+     420.0,
+     198.25
+    ]
+   ],
+   "index": 26
+  },
+  {
+   "id": "L/eA3/b/0",
+   "kind": "lane",
+   "edge": "eA3",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "bE2",
+   "toNode": "n22",
+   "length": 168.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n22/eA3/b/0>eA2/b/0",
+    "C/n22/eA3/b/0>e3b/b/0",
+    "C/n22/eA3/b/0>e3b/b/1",
+    "C/n22/eA3/b/0>e3c/f/1",
+    "C/n22/eA3/b/0>e3c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     420.0,
+     201.75
+    ],
+    [
+     252.0,
+     201.75
+    ]
+   ],
+   "index": 27
+  },
+  {
+   "id": "L/e1a/f/0",
+   "kind": "lane",
+   "edge": "e1a",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n00",
+   "toNode": "n01",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n01/e1a/f/0>eB1/f/1",
+    "C/n01/e1a/f/0>eB1/f/0",
+    "C/n01/e1a/f/0>e1b/f/0"
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     12.0
+    ],
+    [
+     1.75,
+     88.0
+    ]
+   ],
+   "index": 28
+  },
+  {
+   "id": "L/e1a/b/0",
+   "kind": "lane",
+   "edge": "e1a",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n01",
+   "toNode": "n00",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n00/e1a/b/0>eF1/f/1",
+    "C/n00/e1a/b/0>eF1/f/0"
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     88.0
+    ],
+    [
+     -1.75,
+     12.0
+    ]
+   ],
+   "index": 29
+  },
+  {
+   "id": "L/e1b/f/0",
+   "kind": "lane",
+   "edge": "e1b",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n01",
+   "toNode": "n02",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n02/e1b/f/0>eA0/b/0",
+    "C/n02/e1b/f/0>eA1/f/0",
+    "C/n02/e1b/f/0>e1c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     112.0
+    ],
+    [
+     1.75,
+     188.0
+    ]
+   ],
+   "index": 30
+  },
+  {
+   "id": "L/e1b/b/0",
+   "kind": "lane",
+   "edge": "e1b",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n02",
+   "toNode": "n01",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n01/e1b/b/0>eB1/f/0",
+    "C/n01/e1b/b/0>eB1/f/1",
+    "C/n01/e1b/b/0>e1a/b/0"
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     188.0
+    ],
+    [
+     -1.75,
+     112.0
+    ]
+   ],
+   "index": 31
+  },
+  {
+   "id": "L/e1c/f/0",
+   "kind": "lane",
+   "edge": "e1c",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n02",
+   "toNode": "bN0",
+   "length": 88.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     1.75,
+     212.0
+    ],
+    [
+     1.75,
+     300.0
+    ]
+   ],
+   "index": 32
+  },
+  {
+   "id": "L/e1c/b/0",
+   "kind": "lane",
+   "edge": "e1c",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "bN0",
+   "toNode": "n02",
+   "length": 88.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n02/e1c/b/0>eA0/b/0",
+    "C/n02/e1c/b/0>eA1/f/0",
+    "C/n02/e1c/b/0>e1b/b/0"
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     300.0
+    ],
+    [
+     -1.75,
+     212.0
+    ]
+   ],
+   "index": 33
+  },
+  {
+   "id": "L/e2a/f/0",
+   "kind": "lane",
+   "edge": "e2a",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n10",
+   "toNode": "n11",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n11/e2a/f/0>e2b/f/0"
+   ],
+   "debugPolyline": [
+    [
+     118.25,
+     12.0
+    ],
+    [
+     118.25,
+     88.0
+    ]
+   ],
+   "index": 34
+  },
+  {
+   "id": "L/e2a/f/1",
+   "kind": "lane",
+   "edge": "e2a",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n10",
+   "toNode": "n11",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n11/e2a/f/1>eB2/f/1",
+    "C/n11/e2a/f/1>eB2/f/0",
+    "C/n11/e2a/f/1>e2b/f/1"
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     12.0
+    ],
+    [
+     121.75,
+     88.0
+    ]
+   ],
+   "index": 35
+  },
+  {
+   "id": "L/e2b/f/0",
+   "kind": "lane",
+   "edge": "e2b",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n11",
+   "toNode": "n12",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n12/e2b/f/0>eA1/b/0",
+    "C/n12/e2b/f/0>e2c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     118.25,
+     112.0
+    ],
+    [
+     118.25,
+     188.0
+    ]
+   ],
+   "index": 36
+  },
+  {
+   "id": "L/e2b/f/1",
+   "kind": "lane",
+   "edge": "e2b",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n11",
+   "toNode": "n12",
+   "length": 76.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [
+    "C/n12/e2b/f/1>eA2/f/0",
+    "C/n12/e2b/f/1>e2c/f/1"
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     112.0
+    ],
+    [
+     121.75,
+     188.0
+    ]
+   ],
+   "index": 37
+  },
+  {
+   "id": "L/e2c/f/0",
+   "kind": "lane",
+   "edge": "e2c",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n12",
+   "toNode": "bN1",
+   "length": 88.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     118.25,
+     212.0
+    ],
+    [
+     118.25,
+     300.0
+    ]
+   ],
+   "index": 38
+  },
+  {
+   "id": "L/e2c/f/1",
+   "kind": "lane",
+   "edge": "e2c",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n12",
+   "toNode": "bN1",
+   "length": 88.0,
+   "speedLimit": 13.41,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     121.75,
+     212.0
+    ],
+    [
+     121.75,
+     300.0
+    ]
+   ],
+   "index": 39
+  },
+  {
+   "id": "L/e3a/f/0",
+   "kind": "lane",
+   "edge": "e3a",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n20",
+   "toNode": "n21",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n21/e3a/f/0>e3b/f/0"
+   ],
+   "debugPolyline": [
+    [
+     241.75,
+     12.0
+    ],
+    [
+     241.75,
+     88.0
+    ]
+   ],
+   "index": 40
+  },
+  {
+   "id": "L/e3a/f/1",
+   "kind": "lane",
+   "edge": "e3a",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n20",
+   "toNode": "n21",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n21/e3a/f/1>eB3/f/1",
+    "C/n21/e3a/f/1>eB3/f/0",
+    "C/n21/e3a/f/1>e3b/f/1"
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     12.0
+    ],
+    [
+     245.25,
+     88.0
+    ]
+   ],
+   "index": 41
+  },
+  {
+   "id": "L/e3a/b/0",
+   "kind": "lane",
+   "edge": "e3a",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n21",
+   "toNode": "n20",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n20/e3a/b/0>eF3/f/0"
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     88.0
+    ],
+    [
+     238.25,
+     12.0
+    ]
+   ],
+   "index": 42
+  },
+  {
+   "id": "L/e3a/b/1",
+   "kind": "lane",
+   "edge": "e3a",
+   "dir": "b",
+   "laneIndex": 1,
+   "fromNode": "n21",
+   "toNode": "n20",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n20/e3a/b/1>eF3/f/1"
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     88.0
+    ],
+    [
+     234.75,
+     12.0
+    ]
+   ],
+   "index": 43
+  },
+  {
+   "id": "L/e3b/f/0",
+   "kind": "lane",
+   "edge": "e3b",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n21",
+   "toNode": "n22",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n22/e3b/f/0>eA2/b/0",
+    "C/n22/e3b/f/0>e3c/f/0"
+   ],
+   "debugPolyline": [
+    [
+     241.75,
+     112.0
+    ],
+    [
+     241.75,
+     188.0
+    ]
+   ],
+   "index": 44
+  },
+  {
+   "id": "L/e3b/f/1",
+   "kind": "lane",
+   "edge": "e3b",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n21",
+   "toNode": "n22",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n22/e3b/f/1>eA3/f/0",
+    "C/n22/e3b/f/1>e3c/f/1"
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     112.0
+    ],
+    [
+     245.25,
+     188.0
+    ]
+   ],
+   "index": 45
+  },
+  {
+   "id": "L/e3b/b/0",
+   "kind": "lane",
+   "edge": "e3b",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "n22",
+   "toNode": "n21",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n21/e3b/b/0>eB3/f/0",
+    "C/n21/e3b/b/0>eB3/f/1",
+    "C/n21/e3b/b/0>e3a/b/0"
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     188.0
+    ],
+    [
+     238.25,
+     112.0
+    ]
+   ],
+   "index": 46
+  },
+  {
+   "id": "L/e3b/b/1",
+   "kind": "lane",
+   "edge": "e3b",
+   "dir": "b",
+   "laneIndex": 1,
+   "fromNode": "n22",
+   "toNode": "n21",
+   "length": 76.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n21/e3b/b/1>e3a/b/1"
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     188.0
+    ],
+    [
+     234.75,
+     112.0
+    ]
+   ],
+   "index": 47
+  },
+  {
+   "id": "L/e3c/f/0",
+   "kind": "lane",
+   "edge": "e3c",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "n22",
+   "toNode": "bN2",
+   "length": 88.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     241.75,
+     212.0
+    ],
+    [
+     241.75,
+     300.0
+    ]
+   ],
+   "index": 48
+  },
+  {
+   "id": "L/e3c/f/1",
+   "kind": "lane",
+   "edge": "e3c",
+   "dir": "f",
+   "laneIndex": 1,
+   "fromNode": "n22",
+   "toNode": "bN2",
+   "length": 88.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     245.25,
+     212.0
+    ],
+    [
+     245.25,
+     300.0
+    ]
+   ],
+   "index": 49
+  },
+  {
+   "id": "L/e3c/b/0",
+   "kind": "lane",
+   "edge": "e3c",
+   "dir": "b",
+   "laneIndex": 0,
+   "fromNode": "bN2",
+   "toNode": "n22",
+   "length": 88.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n22/e3c/b/0>eA3/f/0",
+    "C/n22/e3c/b/0>e3b/b/0"
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     300.0
+    ],
+    [
+     238.25,
+     212.0
+    ]
+   ],
+   "index": 50
+  },
+  {
+   "id": "L/e3c/b/1",
+   "kind": "lane",
+   "edge": "e3c",
+   "dir": "b",
+   "laneIndex": 1,
+   "fromNode": "bN2",
+   "toNode": "n22",
+   "length": 88.0,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/n22/e3c/b/1>eA2/b/0",
+    "C/n22/e3c/b/1>e3b/b/1"
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     300.0
+    ],
+    [
+     234.75,
+     212.0
+    ]
+   ],
+   "index": 51
+  },
+  {
+   "id": "L/eROff/f/0",
+   "kind": "lane",
+   "edge": "eROff",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "rOff",
+   "toNode": "M",
+   "length": 86.3,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [
+    "C/M/eROff/f/0>eF4/f/0",
+    "C/M/eROff/f/0>eF4/f/1"
+   ],
+   "debugPolyline": [
+    [
+     420.0,
+     -28.0
+    ],
+    [
+     380.0,
+     -14.0
+    ],
+    [
+     337.7,
+     -2.16
+    ]
+   ],
+   "index": 52
+  },
+  {
+   "id": "L/eROn/f/0",
+   "kind": "lane",
+   "edge": "eROn",
+   "dir": "f",
+   "laneIndex": 0,
+   "fromNode": "D",
+   "toNode": "rOn",
+   "length": 86.25,
+   "speedLimit": 15.65,
+   "turns": null,
+   "next": [],
+   "debugPolyline": [
+    [
+     -67.64,
+     -2.38
+    ],
+    [
+     -105.0,
+     -14.0
+    ],
+    [
+     -150.0,
+     -28.0
+    ]
+   ],
+   "index": 53
+  },
+  {
+   "id": "C/n00/eF2/f/0>eF1/f/0",
+   "kind": "connector",
+   "node": "n00",
+   "from": "L/eF2/f/0",
+   "to": "L/eF1/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n00/e1a/b/0>eF1/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     -1.75
+    ],
+    [
+     10.5,
+     -1.75
+    ],
+    [
+     9.0,
+     -1.75
+    ],
+    [
+     7.5,
+     -1.75
+    ],
+    [
+     6.0,
+     -1.75
+    ],
+    [
+     4.5,
+     -1.75
+    ],
+    [
+     3.0,
+     -1.75
+    ],
+    [
+     1.5,
+     -1.75
+    ],
+    [
+     0.0,
+     -1.75
+    ],
+    [
+     -1.5,
+     -1.75
+    ],
+    [
+     -3.0,
+     -1.75
+    ],
+    [
+     -4.5,
+     -1.75
+    ],
+    [
+     -6.0,
+     -1.75
+    ],
+    [
+     -7.5,
+     -1.75
+    ],
+    [
+     -9.0,
+     -1.75
+    ],
+    [
+     -10.5,
+     -1.75
+    ],
+    [
+     -12.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF1/f/0"
+   ],
+   "index": 54
+  },
+  {
+   "id": "C/n00/eF2/f/1>eF1/f/1",
+   "kind": "connector",
+   "node": "n00",
+   "from": "L/eF2/f/1",
+   "to": "L/eF1/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n00/e1a/b/0>eF1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n00/e1a/b/0>eF1/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     1.75
+    ],
+    [
+     10.5,
+     1.75
+    ],
+    [
+     9.0,
+     1.75
+    ],
+    [
+     7.5,
+     1.75
+    ],
+    [
+     6.0,
+     1.75
+    ],
+    [
+     4.5,
+     1.75
+    ],
+    [
+     3.0,
+     1.75
+    ],
+    [
+     1.5,
+     1.75
+    ],
+    [
+     0.0,
+     1.75
+    ],
+    [
+     -1.5,
+     1.75
+    ],
+    [
+     -3.0,
+     1.75
+    ],
+    [
+     -4.5,
+     1.75
+    ],
+    [
+     -6.0,
+     1.75
+    ],
+    [
+     -7.5,
+     1.75
+    ],
+    [
+     -9.0,
+     1.75
+    ],
+    [
+     -10.5,
+     1.75
+    ],
+    [
+     -12.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF1/f/1"
+   ],
+   "index": 55
+  },
+  {
+   "id": "C/n00/eF2/f/1>e1a/f/0",
+   "kind": "connector",
+   "node": "n00",
+   "from": "L/eF2/f/1",
+   "to": "L/e1a/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     12.0,
+     1.75
+    ],
+    [
+     10.76,
+     1.79
+    ],
+    [
+     9.6,
+     1.91
+    ],
+    [
+     8.52,
+     2.11
+    ],
+    [
+     7.52,
+     2.39
+    ],
+    [
+     6.59,
+     2.75
+    ],
+    [
+     5.75,
+     3.19
+    ],
+    [
+     4.99,
+     3.71
+    ],
+    [
+     4.31,
+     4.31
+    ],
+    [
+     3.71,
+     4.99
+    ],
+    [
+     3.19,
+     5.75
+    ],
+    [
+     2.75,
+     6.59
+    ],
+    [
+     2.39,
+     7.52
+    ],
+    [
+     2.11,
+     8.52
+    ],
+    [
+     1.91,
+     9.6
+    ],
+    [
+     1.79,
+     10.76
+    ],
+    [
+     1.75,
+     12.0
+    ]
+   ],
+   "next": [
+    "L/e1a/f/0"
+   ],
+   "index": 56
+  },
+  {
+   "id": "C/n00/e1a/b/0>eF1/f/1",
+   "kind": "connector",
+   "node": "n00",
+   "from": "L/e1a/b/0",
+   "to": "L/eF1/f/1",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n00/eF2/f/1>eF1/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     12.0
+    ],
+    [
+     -1.79,
+     10.76
+    ],
+    [
+     -1.91,
+     9.6
+    ],
+    [
+     -2.11,
+     8.52
+    ],
+    [
+     -2.39,
+     7.52
+    ],
+    [
+     -2.75,
+     6.59
+    ],
+    [
+     -3.19,
+     5.75
+    ],
+    [
+     -3.71,
+     4.99
+    ],
+    [
+     -4.31,
+     4.31
+    ],
+    [
+     -4.99,
+     3.71
+    ],
+    [
+     -5.75,
+     3.19
+    ],
+    [
+     -6.59,
+     2.75
+    ],
+    [
+     -7.52,
+     2.39
+    ],
+    [
+     -8.52,
+     2.11
+    ],
+    [
+     -9.6,
+     1.91
+    ],
+    [
+     -10.76,
+     1.79
+    ],
+    [
+     -12.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF1/f/1"
+   ],
+   "index": 57
+  },
+  {
+   "id": "C/n00/e1a/b/0>eF1/f/0",
+   "kind": "connector",
+   "node": "n00",
+   "from": "L/e1a/b/0",
+   "to": "L/eF1/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n00/eF2/f/0>eF1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n00/eF2/f/1>eF1/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     12.0
+    ],
+    [
+     -1.79,
+     10.33
+    ],
+    [
+     -1.91,
+     8.78
+    ],
+    [
+     -2.11,
+     7.33
+    ],
+    [
+     -2.39,
+     5.98
+    ],
+    [
+     -2.75,
+     4.75
+    ],
+    [
+     -3.19,
+     3.62
+    ],
+    [
+     -3.71,
+     2.6
+    ],
+    [
+     -4.31,
+     1.69
+    ],
+    [
+     -4.99,
+     0.88
+    ],
+    [
+     -5.75,
+     0.18
+    ],
+    [
+     -6.59,
+     -0.41
+    ],
+    [
+     -7.52,
+     -0.89
+    ],
+    [
+     -8.52,
+     -1.27
+    ],
+    [
+     -9.6,
+     -1.54
+    ],
+    [
+     -10.76,
+     -1.7
+    ],
+    [
+     -12.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF1/f/0"
+   ],
+   "index": 58
+  },
+  {
+   "id": "C/n01/eB0/f/0>eB1/f/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/eB0/f/0",
+   "to": "L/eB1/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>e1b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>e1a/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     101.75
+    ],
+    [
+     -10.5,
+     101.75
+    ],
+    [
+     -9.0,
+     101.75
+    ],
+    [
+     -7.5,
+     101.75
+    ],
+    [
+     -6.0,
+     101.75
+    ],
+    [
+     -4.5,
+     101.75
+    ],
+    [
+     -3.0,
+     101.75
+    ],
+    [
+     -1.5,
+     101.75
+    ],
+    [
+     0.0,
+     101.75
+    ],
+    [
+     1.5,
+     101.75
+    ],
+    [
+     3.0,
+     101.75
+    ],
+    [
+     4.5,
+     101.75
+    ],
+    [
+     6.0,
+     101.75
+    ],
+    [
+     7.5,
+     101.75
+    ],
+    [
+     9.0,
+     101.75
+    ],
+    [
+     10.5,
+     101.75
+    ],
+    [
+     12.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB1/f/0"
+   ],
+   "index": 59
+  },
+  {
+   "id": "C/n01/eB0/f/1>eB1/f/1",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/eB0/f/1",
+   "to": "L/eB1/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1a/f/0>e1b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1b/b/0>e1a/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     98.25
+    ],
+    [
+     -10.5,
+     98.25
+    ],
+    [
+     -9.0,
+     98.25
+    ],
+    [
+     -7.5,
+     98.25
+    ],
+    [
+     -6.0,
+     98.25
+    ],
+    [
+     -4.5,
+     98.25
+    ],
+    [
+     -3.0,
+     98.25
+    ],
+    [
+     -1.5,
+     98.25
+    ],
+    [
+     0.0,
+     98.25
+    ],
+    [
+     1.5,
+     98.25
+    ],
+    [
+     3.0,
+     98.25
+    ],
+    [
+     4.5,
+     98.25
+    ],
+    [
+     6.0,
+     98.25
+    ],
+    [
+     7.5,
+     98.25
+    ],
+    [
+     9.0,
+     98.25
+    ],
+    [
+     10.5,
+     98.25
+    ],
+    [
+     12.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB1/f/1"
+   ],
+   "index": 60
+  },
+  {
+   "id": "C/n01/eB0/f/1>e1a/b/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/eB0/f/1",
+   "to": "L/e1a/b/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/e1b/b/0>e1a/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     98.25
+    ],
+    [
+     -10.76,
+     98.21
+    ],
+    [
+     -9.6,
+     98.09
+    ],
+    [
+     -8.52,
+     97.89
+    ],
+    [
+     -7.52,
+     97.61
+    ],
+    [
+     -6.59,
+     97.25
+    ],
+    [
+     -5.75,
+     96.81
+    ],
+    [
+     -4.99,
+     96.29
+    ],
+    [
+     -4.31,
+     95.69
+    ],
+    [
+     -3.71,
+     95.01
+    ],
+    [
+     -3.19,
+     94.25
+    ],
+    [
+     -2.75,
+     93.41
+    ],
+    [
+     -2.39,
+     92.48
+    ],
+    [
+     -2.11,
+     91.48
+    ],
+    [
+     -1.91,
+     90.4
+    ],
+    [
+     -1.79,
+     89.24
+    ],
+    [
+     -1.75,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e1a/b/0"
+   ],
+   "index": 61
+  },
+  {
+   "id": "C/n01/e1a/f/0>eB1/f/1",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1a/f/0",
+   "to": "L/eB1/f/1",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/1>eB1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     88.0
+    ],
+    [
+     1.79,
+     89.24
+    ],
+    [
+     1.91,
+     90.4
+    ],
+    [
+     2.11,
+     91.48
+    ],
+    [
+     2.39,
+     92.48
+    ],
+    [
+     2.75,
+     93.41
+    ],
+    [
+     3.19,
+     94.25
+    ],
+    [
+     3.71,
+     95.01
+    ],
+    [
+     4.31,
+     95.69
+    ],
+    [
+     4.99,
+     96.29
+    ],
+    [
+     5.75,
+     96.81
+    ],
+    [
+     6.59,
+     97.25
+    ],
+    [
+     7.52,
+     97.61
+    ],
+    [
+     8.52,
+     97.89
+    ],
+    [
+     9.6,
+     98.09
+    ],
+    [
+     10.76,
+     98.21
+    ],
+    [
+     12.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB1/f/1"
+   ],
+   "index": 62
+  },
+  {
+   "id": "C/n01/e1a/f/0>eB1/f/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1a/f/0",
+   "to": "L/eB1/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/eB0/f/1>eB1/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     88.0
+    ],
+    [
+     1.79,
+     89.67
+    ],
+    [
+     1.91,
+     91.22
+    ],
+    [
+     2.11,
+     92.67
+    ],
+    [
+     2.39,
+     94.02
+    ],
+    [
+     2.75,
+     95.25
+    ],
+    [
+     3.19,
+     96.38
+    ],
+    [
+     3.71,
+     97.4
+    ],
+    [
+     4.31,
+     98.31
+    ],
+    [
+     4.99,
+     99.12
+    ],
+    [
+     5.75,
+     99.82
+    ],
+    [
+     6.59,
+     100.41
+    ],
+    [
+     7.52,
+     100.89
+    ],
+    [
+     8.52,
+     101.27
+    ],
+    [
+     9.6,
+     101.54
+    ],
+    [
+     10.76,
+     101.7
+    ],
+    [
+     12.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB1/f/0"
+   ],
+   "index": 63
+  },
+  {
+   "id": "C/n01/e1a/f/0>e1b/f/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1a/f/0",
+   "to": "L/e1b/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/eB0/f/1>eB1/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1b/b/0>eB1/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     88.0
+    ],
+    [
+     1.75,
+     89.5
+    ],
+    [
+     1.75,
+     91.0
+    ],
+    [
+     1.75,
+     92.5
+    ],
+    [
+     1.75,
+     94.0
+    ],
+    [
+     1.75,
+     95.5
+    ],
+    [
+     1.75,
+     97.0
+    ],
+    [
+     1.75,
+     98.5
+    ],
+    [
+     1.75,
+     100.0
+    ],
+    [
+     1.75,
+     101.5
+    ],
+    [
+     1.75,
+     103.0
+    ],
+    [
+     1.75,
+     104.5
+    ],
+    [
+     1.75,
+     106.0
+    ],
+    [
+     1.75,
+     107.5
+    ],
+    [
+     1.75,
+     109.0
+    ],
+    [
+     1.75,
+     110.5
+    ],
+    [
+     1.75,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e1b/f/0"
+   ],
+   "index": 64
+  },
+  {
+   "id": "C/n01/e1b/b/0>eB1/f/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1b/b/0",
+   "to": "L/eB1/f/0",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n01/e1a/f/0>eB1/f/0",
+    "C/n01/e1a/f/0>e1b/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>e1b/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     112.0
+    ],
+    [
+     -1.7,
+     110.76
+    ],
+    [
+     -1.54,
+     109.6
+    ],
+    [
+     -1.27,
+     108.52
+    ],
+    [
+     -0.89,
+     107.52
+    ],
+    [
+     -0.41,
+     106.59
+    ],
+    [
+     0.18,
+     105.75
+    ],
+    [
+     0.88,
+     104.99
+    ],
+    [
+     1.69,
+     104.31
+    ],
+    [
+     2.6,
+     103.71
+    ],
+    [
+     3.62,
+     103.19
+    ],
+    [
+     4.75,
+     102.75
+    ],
+    [
+     5.98,
+     102.39
+    ],
+    [
+     7.33,
+     102.11
+    ],
+    [
+     8.78,
+     101.91
+    ],
+    [
+     10.33,
+     101.79
+    ],
+    [
+     12.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB1/f/0"
+   ],
+   "index": 65
+  },
+  {
+   "id": "C/n01/e1b/b/0>eB1/f/1",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1b/b/0",
+   "to": "L/eB1/f/1",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n01/e1a/f/0>eB1/f/1",
+    "C/n01/e1a/f/0>eB1/f/0",
+    "C/n01/e1a/f/0>e1b/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/eB0/f/1>eB1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n01/e1a/f/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/e1a/f/0>e1b/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     112.0
+    ],
+    [
+     -1.7,
+     110.33
+    ],
+    [
+     -1.54,
+     108.78
+    ],
+    [
+     -1.27,
+     107.33
+    ],
+    [
+     -0.89,
+     105.98
+    ],
+    [
+     -0.41,
+     104.75
+    ],
+    [
+     0.18,
+     103.62
+    ],
+    [
+     0.88,
+     102.6
+    ],
+    [
+     1.69,
+     101.69
+    ],
+    [
+     2.6,
+     100.88
+    ],
+    [
+     3.62,
+     100.18
+    ],
+    [
+     4.75,
+     99.59
+    ],
+    [
+     5.98,
+     99.11
+    ],
+    [
+     7.33,
+     98.73
+    ],
+    [
+     8.78,
+     98.46
+    ],
+    [
+     10.33,
+     98.3
+    ],
+    [
+     12.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB1/f/1"
+   ],
+   "index": 66
+  },
+  {
+   "id": "C/n01/e1b/b/0>e1a/b/0",
+   "kind": "connector",
+   "node": "n01",
+   "from": "L/e1b/b/0",
+   "to": "L/e1a/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n01/eB0/f/0>eB1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/eB0/f/1>eB1/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n01/eB0/f/1>e1a/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     112.0
+    ],
+    [
+     -1.75,
+     110.5
+    ],
+    [
+     -1.75,
+     109.0
+    ],
+    [
+     -1.75,
+     107.5
+    ],
+    [
+     -1.75,
+     106.0
+    ],
+    [
+     -1.75,
+     104.5
+    ],
+    [
+     -1.75,
+     103.0
+    ],
+    [
+     -1.75,
+     101.5
+    ],
+    [
+     -1.75,
+     100.0
+    ],
+    [
+     -1.75,
+     98.5
+    ],
+    [
+     -1.75,
+     97.0
+    ],
+    [
+     -1.75,
+     95.5
+    ],
+    [
+     -1.75,
+     94.0
+    ],
+    [
+     -1.75,
+     92.5
+    ],
+    [
+     -1.75,
+     91.0
+    ],
+    [
+     -1.75,
+     89.5
+    ],
+    [
+     -1.75,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e1a/b/0"
+   ],
+   "index": 67
+  },
+  {
+   "id": "C/n02/eA0/f/0>eA1/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA0/f/0",
+   "to": "L/eA1/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     198.25
+    ],
+    [
+     -10.5,
+     198.25
+    ],
+    [
+     -9.0,
+     198.25
+    ],
+    [
+     -7.5,
+     198.25
+    ],
+    [
+     -6.0,
+     198.25
+    ],
+    [
+     -4.5,
+     198.25
+    ],
+    [
+     -3.0,
+     198.25
+    ],
+    [
+     -1.5,
+     198.25
+    ],
+    [
+     0.0,
+     198.25
+    ],
+    [
+     1.5,
+     198.25
+    ],
+    [
+     3.0,
+     198.25
+    ],
+    [
+     4.5,
+     198.25
+    ],
+    [
+     6.0,
+     198.25
+    ],
+    [
+     7.5,
+     198.25
+    ],
+    [
+     9.0,
+     198.25
+    ],
+    [
+     10.5,
+     198.25
+    ],
+    [
+     12.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA1/f/0"
+   ],
+   "index": 68
+  },
+  {
+   "id": "C/n02/eA0/f/0>e1b/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA0/f/0",
+   "to": "L/e1b/b/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     198.25
+    ],
+    [
+     -10.76,
+     198.21
+    ],
+    [
+     -9.6,
+     198.09
+    ],
+    [
+     -8.52,
+     197.89
+    ],
+    [
+     -7.52,
+     197.61
+    ],
+    [
+     -6.59,
+     197.25
+    ],
+    [
+     -5.75,
+     196.81
+    ],
+    [
+     -4.99,
+     196.29
+    ],
+    [
+     -4.31,
+     195.69
+    ],
+    [
+     -3.71,
+     195.01
+    ],
+    [
+     -3.19,
+     194.25
+    ],
+    [
+     -2.75,
+     193.41
+    ],
+    [
+     -2.39,
+     192.48
+    ],
+    [
+     -2.11,
+     191.48
+    ],
+    [
+     -1.91,
+     190.4
+    ],
+    [
+     -1.79,
+     189.24
+    ],
+    [
+     -1.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e1b/b/0"
+   ],
+   "index": 69
+  },
+  {
+   "id": "C/n02/eA0/f/0>e1c/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA0/f/0",
+   "to": "L/e1c/f/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -12.0,
+     198.25
+    ],
+    [
+     -10.33,
+     198.3
+    ],
+    [
+     -8.78,
+     198.46
+    ],
+    [
+     -7.33,
+     198.73
+    ],
+    [
+     -5.98,
+     199.11
+    ],
+    [
+     -4.75,
+     199.59
+    ],
+    [
+     -3.62,
+     200.18
+    ],
+    [
+     -2.6,
+     200.88
+    ],
+    [
+     -1.69,
+     201.69
+    ],
+    [
+     -0.88,
+     202.6
+    ],
+    [
+     -0.18,
+     203.62
+    ],
+    [
+     0.41,
+     204.75
+    ],
+    [
+     0.89,
+     205.98
+    ],
+    [
+     1.27,
+     207.33
+    ],
+    [
+     1.54,
+     208.78
+    ],
+    [
+     1.7,
+     210.33
+    ],
+    [
+     1.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e1c/f/0"
+   ],
+   "index": 70
+  },
+  {
+   "id": "C/n02/eA1/b/0>eA0/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA1/b/0",
+   "to": "L/eA0/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA0/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     201.75
+    ],
+    [
+     10.5,
+     201.75
+    ],
+    [
+     9.0,
+     201.75
+    ],
+    [
+     7.5,
+     201.75
+    ],
+    [
+     6.0,
+     201.75
+    ],
+    [
+     4.5,
+     201.75
+    ],
+    [
+     3.0,
+     201.75
+    ],
+    [
+     1.5,
+     201.75
+    ],
+    [
+     0.0,
+     201.75
+    ],
+    [
+     -1.5,
+     201.75
+    ],
+    [
+     -3.0,
+     201.75
+    ],
+    [
+     -4.5,
+     201.75
+    ],
+    [
+     -6.0,
+     201.75
+    ],
+    [
+     -7.5,
+     201.75
+    ],
+    [
+     -9.0,
+     201.75
+    ],
+    [
+     -10.5,
+     201.75
+    ],
+    [
+     -12.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA0/b/0"
+   ],
+   "index": 71
+  },
+  {
+   "id": "C/n02/eA1/b/0>e1b/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA1/b/0",
+   "to": "L/e1b/b/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     201.75
+    ],
+    [
+     10.33,
+     201.7
+    ],
+    [
+     8.78,
+     201.54
+    ],
+    [
+     7.33,
+     201.27
+    ],
+    [
+     5.98,
+     200.89
+    ],
+    [
+     4.75,
+     200.41
+    ],
+    [
+     3.62,
+     199.82
+    ],
+    [
+     2.6,
+     199.12
+    ],
+    [
+     1.69,
+     198.31
+    ],
+    [
+     0.88,
+     197.4
+    ],
+    [
+     0.18,
+     196.38
+    ],
+    [
+     -0.41,
+     195.25
+    ],
+    [
+     -0.89,
+     194.02
+    ],
+    [
+     -1.27,
+     192.67
+    ],
+    [
+     -1.54,
+     191.22
+    ],
+    [
+     -1.7,
+     189.67
+    ],
+    [
+     -1.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e1b/b/0"
+   ],
+   "index": 72
+  },
+  {
+   "id": "C/n02/eA1/b/0>e1c/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/eA1/b/0",
+   "to": "L/e1c/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     12.0,
+     201.75
+    ],
+    [
+     10.76,
+     201.79
+    ],
+    [
+     9.6,
+     201.91
+    ],
+    [
+     8.52,
+     202.11
+    ],
+    [
+     7.52,
+     202.39
+    ],
+    [
+     6.59,
+     202.75
+    ],
+    [
+     5.75,
+     203.19
+    ],
+    [
+     4.99,
+     203.71
+    ],
+    [
+     4.31,
+     204.31
+    ],
+    [
+     3.71,
+     204.99
+    ],
+    [
+     3.19,
+     205.75
+    ],
+    [
+     2.75,
+     206.59
+    ],
+    [
+     2.39,
+     207.52
+    ],
+    [
+     2.11,
+     208.52
+    ],
+    [
+     1.91,
+     209.6
+    ],
+    [
+     1.79,
+     210.76
+    ],
+    [
+     1.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e1c/f/0"
+   ],
+   "index": 73
+  },
+  {
+   "id": "C/n02/e1b/f/0>eA0/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1b/f/0",
+   "to": "L/eA0/b/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA0/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>e1b/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     188.0
+    ],
+    [
+     1.7,
+     189.67
+    ],
+    [
+     1.54,
+     191.22
+    ],
+    [
+     1.27,
+     192.67
+    ],
+    [
+     0.89,
+     194.02
+    ],
+    [
+     0.41,
+     195.25
+    ],
+    [
+     -0.18,
+     196.38
+    ],
+    [
+     -0.88,
+     197.4
+    ],
+    [
+     -1.69,
+     198.31
+    ],
+    [
+     -2.6,
+     199.12
+    ],
+    [
+     -3.62,
+     199.82
+    ],
+    [
+     -4.75,
+     200.41
+    ],
+    [
+     -5.98,
+     200.89
+    ],
+    [
+     -7.33,
+     201.27
+    ],
+    [
+     -8.78,
+     201.54
+    ],
+    [
+     -10.33,
+     201.7
+    ],
+    [
+     -12.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA0/b/0"
+   ],
+   "index": 74
+  },
+  {
+   "id": "C/n02/e1b/f/0>eA1/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1b/f/0",
+   "to": "L/eA1/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     188.0
+    ],
+    [
+     1.79,
+     189.24
+    ],
+    [
+     1.91,
+     190.4
+    ],
+    [
+     2.11,
+     191.48
+    ],
+    [
+     2.39,
+     192.48
+    ],
+    [
+     2.75,
+     193.41
+    ],
+    [
+     3.19,
+     194.25
+    ],
+    [
+     3.71,
+     195.01
+    ],
+    [
+     4.31,
+     195.69
+    ],
+    [
+     4.99,
+     196.29
+    ],
+    [
+     5.75,
+     196.81
+    ],
+    [
+     6.59,
+     197.25
+    ],
+    [
+     7.52,
+     197.61
+    ],
+    [
+     8.52,
+     197.89
+    ],
+    [
+     9.6,
+     198.09
+    ],
+    [
+     10.76,
+     198.21
+    ],
+    [
+     12.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA1/f/0"
+   ],
+   "index": 75
+  },
+  {
+   "id": "C/n02/e1b/f/0>e1c/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1b/f/0",
+   "to": "L/e1c/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1c/b/0>eA1/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     1.75,
+     188.0
+    ],
+    [
+     1.75,
+     189.5
+    ],
+    [
+     1.75,
+     191.0
+    ],
+    [
+     1.75,
+     192.5
+    ],
+    [
+     1.75,
+     194.0
+    ],
+    [
+     1.75,
+     195.5
+    ],
+    [
+     1.75,
+     197.0
+    ],
+    [
+     1.75,
+     198.5
+    ],
+    [
+     1.75,
+     200.0
+    ],
+    [
+     1.75,
+     201.5
+    ],
+    [
+     1.75,
+     203.0
+    ],
+    [
+     1.75,
+     204.5
+    ],
+    [
+     1.75,
+     206.0
+    ],
+    [
+     1.75,
+     207.5
+    ],
+    [
+     1.75,
+     209.0
+    ],
+    [
+     1.75,
+     210.5
+    ],
+    [
+     1.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e1c/f/0"
+   ],
+   "index": 76
+  },
+  {
+   "id": "C/n02/e1c/b/0>eA0/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1c/b/0",
+   "to": "L/eA0/b/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     212.0
+    ],
+    [
+     -1.79,
+     210.76
+    ],
+    [
+     -1.91,
+     209.6
+    ],
+    [
+     -2.11,
+     208.52
+    ],
+    [
+     -2.39,
+     207.52
+    ],
+    [
+     -2.75,
+     206.59
+    ],
+    [
+     -3.19,
+     205.75
+    ],
+    [
+     -3.71,
+     204.99
+    ],
+    [
+     -4.31,
+     204.31
+    ],
+    [
+     -4.99,
+     203.71
+    ],
+    [
+     -5.75,
+     203.19
+    ],
+    [
+     -6.59,
+     202.75
+    ],
+    [
+     -7.52,
+     202.39
+    ],
+    [
+     -8.52,
+     202.11
+    ],
+    [
+     -9.6,
+     201.91
+    ],
+    [
+     -10.76,
+     201.79
+    ],
+    [
+     -12.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA0/b/0"
+   ],
+   "index": 77
+  },
+  {
+   "id": "C/n02/e1c/b/0>eA1/f/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1c/b/0",
+   "to": "L/eA1/f/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA1/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>e1c/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     212.0
+    ],
+    [
+     -1.7,
+     210.33
+    ],
+    [
+     -1.54,
+     208.78
+    ],
+    [
+     -1.27,
+     207.33
+    ],
+    [
+     -0.89,
+     205.98
+    ],
+    [
+     -0.41,
+     204.75
+    ],
+    [
+     0.18,
+     203.62
+    ],
+    [
+     0.88,
+     202.6
+    ],
+    [
+     1.69,
+     201.69
+    ],
+    [
+     2.6,
+     200.88
+    ],
+    [
+     3.62,
+     200.18
+    ],
+    [
+     4.75,
+     199.59
+    ],
+    [
+     5.98,
+     199.11
+    ],
+    [
+     7.33,
+     198.73
+    ],
+    [
+     8.78,
+     198.46
+    ],
+    [
+     10.33,
+     198.3
+    ],
+    [
+     12.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA1/f/0"
+   ],
+   "index": 78
+  },
+  {
+   "id": "C/n02/e1c/b/0>e1b/b/0",
+   "kind": "connector",
+   "node": "n02",
+   "from": "L/e1c/b/0",
+   "to": "L/e1b/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n02/eA0/f/0>eA1/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/eA0/f/0>e1c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>eA0/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n02/eA1/b/0>e1b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n02/e1b/f/0>eA0/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     -1.75,
+     212.0
+    ],
+    [
+     -1.75,
+     210.5
+    ],
+    [
+     -1.75,
+     209.0
+    ],
+    [
+     -1.75,
+     207.5
+    ],
+    [
+     -1.75,
+     206.0
+    ],
+    [
+     -1.75,
+     204.5
+    ],
+    [
+     -1.75,
+     203.0
+    ],
+    [
+     -1.75,
+     201.5
+    ],
+    [
+     -1.75,
+     200.0
+    ],
+    [
+     -1.75,
+     198.5
+    ],
+    [
+     -1.75,
+     197.0
+    ],
+    [
+     -1.75,
+     195.5
+    ],
+    [
+     -1.75,
+     194.0
+    ],
+    [
+     -1.75,
+     192.5
+    ],
+    [
+     -1.75,
+     191.0
+    ],
+    [
+     -1.75,
+     189.5
+    ],
+    [
+     -1.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e1b/b/0"
+   ],
+   "index": 79
+  },
+  {
+   "id": "C/n10/eF3/f/0>eF2/f/0",
+   "kind": "connector",
+   "node": "n10",
+   "from": "L/eF3/f/0",
+   "to": "L/eF2/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     132.0,
+     -1.75
+    ],
+    [
+     130.5,
+     -1.75
+    ],
+    [
+     129.0,
+     -1.75
+    ],
+    [
+     127.5,
+     -1.75
+    ],
+    [
+     126.0,
+     -1.75
+    ],
+    [
+     124.5,
+     -1.75
+    ],
+    [
+     123.0,
+     -1.75
+    ],
+    [
+     121.5,
+     -1.75
+    ],
+    [
+     120.0,
+     -1.75
+    ],
+    [
+     118.5,
+     -1.75
+    ],
+    [
+     117.0,
+     -1.75
+    ],
+    [
+     115.5,
+     -1.75
+    ],
+    [
+     114.0,
+     -1.75
+    ],
+    [
+     112.5,
+     -1.75
+    ],
+    [
+     111.0,
+     -1.75
+    ],
+    [
+     109.5,
+     -1.75
+    ],
+    [
+     108.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF2/f/0"
+   ],
+   "index": 80
+  },
+  {
+   "id": "C/n10/eF3/f/1>eF2/f/1",
+   "kind": "connector",
+   "node": "n10",
+   "from": "L/eF3/f/1",
+   "to": "L/eF2/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     132.0,
+     1.75
+    ],
+    [
+     130.5,
+     1.75
+    ],
+    [
+     129.0,
+     1.75
+    ],
+    [
+     127.5,
+     1.75
+    ],
+    [
+     126.0,
+     1.75
+    ],
+    [
+     124.5,
+     1.75
+    ],
+    [
+     123.0,
+     1.75
+    ],
+    [
+     121.5,
+     1.75
+    ],
+    [
+     120.0,
+     1.75
+    ],
+    [
+     118.5,
+     1.75
+    ],
+    [
+     117.0,
+     1.75
+    ],
+    [
+     115.5,
+     1.75
+    ],
+    [
+     114.0,
+     1.75
+    ],
+    [
+     112.5,
+     1.75
+    ],
+    [
+     111.0,
+     1.75
+    ],
+    [
+     109.5,
+     1.75
+    ],
+    [
+     108.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF2/f/1"
+   ],
+   "index": 81
+  },
+  {
+   "id": "C/n10/eF3/f/1>e2a/f/1",
+   "kind": "connector",
+   "node": "n10",
+   "from": "L/eF3/f/1",
+   "to": "L/e2a/f/1",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     132.0,
+     1.75
+    ],
+    [
+     130.76,
+     1.79
+    ],
+    [
+     129.6,
+     1.91
+    ],
+    [
+     128.52,
+     2.11
+    ],
+    [
+     127.52,
+     2.39
+    ],
+    [
+     126.59,
+     2.75
+    ],
+    [
+     125.75,
+     3.19
+    ],
+    [
+     124.99,
+     3.71
+    ],
+    [
+     124.31,
+     4.31
+    ],
+    [
+     123.71,
+     4.99
+    ],
+    [
+     123.19,
+     5.75
+    ],
+    [
+     122.75,
+     6.59
+    ],
+    [
+     122.39,
+     7.52
+    ],
+    [
+     122.11,
+     8.52
+    ],
+    [
+     121.91,
+     9.6
+    ],
+    [
+     121.79,
+     10.76
+    ],
+    [
+     121.75,
+     12.0
+    ]
+   ],
+   "next": [
+    "L/e2a/f/1"
+   ],
+   "index": 82
+  },
+  {
+   "id": "C/n10/eF3/f/1>e2a/f/0",
+   "kind": "connector",
+   "node": "n10",
+   "from": "L/eF3/f/1",
+   "to": "L/e2a/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     132.0,
+     1.75
+    ],
+    [
+     130.33,
+     1.79
+    ],
+    [
+     128.78,
+     1.91
+    ],
+    [
+     127.33,
+     2.11
+    ],
+    [
+     125.98,
+     2.39
+    ],
+    [
+     124.75,
+     2.75
+    ],
+    [
+     123.62,
+     3.19
+    ],
+    [
+     122.6,
+     3.71
+    ],
+    [
+     121.69,
+     4.31
+    ],
+    [
+     120.88,
+     4.99
+    ],
+    [
+     120.18,
+     5.75
+    ],
+    [
+     119.59,
+     6.59
+    ],
+    [
+     119.11,
+     7.52
+    ],
+    [
+     118.73,
+     8.52
+    ],
+    [
+     118.46,
+     9.6
+    ],
+    [
+     118.3,
+     10.76
+    ],
+    [
+     118.25,
+     12.0
+    ]
+   ],
+   "next": [
+    "L/e2a/f/0"
+   ],
+   "index": 83
+  },
+  {
+   "id": "C/n11/eB1/f/0>eB2/f/0",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/eB1/f/0",
+   "to": "L/eB2/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/e2a/f/1>eB2/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n11/e2a/f/0>e2b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/e2a/f/1>e2b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     101.75
+    ],
+    [
+     109.5,
+     101.75
+    ],
+    [
+     111.0,
+     101.75
+    ],
+    [
+     112.5,
+     101.75
+    ],
+    [
+     114.0,
+     101.75
+    ],
+    [
+     115.5,
+     101.75
+    ],
+    [
+     117.0,
+     101.75
+    ],
+    [
+     118.5,
+     101.75
+    ],
+    [
+     120.0,
+     101.75
+    ],
+    [
+     121.5,
+     101.75
+    ],
+    [
+     123.0,
+     101.75
+    ],
+    [
+     124.5,
+     101.75
+    ],
+    [
+     126.0,
+     101.75
+    ],
+    [
+     127.5,
+     101.75
+    ],
+    [
+     129.0,
+     101.75
+    ],
+    [
+     130.5,
+     101.75
+    ],
+    [
+     132.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB2/f/0"
+   ],
+   "index": 84
+  },
+  {
+   "id": "C/n11/eB1/f/1>eB2/f/1",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/eB1/f/1",
+   "to": "L/eB2/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/e2a/f/1>eB2/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n11/e2a/f/1>eB2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/e2a/f/0>e2b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/e2a/f/1>e2b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     98.25
+    ],
+    [
+     109.5,
+     98.25
+    ],
+    [
+     111.0,
+     98.25
+    ],
+    [
+     112.5,
+     98.25
+    ],
+    [
+     114.0,
+     98.25
+    ],
+    [
+     115.5,
+     98.25
+    ],
+    [
+     117.0,
+     98.25
+    ],
+    [
+     118.5,
+     98.25
+    ],
+    [
+     120.0,
+     98.25
+    ],
+    [
+     121.5,
+     98.25
+    ],
+    [
+     123.0,
+     98.25
+    ],
+    [
+     124.5,
+     98.25
+    ],
+    [
+     126.0,
+     98.25
+    ],
+    [
+     127.5,
+     98.25
+    ],
+    [
+     129.0,
+     98.25
+    ],
+    [
+     130.5,
+     98.25
+    ],
+    [
+     132.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB2/f/1"
+   ],
+   "index": 85
+  },
+  {
+   "id": "C/n11/eB1/f/0>e2b/f/0",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/eB1/f/0",
+   "to": "L/e2b/f/0",
+   "turn": "left",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/e2a/f/0>e2b/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     101.75
+    ],
+    [
+     109.24,
+     101.79
+    ],
+    [
+     110.4,
+     101.91
+    ],
+    [
+     111.48,
+     102.11
+    ],
+    [
+     112.48,
+     102.39
+    ],
+    [
+     113.41,
+     102.75
+    ],
+    [
+     114.25,
+     103.19
+    ],
+    [
+     115.01,
+     103.71
+    ],
+    [
+     115.69,
+     104.31
+    ],
+    [
+     116.29,
+     104.99
+    ],
+    [
+     116.81,
+     105.75
+    ],
+    [
+     117.25,
+     106.59
+    ],
+    [
+     117.61,
+     107.52
+    ],
+    [
+     117.89,
+     108.52
+    ],
+    [
+     118.09,
+     109.6
+    ],
+    [
+     118.21,
+     110.76
+    ],
+    [
+     118.25,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e2b/f/0"
+   ],
+   "index": 86
+  },
+  {
+   "id": "C/n11/eB1/f/0>e2b/f/1",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/eB1/f/0",
+   "to": "L/e2b/f/1",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/e2a/f/0>e2b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/e2a/f/1>e2b/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     101.75
+    ],
+    [
+     109.67,
+     101.79
+    ],
+    [
+     111.22,
+     101.91
+    ],
+    [
+     112.67,
+     102.11
+    ],
+    [
+     114.02,
+     102.39
+    ],
+    [
+     115.25,
+     102.75
+    ],
+    [
+     116.38,
+     103.19
+    ],
+    [
+     117.4,
+     103.71
+    ],
+    [
+     118.31,
+     104.31
+    ],
+    [
+     119.12,
+     104.99
+    ],
+    [
+     119.82,
+     105.75
+    ],
+    [
+     120.41,
+     106.59
+    ],
+    [
+     120.89,
+     107.52
+    ],
+    [
+     121.27,
+     108.52
+    ],
+    [
+     121.54,
+     109.6
+    ],
+    [
+     121.7,
+     110.76
+    ],
+    [
+     121.75,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e2b/f/1"
+   ],
+   "index": 87
+  },
+  {
+   "id": "C/n11/e2a/f/1>eB2/f/1",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/e2a/f/1",
+   "to": "L/eB2/f/1",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/eB1/f/1>eB2/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     88.0
+    ],
+    [
+     121.79,
+     89.24
+    ],
+    [
+     121.91,
+     90.4
+    ],
+    [
+     122.11,
+     91.48
+    ],
+    [
+     122.39,
+     92.48
+    ],
+    [
+     122.75,
+     93.41
+    ],
+    [
+     123.19,
+     94.25
+    ],
+    [
+     123.71,
+     95.01
+    ],
+    [
+     124.31,
+     95.69
+    ],
+    [
+     124.99,
+     96.29
+    ],
+    [
+     125.75,
+     96.81
+    ],
+    [
+     126.59,
+     97.25
+    ],
+    [
+     127.52,
+     97.61
+    ],
+    [
+     128.52,
+     97.89
+    ],
+    [
+     129.6,
+     98.09
+    ],
+    [
+     130.76,
+     98.21
+    ],
+    [
+     132.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB2/f/1"
+   ],
+   "index": 88
+  },
+  {
+   "id": "C/n11/e2a/f/1>eB2/f/0",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/e2a/f/1",
+   "to": "L/eB2/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/eB1/f/0>eB2/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n11/eB1/f/1>eB2/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     88.0
+    ],
+    [
+     121.79,
+     89.67
+    ],
+    [
+     121.91,
+     91.22
+    ],
+    [
+     122.11,
+     92.67
+    ],
+    [
+     122.39,
+     94.02
+    ],
+    [
+     122.75,
+     95.25
+    ],
+    [
+     123.19,
+     96.38
+    ],
+    [
+     123.71,
+     97.4
+    ],
+    [
+     124.31,
+     98.31
+    ],
+    [
+     124.99,
+     99.12
+    ],
+    [
+     125.75,
+     99.82
+    ],
+    [
+     126.59,
+     100.41
+    ],
+    [
+     127.52,
+     100.89
+    ],
+    [
+     128.52,
+     101.27
+    ],
+    [
+     129.6,
+     101.54
+    ],
+    [
+     130.76,
+     101.7
+    ],
+    [
+     132.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB2/f/0"
+   ],
+   "index": 89
+  },
+  {
+   "id": "C/n11/e2a/f/0>e2b/f/0",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/e2a/f/0",
+   "to": "L/e2b/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/eB1/f/0>eB2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/eB1/f/1>eB2/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/eB1/f/0>e2b/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n11/eB1/f/0>e2b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     118.25,
+     88.0
+    ],
+    [
+     118.25,
+     89.5
+    ],
+    [
+     118.25,
+     91.0
+    ],
+    [
+     118.25,
+     92.5
+    ],
+    [
+     118.25,
+     94.0
+    ],
+    [
+     118.25,
+     95.5
+    ],
+    [
+     118.25,
+     97.0
+    ],
+    [
+     118.25,
+     98.5
+    ],
+    [
+     118.25,
+     100.0
+    ],
+    [
+     118.25,
+     101.5
+    ],
+    [
+     118.25,
+     103.0
+    ],
+    [
+     118.25,
+     104.5
+    ],
+    [
+     118.25,
+     106.0
+    ],
+    [
+     118.25,
+     107.5
+    ],
+    [
+     118.25,
+     109.0
+    ],
+    [
+     118.25,
+     110.5
+    ],
+    [
+     118.25,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e2b/f/0"
+   ],
+   "index": 90
+  },
+  {
+   "id": "C/n11/e2a/f/1>e2b/f/1",
+   "kind": "connector",
+   "node": "n11",
+   "from": "L/e2a/f/1",
+   "to": "L/e2b/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n11/eB1/f/0>eB2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/eB1/f/1>eB2/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n11/eB1/f/0>e2b/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     88.0
+    ],
+    [
+     121.75,
+     89.5
+    ],
+    [
+     121.75,
+     91.0
+    ],
+    [
+     121.75,
+     92.5
+    ],
+    [
+     121.75,
+     94.0
+    ],
+    [
+     121.75,
+     95.5
+    ],
+    [
+     121.75,
+     97.0
+    ],
+    [
+     121.75,
+     98.5
+    ],
+    [
+     121.75,
+     100.0
+    ],
+    [
+     121.75,
+     101.5
+    ],
+    [
+     121.75,
+     103.0
+    ],
+    [
+     121.75,
+     104.5
+    ],
+    [
+     121.75,
+     106.0
+    ],
+    [
+     121.75,
+     107.5
+    ],
+    [
+     121.75,
+     109.0
+    ],
+    [
+     121.75,
+     110.5
+    ],
+    [
+     121.75,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e2b/f/1"
+   ],
+   "index": 91
+  },
+  {
+   "id": "C/n12/eA1/f/0>eA2/f/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA1/f/0",
+   "to": "L/eA2/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/e2b/f/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/1>eA2/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/e2b/f/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/1>e2c/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     198.25
+    ],
+    [
+     109.5,
+     198.25
+    ],
+    [
+     111.0,
+     198.25
+    ],
+    [
+     112.5,
+     198.25
+    ],
+    [
+     114.0,
+     198.25
+    ],
+    [
+     115.5,
+     198.25
+    ],
+    [
+     117.0,
+     198.25
+    ],
+    [
+     118.5,
+     198.25
+    ],
+    [
+     120.0,
+     198.25
+    ],
+    [
+     121.5,
+     198.25
+    ],
+    [
+     123.0,
+     198.25
+    ],
+    [
+     124.5,
+     198.25
+    ],
+    [
+     126.0,
+     198.25
+    ],
+    [
+     127.5,
+     198.25
+    ],
+    [
+     129.0,
+     198.25
+    ],
+    [
+     130.5,
+     198.25
+    ],
+    [
+     132.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA2/f/0"
+   ],
+   "index": 92
+  },
+  {
+   "id": "C/n12/eA1/f/0>e2c/f/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA1/f/0",
+   "to": "L/e2c/f/0",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n12/eA2/b/0>eA1/b/0",
+    "C/n12/eA2/b/0>e2c/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n12/eA2/b/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/e2b/f/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/0>e2c/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     198.25
+    ],
+    [
+     109.24,
+     198.3
+    ],
+    [
+     110.4,
+     198.46
+    ],
+    [
+     111.48,
+     198.73
+    ],
+    [
+     112.48,
+     199.11
+    ],
+    [
+     113.41,
+     199.59
+    ],
+    [
+     114.25,
+     200.18
+    ],
+    [
+     115.01,
+     200.88
+    ],
+    [
+     115.69,
+     201.69
+    ],
+    [
+     116.29,
+     202.6
+    ],
+    [
+     116.81,
+     203.62
+    ],
+    [
+     117.25,
+     204.75
+    ],
+    [
+     117.61,
+     205.98
+    ],
+    [
+     117.89,
+     207.33
+    ],
+    [
+     118.09,
+     208.78
+    ],
+    [
+     118.21,
+     210.33
+    ],
+    [
+     118.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/0"
+   ],
+   "index": 93
+  },
+  {
+   "id": "C/n12/eA1/f/0>e2c/f/1",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA1/f/0",
+   "to": "L/e2c/f/1",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n12/eA2/b/0>eA1/b/0",
+    "C/n12/eA2/b/0>e2c/f/1",
+    "C/n12/eA2/b/0>e2c/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n12/eA2/b/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/1>e2c/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     108.0,
+     198.25
+    ],
+    [
+     109.67,
+     198.3
+    ],
+    [
+     111.22,
+     198.46
+    ],
+    [
+     112.67,
+     198.73
+    ],
+    [
+     114.02,
+     199.11
+    ],
+    [
+     115.25,
+     199.59
+    ],
+    [
+     116.38,
+     200.18
+    ],
+    [
+     117.4,
+     200.88
+    ],
+    [
+     118.31,
+     201.69
+    ],
+    [
+     119.12,
+     202.6
+    ],
+    [
+     119.82,
+     203.62
+    ],
+    [
+     120.41,
+     204.75
+    ],
+    [
+     120.89,
+     205.98
+    ],
+    [
+     121.27,
+     207.33
+    ],
+    [
+     121.54,
+     208.78
+    ],
+    [
+     121.7,
+     210.33
+    ],
+    [
+     121.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/1"
+   ],
+   "index": 94
+  },
+  {
+   "id": "C/n12/eA2/b/0>eA1/b/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA2/b/0",
+   "to": "L/eA1/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/0>eA1/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/e2b/f/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/1>e2c/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     201.75
+    ],
+    [
+     130.5,
+     201.75
+    ],
+    [
+     129.0,
+     201.75
+    ],
+    [
+     127.5,
+     201.75
+    ],
+    [
+     126.0,
+     201.75
+    ],
+    [
+     124.5,
+     201.75
+    ],
+    [
+     123.0,
+     201.75
+    ],
+    [
+     121.5,
+     201.75
+    ],
+    [
+     120.0,
+     201.75
+    ],
+    [
+     118.5,
+     201.75
+    ],
+    [
+     117.0,
+     201.75
+    ],
+    [
+     115.5,
+     201.75
+    ],
+    [
+     114.0,
+     201.75
+    ],
+    [
+     112.5,
+     201.75
+    ],
+    [
+     111.0,
+     201.75
+    ],
+    [
+     109.5,
+     201.75
+    ],
+    [
+     108.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA1/b/0"
+   ],
+   "index": 95
+  },
+  {
+   "id": "C/n12/eA2/b/0>e2c/f/1",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA2/b/0",
+   "to": "L/e2c/f/1",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/e2b/f/1>e2c/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     201.75
+    ],
+    [
+     130.76,
+     201.79
+    ],
+    [
+     129.6,
+     201.91
+    ],
+    [
+     128.52,
+     202.11
+    ],
+    [
+     127.52,
+     202.39
+    ],
+    [
+     126.59,
+     202.75
+    ],
+    [
+     125.75,
+     203.19
+    ],
+    [
+     124.99,
+     203.71
+    ],
+    [
+     124.31,
+     204.31
+    ],
+    [
+     123.71,
+     204.99
+    ],
+    [
+     123.19,
+     205.75
+    ],
+    [
+     122.75,
+     206.59
+    ],
+    [
+     122.39,
+     207.52
+    ],
+    [
+     122.11,
+     208.52
+    ],
+    [
+     121.91,
+     209.6
+    ],
+    [
+     121.79,
+     210.76
+    ],
+    [
+     121.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/1"
+   ],
+   "index": 96
+  },
+  {
+   "id": "C/n12/eA2/b/0>e2c/f/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/eA2/b/0",
+   "to": "L/e2c/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/e2b/f/0>e2c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/e2b/f/1>e2c/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     132.0,
+     201.75
+    ],
+    [
+     130.33,
+     201.79
+    ],
+    [
+     128.78,
+     201.91
+    ],
+    [
+     127.33,
+     202.11
+    ],
+    [
+     125.98,
+     202.39
+    ],
+    [
+     124.75,
+     202.75
+    ],
+    [
+     123.62,
+     203.19
+    ],
+    [
+     122.6,
+     203.71
+    ],
+    [
+     121.69,
+     204.31
+    ],
+    [
+     120.88,
+     204.99
+    ],
+    [
+     120.18,
+     205.75
+    ],
+    [
+     119.59,
+     206.59
+    ],
+    [
+     119.11,
+     207.52
+    ],
+    [
+     118.73,
+     208.52
+    ],
+    [
+     118.46,
+     209.6
+    ],
+    [
+     118.3,
+     210.76
+    ],
+    [
+     118.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/0"
+   ],
+   "index": 97
+  },
+  {
+   "id": "C/n12/e2b/f/0>eA1/b/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/e2b/f/0",
+   "to": "L/eA1/b/0",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>eA2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>eA1/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     118.25,
+     188.0
+    ],
+    [
+     118.21,
+     189.67
+    ],
+    [
+     118.09,
+     191.22
+    ],
+    [
+     117.89,
+     192.67
+    ],
+    [
+     117.61,
+     194.02
+    ],
+    [
+     117.25,
+     195.25
+    ],
+    [
+     116.81,
+     196.38
+    ],
+    [
+     116.29,
+     197.4
+    ],
+    [
+     115.69,
+     198.31
+    ],
+    [
+     115.01,
+     199.12
+    ],
+    [
+     114.25,
+     199.82
+    ],
+    [
+     113.41,
+     200.41
+    ],
+    [
+     112.48,
+     200.89
+    ],
+    [
+     111.48,
+     201.27
+    ],
+    [
+     110.4,
+     201.54
+    ],
+    [
+     109.24,
+     201.7
+    ],
+    [
+     108.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA1/b/0"
+   ],
+   "index": 98
+  },
+  {
+   "id": "C/n12/e2b/f/1>eA2/f/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/e2b/f/1",
+   "to": "L/eA2/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>eA2/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     188.0
+    ],
+    [
+     121.79,
+     189.24
+    ],
+    [
+     121.91,
+     190.4
+    ],
+    [
+     122.11,
+     191.48
+    ],
+    [
+     122.39,
+     192.48
+    ],
+    [
+     122.75,
+     193.41
+    ],
+    [
+     123.19,
+     194.25
+    ],
+    [
+     123.71,
+     195.01
+    ],
+    [
+     124.31,
+     195.69
+    ],
+    [
+     124.99,
+     196.29
+    ],
+    [
+     125.75,
+     196.81
+    ],
+    [
+     126.59,
+     197.25
+    ],
+    [
+     127.52,
+     197.61
+    ],
+    [
+     128.52,
+     197.89
+    ],
+    [
+     129.6,
+     198.09
+    ],
+    [
+     130.76,
+     198.21
+    ],
+    [
+     132.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA2/f/0"
+   ],
+   "index": 99
+  },
+  {
+   "id": "C/n12/e2b/f/0>e2c/f/0",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/e2b/f/0",
+   "to": "L/e2c/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>eA2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     118.25,
+     188.0
+    ],
+    [
+     118.25,
+     189.5
+    ],
+    [
+     118.25,
+     191.0
+    ],
+    [
+     118.25,
+     192.5
+    ],
+    [
+     118.25,
+     194.0
+    ],
+    [
+     118.25,
+     195.5
+    ],
+    [
+     118.25,
+     197.0
+    ],
+    [
+     118.25,
+     198.5
+    ],
+    [
+     118.25,
+     200.0
+    ],
+    [
+     118.25,
+     201.5
+    ],
+    [
+     118.25,
+     203.0
+    ],
+    [
+     118.25,
+     204.5
+    ],
+    [
+     118.25,
+     206.0
+    ],
+    [
+     118.25,
+     207.5
+    ],
+    [
+     118.25,
+     209.0
+    ],
+    [
+     118.25,
+     210.5
+    ],
+    [
+     118.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/0"
+   ],
+   "index": 100
+  },
+  {
+   "id": "C/n12/e2b/f/1>e2c/f/1",
+   "kind": "connector",
+   "node": "n12",
+   "from": "L/e2b/f/1",
+   "to": "L/e2c/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n12/eA1/f/0>eA2/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA1/f/0>e2c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/eA2/b/0>eA1/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n12/eA2/b/0>e2c/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     121.75,
+     188.0
+    ],
+    [
+     121.75,
+     189.5
+    ],
+    [
+     121.75,
+     191.0
+    ],
+    [
+     121.75,
+     192.5
+    ],
+    [
+     121.75,
+     194.0
+    ],
+    [
+     121.75,
+     195.5
+    ],
+    [
+     121.75,
+     197.0
+    ],
+    [
+     121.75,
+     198.5
+    ],
+    [
+     121.75,
+     200.0
+    ],
+    [
+     121.75,
+     201.5
+    ],
+    [
+     121.75,
+     203.0
+    ],
+    [
+     121.75,
+     204.5
+    ],
+    [
+     121.75,
+     206.0
+    ],
+    [
+     121.75,
+     207.5
+    ],
+    [
+     121.75,
+     209.0
+    ],
+    [
+     121.75,
+     210.5
+    ],
+    [
+     121.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e2c/f/1"
+   ],
+   "index": 101
+  },
+  {
+   "id": "C/n20/eF4/f/0>eF3/f/0",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/eF4/f/0",
+   "to": "L/eF3/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n20/e3a/b/0>eF3/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     -1.75
+    ],
+    [
+     250.5,
+     -1.75
+    ],
+    [
+     249.0,
+     -1.75
+    ],
+    [
+     247.5,
+     -1.75
+    ],
+    [
+     246.0,
+     -1.75
+    ],
+    [
+     244.5,
+     -1.75
+    ],
+    [
+     243.0,
+     -1.75
+    ],
+    [
+     241.5,
+     -1.75
+    ],
+    [
+     240.0,
+     -1.75
+    ],
+    [
+     238.5,
+     -1.75
+    ],
+    [
+     237.0,
+     -1.75
+    ],
+    [
+     235.5,
+     -1.75
+    ],
+    [
+     234.0,
+     -1.75
+    ],
+    [
+     232.5,
+     -1.75
+    ],
+    [
+     231.0,
+     -1.75
+    ],
+    [
+     229.5,
+     -1.75
+    ],
+    [
+     228.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF3/f/0"
+   ],
+   "index": 102
+  },
+  {
+   "id": "C/n20/eF4/f/1>eF3/f/1",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/eF4/f/1",
+   "to": "L/eF3/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 17.88,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n20/e3a/b/1>eF3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n20/e3a/b/0>eF3/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     1.75
+    ],
+    [
+     250.5,
+     1.75
+    ],
+    [
+     249.0,
+     1.75
+    ],
+    [
+     247.5,
+     1.75
+    ],
+    [
+     246.0,
+     1.75
+    ],
+    [
+     244.5,
+     1.75
+    ],
+    [
+     243.0,
+     1.75
+    ],
+    [
+     241.5,
+     1.75
+    ],
+    [
+     240.0,
+     1.75
+    ],
+    [
+     238.5,
+     1.75
+    ],
+    [
+     237.0,
+     1.75
+    ],
+    [
+     235.5,
+     1.75
+    ],
+    [
+     234.0,
+     1.75
+    ],
+    [
+     232.5,
+     1.75
+    ],
+    [
+     231.0,
+     1.75
+    ],
+    [
+     229.5,
+     1.75
+    ],
+    [
+     228.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF3/f/1"
+   ],
+   "index": 103
+  },
+  {
+   "id": "C/n20/eF4/f/1>e3a/f/1",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/eF4/f/1",
+   "to": "L/e3a/f/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     252.0,
+     1.75
+    ],
+    [
+     251.18,
+     1.79
+    ],
+    [
+     250.42,
+     1.91
+    ],
+    [
+     249.71,
+     2.11
+    ],
+    [
+     249.05,
+     2.39
+    ],
+    [
+     248.44,
+     2.75
+    ],
+    [
+     247.89,
+     3.19
+    ],
+    [
+     247.39,
+     3.71
+    ],
+    [
+     246.94,
+     4.31
+    ],
+    [
+     246.54,
+     4.99
+    ],
+    [
+     246.2,
+     5.75
+    ],
+    [
+     245.91,
+     6.59
+    ],
+    [
+     245.67,
+     7.52
+    ],
+    [
+     245.49,
+     8.52
+    ],
+    [
+     245.36,
+     9.6
+    ],
+    [
+     245.28,
+     10.76
+    ],
+    [
+     245.25,
+     12.0
+    ]
+   ],
+   "next": [
+    "L/e3a/f/1"
+   ],
+   "index": 104
+  },
+  {
+   "id": "C/n20/eF4/f/1>e3a/f/0",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/eF4/f/1",
+   "to": "L/e3a/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     252.0,
+     1.75
+    ],
+    [
+     250.76,
+     1.79
+    ],
+    [
+     249.6,
+     1.91
+    ],
+    [
+     248.52,
+     2.11
+    ],
+    [
+     247.52,
+     2.39
+    ],
+    [
+     246.59,
+     2.75
+    ],
+    [
+     245.75,
+     3.19
+    ],
+    [
+     244.99,
+     3.71
+    ],
+    [
+     244.31,
+     4.31
+    ],
+    [
+     243.71,
+     4.99
+    ],
+    [
+     243.19,
+     5.75
+    ],
+    [
+     242.75,
+     6.59
+    ],
+    [
+     242.39,
+     7.52
+    ],
+    [
+     242.11,
+     8.52
+    ],
+    [
+     241.91,
+     9.6
+    ],
+    [
+     241.79,
+     10.76
+    ],
+    [
+     241.75,
+     12.0
+    ]
+   ],
+   "next": [
+    "L/e3a/f/0"
+   ],
+   "index": 105
+  },
+  {
+   "id": "C/n20/e3a/b/1>eF3/f/1",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/e3a/b/1",
+   "to": "L/eF3/f/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n20/eF4/f/1>eF3/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     12.0
+    ],
+    [
+     234.72,
+     10.76
+    ],
+    [
+     234.64,
+     9.6
+    ],
+    [
+     234.51,
+     8.52
+    ],
+    [
+     234.33,
+     7.52
+    ],
+    [
+     234.09,
+     6.59
+    ],
+    [
+     233.8,
+     5.75
+    ],
+    [
+     233.46,
+     4.99
+    ],
+    [
+     233.06,
+     4.31
+    ],
+    [
+     232.61,
+     3.71
+    ],
+    [
+     232.11,
+     3.19
+    ],
+    [
+     231.56,
+     2.75
+    ],
+    [
+     230.95,
+     2.39
+    ],
+    [
+     230.29,
+     2.11
+    ],
+    [
+     229.58,
+     1.91
+    ],
+    [
+     228.82,
+     1.79
+    ],
+    [
+     228.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF3/f/1"
+   ],
+   "index": 106
+  },
+  {
+   "id": "C/n20/e3a/b/0>eF3/f/0",
+   "kind": "connector",
+   "node": "n20",
+   "from": "L/e3a/b/0",
+   "to": "L/eF3/f/0",
+   "turn": "right",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n20/eF4/f/0>eF3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n20/eF4/f/1>eF3/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     12.0
+    ],
+    [
+     238.21,
+     10.33
+    ],
+    [
+     238.09,
+     8.78
+    ],
+    [
+     237.89,
+     7.33
+    ],
+    [
+     237.61,
+     5.98
+    ],
+    [
+     237.25,
+     4.75
+    ],
+    [
+     236.81,
+     3.62
+    ],
+    [
+     236.29,
+     2.6
+    ],
+    [
+     235.69,
+     1.69
+    ],
+    [
+     235.01,
+     0.88
+    ],
+    [
+     234.25,
+     0.18
+    ],
+    [
+     233.41,
+     -0.41
+    ],
+    [
+     232.48,
+     -0.89
+    ],
+    [
+     231.48,
+     -1.27
+    ],
+    [
+     230.4,
+     -1.54
+    ],
+    [
+     229.24,
+     -1.7
+    ],
+    [
+     228.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF3/f/0"
+   ],
+   "index": 107
+  },
+  {
+   "id": "C/n21/eB2/f/0>eB3/f/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/0",
+   "to": "L/eB3/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>e3b/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>e3a/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     101.75
+    ],
+    [
+     229.5,
+     101.75
+    ],
+    [
+     231.0,
+     101.75
+    ],
+    [
+     232.5,
+     101.75
+    ],
+    [
+     234.0,
+     101.75
+    ],
+    [
+     235.5,
+     101.75
+    ],
+    [
+     237.0,
+     101.75
+    ],
+    [
+     238.5,
+     101.75
+    ],
+    [
+     240.0,
+     101.75
+    ],
+    [
+     241.5,
+     101.75
+    ],
+    [
+     243.0,
+     101.75
+    ],
+    [
+     244.5,
+     101.75
+    ],
+    [
+     246.0,
+     101.75
+    ],
+    [
+     247.5,
+     101.75
+    ],
+    [
+     249.0,
+     101.75
+    ],
+    [
+     250.5,
+     101.75
+    ],
+    [
+     252.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB3/f/0"
+   ],
+   "index": 108
+  },
+  {
+   "id": "C/n21/eB2/f/1>eB3/f/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/1",
+   "to": "L/eB3/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>e3b/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>e3a/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     98.25
+    ],
+    [
+     229.5,
+     98.25
+    ],
+    [
+     231.0,
+     98.25
+    ],
+    [
+     232.5,
+     98.25
+    ],
+    [
+     234.0,
+     98.25
+    ],
+    [
+     235.5,
+     98.25
+    ],
+    [
+     237.0,
+     98.25
+    ],
+    [
+     238.5,
+     98.25
+    ],
+    [
+     240.0,
+     98.25
+    ],
+    [
+     241.5,
+     98.25
+    ],
+    [
+     243.0,
+     98.25
+    ],
+    [
+     244.5,
+     98.25
+    ],
+    [
+     246.0,
+     98.25
+    ],
+    [
+     247.5,
+     98.25
+    ],
+    [
+     249.0,
+     98.25
+    ],
+    [
+     250.5,
+     98.25
+    ],
+    [
+     252.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB3/f/1"
+   ],
+   "index": 109
+  },
+  {
+   "id": "C/n21/eB2/f/1>e3a/b/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/1",
+   "to": "L/e3a/b/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     98.25
+    ],
+    [
+     228.82,
+     98.21
+    ],
+    [
+     229.58,
+     98.09
+    ],
+    [
+     230.29,
+     97.89
+    ],
+    [
+     230.95,
+     97.61
+    ],
+    [
+     231.56,
+     97.25
+    ],
+    [
+     232.11,
+     96.81
+    ],
+    [
+     232.61,
+     96.29
+    ],
+    [
+     233.06,
+     95.69
+    ],
+    [
+     233.46,
+     95.01
+    ],
+    [
+     233.8,
+     94.25
+    ],
+    [
+     234.09,
+     93.41
+    ],
+    [
+     234.33,
+     92.48
+    ],
+    [
+     234.51,
+     91.48
+    ],
+    [
+     234.64,
+     90.4
+    ],
+    [
+     234.72,
+     89.24
+    ],
+    [
+     234.75,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e3a/b/1"
+   ],
+   "index": 110
+  },
+  {
+   "id": "C/n21/eB2/f/1>e3a/b/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/1",
+   "to": "L/e3a/b/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3b/b/0>e3a/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     98.25
+    ],
+    [
+     229.24,
+     98.21
+    ],
+    [
+     230.4,
+     98.09
+    ],
+    [
+     231.48,
+     97.89
+    ],
+    [
+     232.48,
+     97.61
+    ],
+    [
+     233.41,
+     97.25
+    ],
+    [
+     234.25,
+     96.81
+    ],
+    [
+     235.01,
+     96.29
+    ],
+    [
+     235.69,
+     95.69
+    ],
+    [
+     236.29,
+     95.01
+    ],
+    [
+     236.81,
+     94.25
+    ],
+    [
+     237.25,
+     93.41
+    ],
+    [
+     237.61,
+     92.48
+    ],
+    [
+     237.89,
+     91.48
+    ],
+    [
+     238.09,
+     90.4
+    ],
+    [
+     238.21,
+     89.24
+    ],
+    [
+     238.25,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e3a/b/0"
+   ],
+   "index": 111
+  },
+  {
+   "id": "C/n21/eB2/f/0>e3b/f/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/0",
+   "to": "L/e3b/f/0",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>e3a/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     101.75
+    ],
+    [
+     229.67,
+     101.79
+    ],
+    [
+     231.22,
+     101.91
+    ],
+    [
+     232.67,
+     102.11
+    ],
+    [
+     234.02,
+     102.39
+    ],
+    [
+     235.25,
+     102.75
+    ],
+    [
+     236.38,
+     103.19
+    ],
+    [
+     237.4,
+     103.71
+    ],
+    [
+     238.31,
+     104.31
+    ],
+    [
+     239.12,
+     104.99
+    ],
+    [
+     239.82,
+     105.75
+    ],
+    [
+     240.41,
+     106.59
+    ],
+    [
+     240.89,
+     107.52
+    ],
+    [
+     241.27,
+     108.52
+    ],
+    [
+     241.54,
+     109.6
+    ],
+    [
+     241.7,
+     110.76
+    ],
+    [
+     241.75,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e3b/f/0"
+   ],
+   "index": 112
+  },
+  {
+   "id": "C/n21/eB2/f/0>e3b/f/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/eB2/f/0",
+   "to": "L/e3b/f/1",
+   "turn": "left",
+   "length": 22.6,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>e3b/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>e3a/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/1>e3a/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     101.75
+    ],
+    [
+     230.09,
+     101.79
+    ],
+    [
+     232.04,
+     101.91
+    ],
+    [
+     233.86,
+     102.11
+    ],
+    [
+     235.55,
+     102.39
+    ],
+    [
+     237.1,
+     102.75
+    ],
+    [
+     238.51,
+     103.19
+    ],
+    [
+     239.79,
+     103.71
+    ],
+    [
+     240.94,
+     104.31
+    ],
+    [
+     241.95,
+     104.99
+    ],
+    [
+     242.82,
+     105.75
+    ],
+    [
+     243.57,
+     106.59
+    ],
+    [
+     244.17,
+     107.52
+    ],
+    [
+     244.64,
+     108.52
+    ],
+    [
+     244.98,
+     109.6
+    ],
+    [
+     245.18,
+     110.76
+    ],
+    [
+     245.25,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e3b/f/1"
+   ],
+   "index": 113
+  },
+  {
+   "id": "C/n21/e3a/f/1>eB3/f/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3a/f/1",
+   "to": "L/eB3/f/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     88.0
+    ],
+    [
+     245.28,
+     89.24
+    ],
+    [
+     245.36,
+     90.4
+    ],
+    [
+     245.49,
+     91.48
+    ],
+    [
+     245.67,
+     92.48
+    ],
+    [
+     245.91,
+     93.41
+    ],
+    [
+     246.2,
+     94.25
+    ],
+    [
+     246.54,
+     95.01
+    ],
+    [
+     246.94,
+     95.69
+    ],
+    [
+     247.39,
+     96.29
+    ],
+    [
+     247.89,
+     96.81
+    ],
+    [
+     248.44,
+     97.25
+    ],
+    [
+     249.05,
+     97.61
+    ],
+    [
+     249.71,
+     97.89
+    ],
+    [
+     250.42,
+     98.09
+    ],
+    [
+     251.18,
+     98.21
+    ],
+    [
+     252.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB3/f/1"
+   ],
+   "index": 114
+  },
+  {
+   "id": "C/n21/e3a/f/1>eB3/f/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3a/f/1",
+   "to": "L/eB3/f/0",
+   "turn": "right",
+   "length": 17.02,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     88.0
+    ],
+    [
+     245.28,
+     89.67
+    ],
+    [
+     245.36,
+     91.22
+    ],
+    [
+     245.49,
+     92.67
+    ],
+    [
+     245.67,
+     94.02
+    ],
+    [
+     245.91,
+     95.25
+    ],
+    [
+     246.2,
+     96.38
+    ],
+    [
+     246.54,
+     97.4
+    ],
+    [
+     246.94,
+     98.31
+    ],
+    [
+     247.39,
+     99.12
+    ],
+    [
+     247.89,
+     99.82
+    ],
+    [
+     248.44,
+     100.41
+    ],
+    [
+     249.05,
+     100.89
+    ],
+    [
+     249.71,
+     101.27
+    ],
+    [
+     250.42,
+     101.54
+    ],
+    [
+     251.18,
+     101.7
+    ],
+    [
+     252.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB3/f/0"
+   ],
+   "index": 115
+  },
+  {
+   "id": "C/n21/e3a/f/0>e3b/f/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3a/f/0",
+   "to": "L/e3b/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     241.75,
+     88.0
+    ],
+    [
+     241.75,
+     89.5
+    ],
+    [
+     241.75,
+     91.0
+    ],
+    [
+     241.75,
+     92.5
+    ],
+    [
+     241.75,
+     94.0
+    ],
+    [
+     241.75,
+     95.5
+    ],
+    [
+     241.75,
+     97.0
+    ],
+    [
+     241.75,
+     98.5
+    ],
+    [
+     241.75,
+     100.0
+    ],
+    [
+     241.75,
+     101.5
+    ],
+    [
+     241.75,
+     103.0
+    ],
+    [
+     241.75,
+     104.5
+    ],
+    [
+     241.75,
+     106.0
+    ],
+    [
+     241.75,
+     107.5
+    ],
+    [
+     241.75,
+     109.0
+    ],
+    [
+     241.75,
+     110.5
+    ],
+    [
+     241.75,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e3b/f/0"
+   ],
+   "index": 116
+  },
+  {
+   "id": "C/n21/e3a/f/1>e3b/f/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3a/f/1",
+   "to": "L/e3b/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3b/b/0>eB3/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     88.0
+    ],
+    [
+     245.25,
+     89.5
+    ],
+    [
+     245.25,
+     91.0
+    ],
+    [
+     245.25,
+     92.5
+    ],
+    [
+     245.25,
+     94.0
+    ],
+    [
+     245.25,
+     95.5
+    ],
+    [
+     245.25,
+     97.0
+    ],
+    [
+     245.25,
+     98.5
+    ],
+    [
+     245.25,
+     100.0
+    ],
+    [
+     245.25,
+     101.5
+    ],
+    [
+     245.25,
+     103.0
+    ],
+    [
+     245.25,
+     104.5
+    ],
+    [
+     245.25,
+     106.0
+    ],
+    [
+     245.25,
+     107.5
+    ],
+    [
+     245.25,
+     109.0
+    ],
+    [
+     245.25,
+     110.5
+    ],
+    [
+     245.25,
+     112.0
+    ]
+   ],
+   "next": [
+    "L/e3b/f/1"
+   ],
+   "index": 117
+  },
+  {
+   "id": "C/n21/e3b/b/0>eB3/f/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3b/b/0",
+   "to": "L/eB3/f/0",
+   "turn": "left",
+   "length": 19.55,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n21/e3a/f/1>eB3/f/0",
+    "C/n21/e3a/f/0>e3b/f/0",
+    "C/n21/e3a/f/1>e3b/f/1"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>e3b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     112.0
+    ],
+    [
+     238.3,
+     110.76
+    ],
+    [
+     238.46,
+     109.6
+    ],
+    [
+     238.73,
+     108.52
+    ],
+    [
+     239.11,
+     107.52
+    ],
+    [
+     239.59,
+     106.59
+    ],
+    [
+     240.18,
+     105.75
+    ],
+    [
+     240.88,
+     104.99
+    ],
+    [
+     241.69,
+     104.31
+    ],
+    [
+     242.6,
+     103.71
+    ],
+    [
+     243.62,
+     103.19
+    ],
+    [
+     244.75,
+     102.75
+    ],
+    [
+     245.98,
+     102.39
+    ],
+    [
+     247.33,
+     102.11
+    ],
+    [
+     248.78,
+     101.91
+    ],
+    [
+     250.33,
+     101.79
+    ],
+    [
+     252.0,
+     101.75
+    ]
+   ],
+   "next": [
+    "L/eB3/f/0"
+   ],
+   "index": 118
+  },
+  {
+   "id": "C/n21/e3b/b/0>eB3/f/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3b/b/0",
+   "to": "L/eB3/f/1",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n21/e3a/f/1>eB3/f/1",
+    "C/n21/e3a/f/1>eB3/f/0",
+    "C/n21/e3a/f/0>e3b/f/0",
+    "C/n21/e3a/f/1>e3b/f/1"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/e3a/f/1>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/e3a/f/1>e3b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     112.0
+    ],
+    [
+     238.3,
+     110.33
+    ],
+    [
+     238.46,
+     108.78
+    ],
+    [
+     238.73,
+     107.33
+    ],
+    [
+     239.11,
+     105.98
+    ],
+    [
+     239.59,
+     104.75
+    ],
+    [
+     240.18,
+     103.62
+    ],
+    [
+     240.88,
+     102.6
+    ],
+    [
+     241.69,
+     101.69
+    ],
+    [
+     242.6,
+     100.88
+    ],
+    [
+     243.62,
+     100.18
+    ],
+    [
+     244.75,
+     99.59
+    ],
+    [
+     245.98,
+     99.11
+    ],
+    [
+     247.33,
+     98.73
+    ],
+    [
+     248.78,
+     98.46
+    ],
+    [
+     250.33,
+     98.3
+    ],
+    [
+     252.0,
+     98.25
+    ]
+   ],
+   "next": [
+    "L/eB3/f/1"
+   ],
+   "index": 119
+  },
+  {
+   "id": "C/n21/e3b/b/0>e3a/b/0",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3b/b/0",
+   "to": "L/e3a/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>e3a/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     112.0
+    ],
+    [
+     238.25,
+     110.5
+    ],
+    [
+     238.25,
+     109.0
+    ],
+    [
+     238.25,
+     107.5
+    ],
+    [
+     238.25,
+     106.0
+    ],
+    [
+     238.25,
+     104.5
+    ],
+    [
+     238.25,
+     103.0
+    ],
+    [
+     238.25,
+     101.5
+    ],
+    [
+     238.25,
+     100.0
+    ],
+    [
+     238.25,
+     98.5
+    ],
+    [
+     238.25,
+     97.0
+    ],
+    [
+     238.25,
+     95.5
+    ],
+    [
+     238.25,
+     94.0
+    ],
+    [
+     238.25,
+     92.5
+    ],
+    [
+     238.25,
+     91.0
+    ],
+    [
+     238.25,
+     89.5
+    ],
+    [
+     238.25,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e3a/b/0"
+   ],
+   "index": 120
+  },
+  {
+   "id": "C/n21/e3b/b/1>e3a/b/1",
+   "kind": "connector",
+   "node": "n21",
+   "from": "L/e3b/b/1",
+   "to": "L/e3a/b/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n21/eB2/f/0>eB3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>eB3/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/1>e3a/b/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n21/eB2/f/1>e3a/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n21/eB2/f/0>e3b/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     112.0
+    ],
+    [
+     234.75,
+     110.5
+    ],
+    [
+     234.75,
+     109.0
+    ],
+    [
+     234.75,
+     107.5
+    ],
+    [
+     234.75,
+     106.0
+    ],
+    [
+     234.75,
+     104.5
+    ],
+    [
+     234.75,
+     103.0
+    ],
+    [
+     234.75,
+     101.5
+    ],
+    [
+     234.75,
+     100.0
+    ],
+    [
+     234.75,
+     98.5
+    ],
+    [
+     234.75,
+     97.0
+    ],
+    [
+     234.75,
+     95.5
+    ],
+    [
+     234.75,
+     94.0
+    ],
+    [
+     234.75,
+     92.5
+    ],
+    [
+     234.75,
+     91.0
+    ],
+    [
+     234.75,
+     89.5
+    ],
+    [
+     234.75,
+     88.0
+    ]
+   ],
+   "next": [
+    "L/e3a/b/1"
+   ],
+   "index": 121
+  },
+  {
+   "id": "C/n22/eA2/f/0>eA3/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA2/f/0",
+   "to": "L/eA3/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>eA3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     198.25
+    ],
+    [
+     229.5,
+     198.25
+    ],
+    [
+     231.0,
+     198.25
+    ],
+    [
+     232.5,
+     198.25
+    ],
+    [
+     234.0,
+     198.25
+    ],
+    [
+     235.5,
+     198.25
+    ],
+    [
+     237.0,
+     198.25
+    ],
+    [
+     238.5,
+     198.25
+    ],
+    [
+     240.0,
+     198.25
+    ],
+    [
+     241.5,
+     198.25
+    ],
+    [
+     243.0,
+     198.25
+    ],
+    [
+     244.5,
+     198.25
+    ],
+    [
+     246.0,
+     198.25
+    ],
+    [
+     247.5,
+     198.25
+    ],
+    [
+     249.0,
+     198.25
+    ],
+    [
+     250.5,
+     198.25
+    ],
+    [
+     252.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA3/f/0"
+   ],
+   "index": 122
+  },
+  {
+   "id": "C/n22/eA2/f/0>e3b/b/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA2/f/0",
+   "to": "L/e3b/b/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     198.25
+    ],
+    [
+     228.82,
+     198.21
+    ],
+    [
+     229.58,
+     198.09
+    ],
+    [
+     230.29,
+     197.89
+    ],
+    [
+     230.95,
+     197.61
+    ],
+    [
+     231.56,
+     197.25
+    ],
+    [
+     232.11,
+     196.81
+    ],
+    [
+     232.61,
+     196.29
+    ],
+    [
+     233.06,
+     195.69
+    ],
+    [
+     233.46,
+     195.01
+    ],
+    [
+     233.8,
+     194.25
+    ],
+    [
+     234.09,
+     193.41
+    ],
+    [
+     234.33,
+     192.48
+    ],
+    [
+     234.51,
+     191.48
+    ],
+    [
+     234.64,
+     190.4
+    ],
+    [
+     234.72,
+     189.24
+    ],
+    [
+     234.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/1"
+   ],
+   "index": 123
+  },
+  {
+   "id": "C/n22/eA2/f/0>e3b/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA2/f/0",
+   "to": "L/e3b/b/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     198.25
+    ],
+    [
+     229.24,
+     198.21
+    ],
+    [
+     230.4,
+     198.09
+    ],
+    [
+     231.48,
+     197.89
+    ],
+    [
+     232.48,
+     197.61
+    ],
+    [
+     233.41,
+     197.25
+    ],
+    [
+     234.25,
+     196.81
+    ],
+    [
+     235.01,
+     196.29
+    ],
+    [
+     235.69,
+     195.69
+    ],
+    [
+     236.29,
+     195.01
+    ],
+    [
+     236.81,
+     194.25
+    ],
+    [
+     237.25,
+     193.41
+    ],
+    [
+     237.61,
+     192.48
+    ],
+    [
+     237.89,
+     191.48
+    ],
+    [
+     238.09,
+     190.4
+    ],
+    [
+     238.21,
+     189.24
+    ],
+    [
+     238.25,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/0"
+   ],
+   "index": 124
+  },
+  {
+   "id": "C/n22/eA2/f/0>e3c/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA2/f/0",
+   "to": "L/e3c/f/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n22/eA3/b/0>eA2/b/0",
+    "C/n22/eA3/b/0>e3c/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     198.25
+    ],
+    [
+     229.67,
+     198.3
+    ],
+    [
+     231.22,
+     198.46
+    ],
+    [
+     232.67,
+     198.73
+    ],
+    [
+     234.02,
+     199.11
+    ],
+    [
+     235.25,
+     199.59
+    ],
+    [
+     236.38,
+     200.18
+    ],
+    [
+     237.4,
+     200.88
+    ],
+    [
+     238.31,
+     201.69
+    ],
+    [
+     239.12,
+     202.6
+    ],
+    [
+     239.82,
+     203.62
+    ],
+    [
+     240.41,
+     204.75
+    ],
+    [
+     240.89,
+     205.98
+    ],
+    [
+     241.27,
+     207.33
+    ],
+    [
+     241.54,
+     208.78
+    ],
+    [
+     241.7,
+     210.33
+    ],
+    [
+     241.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/0"
+   ],
+   "index": 125
+  },
+  {
+   "id": "C/n22/eA2/f/0>e3c/f/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA2/f/0",
+   "to": "L/e3c/f/1",
+   "turn": "left",
+   "length": 25.21,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n22/eA3/b/0>eA2/b/0",
+    "C/n22/eA3/b/0>e3c/f/1",
+    "C/n22/eA3/b/0>e3c/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     228.0,
+     198.25
+    ],
+    [
+     230.09,
+     198.3
+    ],
+    [
+     232.04,
+     198.46
+    ],
+    [
+     233.86,
+     198.73
+    ],
+    [
+     235.55,
+     199.11
+    ],
+    [
+     237.1,
+     199.59
+    ],
+    [
+     238.51,
+     200.18
+    ],
+    [
+     239.79,
+     200.88
+    ],
+    [
+     240.94,
+     201.69
+    ],
+    [
+     241.95,
+     202.6
+    ],
+    [
+     242.82,
+     203.62
+    ],
+    [
+     243.57,
+     204.75
+    ],
+    [
+     244.17,
+     205.98
+    ],
+    [
+     244.64,
+     207.33
+    ],
+    [
+     244.98,
+     208.78
+    ],
+    [
+     245.18,
+     210.33
+    ],
+    [
+     245.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/1"
+   ],
+   "index": 126
+  },
+  {
+   "id": "C/n22/eA3/b/0>eA2/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA3/b/0",
+   "to": "L/eA2/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 13.41,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>eA2/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     201.75
+    ],
+    [
+     250.5,
+     201.75
+    ],
+    [
+     249.0,
+     201.75
+    ],
+    [
+     247.5,
+     201.75
+    ],
+    [
+     246.0,
+     201.75
+    ],
+    [
+     244.5,
+     201.75
+    ],
+    [
+     243.0,
+     201.75
+    ],
+    [
+     241.5,
+     201.75
+    ],
+    [
+     240.0,
+     201.75
+    ],
+    [
+     238.5,
+     201.75
+    ],
+    [
+     237.0,
+     201.75
+    ],
+    [
+     235.5,
+     201.75
+    ],
+    [
+     234.0,
+     201.75
+    ],
+    [
+     232.5,
+     201.75
+    ],
+    [
+     231.0,
+     201.75
+    ],
+    [
+     229.5,
+     201.75
+    ],
+    [
+     228.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA2/b/0"
+   ],
+   "index": 127
+  },
+  {
+   "id": "C/n22/eA3/b/0>e3b/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA3/b/0",
+   "to": "L/e3b/b/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n22/eA2/f/0>eA3/f/0",
+    "C/n22/eA2/f/0>e3b/b/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     201.75
+    ],
+    [
+     250.33,
+     201.7
+    ],
+    [
+     248.78,
+     201.54
+    ],
+    [
+     247.33,
+     201.27
+    ],
+    [
+     245.98,
+     200.89
+    ],
+    [
+     244.75,
+     200.41
+    ],
+    [
+     243.62,
+     199.82
+    ],
+    [
+     242.6,
+     199.12
+    ],
+    [
+     241.69,
+     198.31
+    ],
+    [
+     240.88,
+     197.4
+    ],
+    [
+     240.18,
+     196.38
+    ],
+    [
+     239.59,
+     195.25
+    ],
+    [
+     239.11,
+     194.02
+    ],
+    [
+     238.73,
+     192.67
+    ],
+    [
+     238.46,
+     191.22
+    ],
+    [
+     238.3,
+     189.67
+    ],
+    [
+     238.25,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/0"
+   ],
+   "index": 128
+  },
+  {
+   "id": "C/n22/eA3/b/0>e3b/b/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA3/b/0",
+   "to": "L/e3b/b/1",
+   "turn": "left",
+   "length": 25.21,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [
+    "C/n22/eA2/f/0>eA3/f/0",
+    "C/n22/eA2/f/0>e3b/b/1",
+    "C/n22/eA2/f/0>e3b/b/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     201.75
+    ],
+    [
+     249.91,
+     201.7
+    ],
+    [
+     247.96,
+     201.54
+    ],
+    [
+     246.14,
+     201.27
+    ],
+    [
+     244.45,
+     200.89
+    ],
+    [
+     242.9,
+     200.41
+    ],
+    [
+     241.49,
+     199.82
+    ],
+    [
+     240.21,
+     199.12
+    ],
+    [
+     239.06,
+     198.31
+    ],
+    [
+     238.05,
+     197.4
+    ],
+    [
+     237.18,
+     196.38
+    ],
+    [
+     236.43,
+     195.25
+    ],
+    [
+     235.83,
+     194.02
+    ],
+    [
+     235.36,
+     192.67
+    ],
+    [
+     235.02,
+     191.22
+    ],
+    [
+     234.82,
+     189.67
+    ],
+    [
+     234.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/1"
+   ],
+   "index": 129
+  },
+  {
+   "id": "C/n22/eA3/b/0>e3c/f/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA3/b/0",
+   "to": "L/e3c/f/1",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     201.75
+    ],
+    [
+     251.18,
+     201.79
+    ],
+    [
+     250.42,
+     201.91
+    ],
+    [
+     249.71,
+     202.11
+    ],
+    [
+     249.05,
+     202.39
+    ],
+    [
+     248.44,
+     202.75
+    ],
+    [
+     247.89,
+     203.19
+    ],
+    [
+     247.39,
+     203.71
+    ],
+    [
+     246.94,
+     204.31
+    ],
+    [
+     246.54,
+     204.99
+    ],
+    [
+     246.2,
+     205.75
+    ],
+    [
+     245.91,
+     206.59
+    ],
+    [
+     245.67,
+     207.52
+    ],
+    [
+     245.49,
+     208.52
+    ],
+    [
+     245.36,
+     209.6
+    ],
+    [
+     245.28,
+     210.76
+    ],
+    [
+     245.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/1"
+   ],
+   "index": 130
+  },
+  {
+   "id": "C/n22/eA3/b/0>e3c/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/eA3/b/0",
+   "to": "L/e3c/f/0",
+   "turn": "right",
+   "length": 16.63,
+   "speedLimit": 6.7,
+   "phase": "EW",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     252.0,
+     201.75
+    ],
+    [
+     250.76,
+     201.79
+    ],
+    [
+     249.6,
+     201.91
+    ],
+    [
+     248.52,
+     202.11
+    ],
+    [
+     247.52,
+     202.39
+    ],
+    [
+     246.59,
+     202.75
+    ],
+    [
+     245.75,
+     203.19
+    ],
+    [
+     244.99,
+     203.71
+    ],
+    [
+     244.31,
+     204.31
+    ],
+    [
+     243.71,
+     204.99
+    ],
+    [
+     243.19,
+     205.75
+    ],
+    [
+     242.75,
+     206.59
+    ],
+    [
+     242.39,
+     207.52
+    ],
+    [
+     242.11,
+     208.52
+    ],
+    [
+     241.91,
+     209.6
+    ],
+    [
+     241.79,
+     210.76
+    ],
+    [
+     241.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/0"
+   ],
+   "index": 131
+  },
+  {
+   "id": "C/n22/e3b/f/0>eA2/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3b/f/0",
+   "to": "L/eA2/b/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n22/e3c/b/1>eA2/b/0",
+    "C/n22/e3c/b/0>e3b/b/0",
+    "C/n22/e3c/b/1>e3b/b/1"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>eA2/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/1>e3b/b/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     241.75,
+     188.0
+    ],
+    [
+     241.7,
+     189.67
+    ],
+    [
+     241.54,
+     191.22
+    ],
+    [
+     241.27,
+     192.67
+    ],
+    [
+     240.89,
+     194.02
+    ],
+    [
+     240.41,
+     195.25
+    ],
+    [
+     239.82,
+     196.38
+    ],
+    [
+     239.12,
+     197.4
+    ],
+    [
+     238.31,
+     198.31
+    ],
+    [
+     237.4,
+     199.12
+    ],
+    [
+     236.38,
+     199.82
+    ],
+    [
+     235.25,
+     200.41
+    ],
+    [
+     234.02,
+     200.89
+    ],
+    [
+     232.67,
+     201.27
+    ],
+    [
+     231.22,
+     201.54
+    ],
+    [
+     229.67,
+     201.7
+    ],
+    [
+     228.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA2/b/0"
+   ],
+   "index": 132
+  },
+  {
+   "id": "C/n22/e3b/f/1>eA3/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3b/f/1",
+   "to": "L/eA3/f/0",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     188.0
+    ],
+    [
+     245.28,
+     189.24
+    ],
+    [
+     245.36,
+     190.4
+    ],
+    [
+     245.49,
+     191.48
+    ],
+    [
+     245.67,
+     192.48
+    ],
+    [
+     245.91,
+     193.41
+    ],
+    [
+     246.2,
+     194.25
+    ],
+    [
+     246.54,
+     195.01
+    ],
+    [
+     246.94,
+     195.69
+    ],
+    [
+     247.39,
+     196.29
+    ],
+    [
+     247.89,
+     196.81
+    ],
+    [
+     248.44,
+     197.25
+    ],
+    [
+     249.05,
+     197.61
+    ],
+    [
+     249.71,
+     197.89
+    ],
+    [
+     250.42,
+     198.09
+    ],
+    [
+     251.18,
+     198.21
+    ],
+    [
+     252.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA3/f/0"
+   ],
+   "index": 133
+  },
+  {
+   "id": "C/n22/e3b/f/0>e3c/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3b/f/0",
+   "to": "L/e3c/f/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     241.75,
+     188.0
+    ],
+    [
+     241.75,
+     189.5
+    ],
+    [
+     241.75,
+     191.0
+    ],
+    [
+     241.75,
+     192.5
+    ],
+    [
+     241.75,
+     194.0
+    ],
+    [
+     241.75,
+     195.5
+    ],
+    [
+     241.75,
+     197.0
+    ],
+    [
+     241.75,
+     198.5
+    ],
+    [
+     241.75,
+     200.0
+    ],
+    [
+     241.75,
+     201.5
+    ],
+    [
+     241.75,
+     203.0
+    ],
+    [
+     241.75,
+     204.5
+    ],
+    [
+     241.75,
+     206.0
+    ],
+    [
+     241.75,
+     207.5
+    ],
+    [
+     241.75,
+     209.0
+    ],
+    [
+     241.75,
+     210.5
+    ],
+    [
+     241.75,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/0"
+   ],
+   "index": 134
+  },
+  {
+   "id": "C/n22/e3b/f/1>e3c/f/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3b/f/1",
+   "to": "L/e3c/f/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3c/b/0>eA3/f/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     245.25,
+     188.0
+    ],
+    [
+     245.25,
+     189.5
+    ],
+    [
+     245.25,
+     191.0
+    ],
+    [
+     245.25,
+     192.5
+    ],
+    [
+     245.25,
+     194.0
+    ],
+    [
+     245.25,
+     195.5
+    ],
+    [
+     245.25,
+     197.0
+    ],
+    [
+     245.25,
+     198.5
+    ],
+    [
+     245.25,
+     200.0
+    ],
+    [
+     245.25,
+     201.5
+    ],
+    [
+     245.25,
+     203.0
+    ],
+    [
+     245.25,
+     204.5
+    ],
+    [
+     245.25,
+     206.0
+    ],
+    [
+     245.25,
+     207.5
+    ],
+    [
+     245.25,
+     209.0
+    ],
+    [
+     245.25,
+     210.5
+    ],
+    [
+     245.25,
+     212.0
+    ]
+   ],
+   "next": [
+    "L/e3c/f/1"
+   ],
+   "index": 135
+  },
+  {
+   "id": "C/n22/e3c/b/1>eA2/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3c/b/1",
+   "to": "L/eA2/b/0",
+   "turn": "right",
+   "length": 13.91,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     212.0
+    ],
+    [
+     234.72,
+     210.76
+    ],
+    [
+     234.64,
+     209.6
+    ],
+    [
+     234.51,
+     208.52
+    ],
+    [
+     234.33,
+     207.52
+    ],
+    [
+     234.09,
+     206.59
+    ],
+    [
+     233.8,
+     205.75
+    ],
+    [
+     233.46,
+     204.99
+    ],
+    [
+     233.06,
+     204.31
+    ],
+    [
+     232.61,
+     203.71
+    ],
+    [
+     232.11,
+     203.19
+    ],
+    [
+     231.56,
+     202.75
+    ],
+    [
+     230.95,
+     202.39
+    ],
+    [
+     230.29,
+     202.11
+    ],
+    [
+     229.58,
+     201.91
+    ],
+    [
+     228.82,
+     201.79
+    ],
+    [
+     228.0,
+     201.75
+    ]
+   ],
+   "next": [
+    "L/eA2/b/0"
+   ],
+   "index": 136
+  },
+  {
+   "id": "C/n22/e3c/b/0>eA3/f/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3c/b/0",
+   "to": "L/eA3/f/0",
+   "turn": "left",
+   "length": 22.31,
+   "speedLimit": 6.7,
+   "phase": "NS",
+   "yieldTo": [
+    "C/n22/e3b/f/1>eA3/f/0",
+    "C/n22/e3b/f/0>e3c/f/0",
+    "C/n22/e3b/f/1>e3c/f/1"
+   ],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>eA3/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/1>e3c/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     212.0
+    ],
+    [
+     238.3,
+     210.33
+    ],
+    [
+     238.46,
+     208.78
+    ],
+    [
+     238.73,
+     207.33
+    ],
+    [
+     239.11,
+     205.98
+    ],
+    [
+     239.59,
+     204.75
+    ],
+    [
+     240.18,
+     203.62
+    ],
+    [
+     240.88,
+     202.6
+    ],
+    [
+     241.69,
+     201.69
+    ],
+    [
+     242.6,
+     200.88
+    ],
+    [
+     243.62,
+     200.18
+    ],
+    [
+     244.75,
+     199.59
+    ],
+    [
+     245.98,
+     199.11
+    ],
+    [
+     247.33,
+     198.73
+    ],
+    [
+     248.78,
+     198.46
+    ],
+    [
+     250.33,
+     198.3
+    ],
+    [
+     252.0,
+     198.25
+    ]
+   ],
+   "next": [
+    "L/eA3/f/0"
+   ],
+   "index": 137
+  },
+  {
+   "id": "C/n22/e3c/b/0>e3b/b/0",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3c/b/0",
+   "to": "L/e3b/b/0",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     238.25,
+     212.0
+    ],
+    [
+     238.25,
+     210.5
+    ],
+    [
+     238.25,
+     209.0
+    ],
+    [
+     238.25,
+     207.5
+    ],
+    [
+     238.25,
+     206.0
+    ],
+    [
+     238.25,
+     204.5
+    ],
+    [
+     238.25,
+     203.0
+    ],
+    [
+     238.25,
+     201.5
+    ],
+    [
+     238.25,
+     200.0
+    ],
+    [
+     238.25,
+     198.5
+    ],
+    [
+     238.25,
+     197.0
+    ],
+    [
+     238.25,
+     195.5
+    ],
+    [
+     238.25,
+     194.0
+    ],
+    [
+     238.25,
+     192.5
+    ],
+    [
+     238.25,
+     191.0
+    ],
+    [
+     238.25,
+     189.5
+    ],
+    [
+     238.25,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/0"
+   ],
+   "index": 138
+  },
+  {
+   "id": "C/n22/e3c/b/1>e3b/b/1",
+   "kind": "connector",
+   "node": "n22",
+   "from": "L/e3c/b/1",
+   "to": "L/e3b/b/1",
+   "turn": "through",
+   "length": 24.0,
+   "speedLimit": 15.65,
+   "phase": "NS",
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/n22/eA2/f/0>eA3/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3b/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA2/f/0>e3c/f/1",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>eA2/b/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/n22/eA3/b/0>e3b/b/1",
+     "type": "merge"
+    },
+    {
+     "path": "C/n22/e3b/f/0>eA2/b/0",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     234.75,
+     212.0
+    ],
+    [
+     234.75,
+     210.5
+    ],
+    [
+     234.75,
+     209.0
+    ],
+    [
+     234.75,
+     207.5
+    ],
+    [
+     234.75,
+     206.0
+    ],
+    [
+     234.75,
+     204.5
+    ],
+    [
+     234.75,
+     203.0
+    ],
+    [
+     234.75,
+     201.5
+    ],
+    [
+     234.75,
+     200.0
+    ],
+    [
+     234.75,
+     198.5
+    ],
+    [
+     234.75,
+     197.0
+    ],
+    [
+     234.75,
+     195.5
+    ],
+    [
+     234.75,
+     194.0
+    ],
+    [
+     234.75,
+     192.5
+    ],
+    [
+     234.75,
+     191.0
+    ],
+    [
+     234.75,
+     189.5
+    ],
+    [
+     234.75,
+     188.0
+    ]
+   ],
+   "next": [
+    "L/e3b/b/1"
+   ],
+   "index": 139
+  },
+  {
+   "id": "C/M/eF5/f/0>eF4/f/0",
+   "kind": "connector",
+   "node": "M",
+   "from": "L/eF5/f/0",
+   "to": "L/eF4/f/0",
+   "turn": "through",
+   "length": 16.0,
+   "speedLimit": 17.88,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/M/eROff/f/0>eF4/f/0",
+     "type": "merge"
+    },
+    {
+     "path": "C/M/eROff/f/0>eF4/f/1",
+     "type": "cross"
+    }
+   ],
+   "debugPolyline": [
+    [
+     338.0,
+     -1.75
+    ],
+    [
+     337.0,
+     -1.75
+    ],
+    [
+     336.0,
+     -1.75
+    ],
+    [
+     335.0,
+     -1.75
+    ],
+    [
+     334.0,
+     -1.75
+    ],
+    [
+     333.0,
+     -1.75
+    ],
+    [
+     332.0,
+     -1.75
+    ],
+    [
+     331.0,
+     -1.75
+    ],
+    [
+     330.0,
+     -1.75
+    ],
+    [
+     329.0,
+     -1.75
+    ],
+    [
+     328.0,
+     -1.75
+    ],
+    [
+     327.0,
+     -1.75
+    ],
+    [
+     326.0,
+     -1.75
+    ],
+    [
+     325.0,
+     -1.75
+    ],
+    [
+     324.0,
+     -1.75
+    ],
+    [
+     323.0,
+     -1.75
+    ],
+    [
+     322.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF4/f/0"
+   ],
+   "index": 140
+  },
+  {
+   "id": "C/M/eF5/f/1>eF4/f/1",
+   "kind": "connector",
+   "node": "M",
+   "from": "L/eF5/f/1",
+   "to": "L/eF4/f/1",
+   "turn": "through",
+   "length": 16.0,
+   "speedLimit": 17.88,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [
+    {
+     "path": "C/M/eROff/f/0>eF4/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     338.0,
+     1.75
+    ],
+    [
+     337.0,
+     1.75
+    ],
+    [
+     336.0,
+     1.75
+    ],
+    [
+     335.0,
+     1.75
+    ],
+    [
+     334.0,
+     1.75
+    ],
+    [
+     333.0,
+     1.75
+    ],
+    [
+     332.0,
+     1.75
+    ],
+    [
+     331.0,
+     1.75
+    ],
+    [
+     330.0,
+     1.75
+    ],
+    [
+     329.0,
+     1.75
+    ],
+    [
+     328.0,
+     1.75
+    ],
+    [
+     327.0,
+     1.75
+    ],
+    [
+     326.0,
+     1.75
+    ],
+    [
+     325.0,
+     1.75
+    ],
+    [
+     324.0,
+     1.75
+    ],
+    [
+     323.0,
+     1.75
+    ],
+    [
+     322.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF4/f/1"
+   ],
+   "index": 141
+  },
+  {
+   "id": "C/M/eROff/f/0>eF4/f/0",
+   "kind": "connector",
+   "node": "M",
+   "from": "L/eROff/f/0",
+   "to": "L/eF4/f/0",
+   "turn": "through",
+   "length": 15.72,
+   "speedLimit": 15.65,
+   "phase": null,
+   "yieldTo": [
+    "C/M/eF5/f/0>eF4/f/0"
+   ],
+   "conflicts": [
+    {
+     "path": "C/M/eF5/f/0>eF4/f/0",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     337.7,
+     -2.16
+    ],
+    [
+     337.47,
+     -2.11
+    ],
+    [
+     337.13,
+     -2.06
+    ],
+    [
+     336.7,
+     -2.02
+    ],
+    [
+     336.17,
+     -1.98
+    ],
+    [
+     335.54,
+     -1.94
+    ],
+    [
+     334.81,
+     -1.91
+    ],
+    [
+     333.97,
+     -1.88
+    ],
+    [
+     333.04,
+     -1.85
+    ],
+    [
+     332.01,
+     -1.83
+    ],
+    [
+     330.88,
+     -1.81
+    ],
+    [
+     329.65,
+     -1.79
+    ],
+    [
+     328.32,
+     -1.78
+    ],
+    [
+     326.89,
+     -1.76
+    ],
+    [
+     325.36,
+     -1.76
+    ],
+    [
+     323.73,
+     -1.75
+    ],
+    [
+     322.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF4/f/0"
+   ],
+   "index": 142
+  },
+  {
+   "id": "C/M/eROff/f/0>eF4/f/1",
+   "kind": "connector",
+   "node": "M",
+   "from": "L/eROff/f/0",
+   "to": "L/eF4/f/1",
+   "turn": "through",
+   "length": 16.19,
+   "speedLimit": 15.65,
+   "phase": null,
+   "yieldTo": [
+    "C/M/eF5/f/0>eF4/f/0",
+    "C/M/eF5/f/1>eF4/f/1"
+   ],
+   "conflicts": [
+    {
+     "path": "C/M/eF5/f/0>eF4/f/0",
+     "type": "cross"
+    },
+    {
+     "path": "C/M/eF5/f/1>eF4/f/1",
+     "type": "merge"
+    }
+   ],
+   "debugPolyline": [
+    [
+     337.7,
+     -2.16
+    ],
+    [
+     336.0,
+     -1.69
+    ],
+    [
+     334.4,
+     -1.24
+    ],
+    [
+     332.89,
+     -0.83
+    ],
+    [
+     331.48,
+     -0.45
+    ],
+    [
+     330.16,
+     -0.1
+    ],
+    [
+     328.94,
+     0.22
+    ],
+    [
+     327.82,
+     0.51
+    ],
+    [
+     326.79,
+     0.77
+    ],
+    [
+     325.86,
+     1.0
+    ],
+    [
+     325.02,
+     1.2
+    ],
+    [
+     324.28,
+     1.37
+    ],
+    [
+     323.63,
+     1.51
+    ],
+    [
+     323.08,
+     1.61
+    ],
+    [
+     322.62,
+     1.69
+    ],
+    [
+     322.26,
+     1.73
+    ],
+    [
+     322.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF4/f/1"
+   ],
+   "index": 143
+  },
+  {
+   "id": "C/D/eF1/f/0>eF0/f/0",
+   "kind": "connector",
+   "node": "D",
+   "from": "L/eF1/f/0",
+   "to": "L/eF0/f/0",
+   "turn": "through",
+   "length": 16.0,
+   "speedLimit": 17.88,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     -52.0,
+     -1.75
+    ],
+    [
+     -53.0,
+     -1.75
+    ],
+    [
+     -54.0,
+     -1.75
+    ],
+    [
+     -55.0,
+     -1.75
+    ],
+    [
+     -56.0,
+     -1.75
+    ],
+    [
+     -57.0,
+     -1.75
+    ],
+    [
+     -58.0,
+     -1.75
+    ],
+    [
+     -59.0,
+     -1.75
+    ],
+    [
+     -60.0,
+     -1.75
+    ],
+    [
+     -61.0,
+     -1.75
+    ],
+    [
+     -62.0,
+     -1.75
+    ],
+    [
+     -63.0,
+     -1.75
+    ],
+    [
+     -64.0,
+     -1.75
+    ],
+    [
+     -65.0,
+     -1.75
+    ],
+    [
+     -66.0,
+     -1.75
+    ],
+    [
+     -67.0,
+     -1.75
+    ],
+    [
+     -68.0,
+     -1.75
+    ]
+   ],
+   "next": [
+    "L/eF0/f/0"
+   ],
+   "index": 144
+  },
+  {
+   "id": "C/D/eF1/f/1>eF0/f/1",
+   "kind": "connector",
+   "node": "D",
+   "from": "L/eF1/f/1",
+   "to": "L/eF0/f/1",
+   "turn": "through",
+   "length": 16.0,
+   "speedLimit": 17.88,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     -52.0,
+     1.75
+    ],
+    [
+     -53.0,
+     1.75
+    ],
+    [
+     -54.0,
+     1.75
+    ],
+    [
+     -55.0,
+     1.75
+    ],
+    [
+     -56.0,
+     1.75
+    ],
+    [
+     -57.0,
+     1.75
+    ],
+    [
+     -58.0,
+     1.75
+    ],
+    [
+     -59.0,
+     1.75
+    ],
+    [
+     -60.0,
+     1.75
+    ],
+    [
+     -61.0,
+     1.75
+    ],
+    [
+     -62.0,
+     1.75
+    ],
+    [
+     -63.0,
+     1.75
+    ],
+    [
+     -64.0,
+     1.75
+    ],
+    [
+     -65.0,
+     1.75
+    ],
+    [
+     -66.0,
+     1.75
+    ],
+    [
+     -67.0,
+     1.75
+    ],
+    [
+     -68.0,
+     1.75
+    ]
+   ],
+   "next": [
+    "L/eF0/f/1"
+   ],
+   "index": 145
+  },
+  {
+   "id": "C/D/eF1/f/0>eROn/f/0",
+   "kind": "connector",
+   "node": "D",
+   "from": "L/eF1/f/0",
+   "to": "L/eROn/f/0",
+   "turn": "through",
+   "length": 15.67,
+   "speedLimit": 15.65,
+   "phase": null,
+   "yieldTo": [],
+   "conflicts": [],
+   "debugPolyline": [
+    [
+     -52.0,
+     -1.75
+    ],
+    [
+     -53.66,
+     -1.75
+    ],
+    [
+     -55.22,
+     -1.76
+    ],
+    [
+     -56.7,
+     -1.77
+    ],
+    [
+     -58.08,
+     -1.79
+    ],
+    [
+     -59.38,
+     -1.81
+    ],
+    [
+     -60.58,
+     -1.84
+    ],
+    [
+     -61.69,
+     -1.87
+    ],
+    [
+     -62.72,
+     -1.91
+    ],
+    [
+     -63.65,
+     -1.95
+    ],
+    [
+     -64.49,
+     -2.0
+    ],
+    [
+     -65.24,
+     -2.05
+    ],
+    [
+     -65.9,
+     -2.1
+    ],
+    [
+     -66.47,
+     -2.17
+    ],
+    [
+     -66.95,
+     -2.23
+    ],
+    [
+     -67.34,
+     -2.3
+    ],
+    [
+     -67.64,
+     -2.38
+    ]
+   ],
+   "next": [
+    "L/eROn/f/0"
+   ],
+   "index": 146
+  }
+ ],
+ "nodes": [
+  {
+   "id": "n00",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n00/e1a/b/0>eF1/f/1",
+      "C/n00/e1a/b/0>eF1/f/0"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n00/eF2/f/0>eF1/f/0",
+      "C/n00/eF2/f/1>eF1/f/1",
+      "C/n00/eF2/f/1>e1a/f/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e1a/b/0",
+    "L/eF2/f/0",
+    "L/eF2/f/1"
+   ],
+   "connectors": [
+    "C/n00/eF2/f/0>eF1/f/0",
+    "C/n00/eF2/f/1>eF1/f/1",
+    "C/n00/eF2/f/1>e1a/f/0",
+    "C/n00/e1a/b/0>eF1/f/1",
+    "C/n00/e1a/b/0>eF1/f/0"
+   ]
+  },
+  {
+   "id": "n01",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n01/e1a/f/0>eB1/f/1",
+      "C/n01/e1a/f/0>eB1/f/0",
+      "C/n01/e1a/f/0>e1b/f/0",
+      "C/n01/e1b/b/0>eB1/f/0",
+      "C/n01/e1b/b/0>eB1/f/1",
+      "C/n01/e1b/b/0>e1a/b/0"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n01/eB0/f/0>eB1/f/0",
+      "C/n01/eB0/f/1>eB1/f/1",
+      "C/n01/eB0/f/1>e1a/b/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e1a/f/0",
+    "L/e1b/b/0",
+    "L/eB0/f/0",
+    "L/eB0/f/1"
+   ],
+   "connectors": [
+    "C/n01/eB0/f/0>eB1/f/0",
+    "C/n01/eB0/f/1>eB1/f/1",
+    "C/n01/eB0/f/1>e1a/b/0",
+    "C/n01/e1a/f/0>eB1/f/1",
+    "C/n01/e1a/f/0>eB1/f/0",
+    "C/n01/e1a/f/0>e1b/f/0",
+    "C/n01/e1b/b/0>eB1/f/0",
+    "C/n01/e1b/b/0>eB1/f/1",
+    "C/n01/e1b/b/0>e1a/b/0"
+   ]
+  },
+  {
+   "id": "n02",
+   "control": "allStop",
+   "phases": null,
+   "inPaths": [
+    "L/e1b/f/0",
+    "L/e1c/b/0",
+    "L/eA0/f/0",
+    "L/eA1/b/0"
+   ],
+   "connectors": [
+    "C/n02/eA0/f/0>eA1/f/0",
+    "C/n02/eA0/f/0>e1b/b/0",
+    "C/n02/eA0/f/0>e1c/f/0",
+    "C/n02/eA1/b/0>eA0/b/0",
+    "C/n02/eA1/b/0>e1b/b/0",
+    "C/n02/eA1/b/0>e1c/f/0",
+    "C/n02/e1b/f/0>eA0/b/0",
+    "C/n02/e1b/f/0>eA1/f/0",
+    "C/n02/e1b/f/0>e1c/f/0",
+    "C/n02/e1c/b/0>eA0/b/0",
+    "C/n02/e1c/b/0>eA1/f/0",
+    "C/n02/e1c/b/0>e1b/b/0"
+   ]
+  },
+  {
+   "id": "n10",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "EW",
+     "paths": [
+      "C/n10/eF3/f/0>eF2/f/0",
+      "C/n10/eF3/f/1>eF2/f/1",
+      "C/n10/eF3/f/1>e2a/f/1",
+      "C/n10/eF3/f/1>e2a/f/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/eF3/f/0",
+    "L/eF3/f/1"
+   ],
+   "connectors": [
+    "C/n10/eF3/f/0>eF2/f/0",
+    "C/n10/eF3/f/1>eF2/f/1",
+    "C/n10/eF3/f/1>e2a/f/1",
+    "C/n10/eF3/f/1>e2a/f/0"
+   ]
+  },
+  {
+   "id": "n11",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n11/e2a/f/1>eB2/f/1",
+      "C/n11/e2a/f/1>eB2/f/0",
+      "C/n11/e2a/f/0>e2b/f/0",
+      "C/n11/e2a/f/1>e2b/f/1"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n11/eB1/f/0>eB2/f/0",
+      "C/n11/eB1/f/1>eB2/f/1",
+      "C/n11/eB1/f/0>e2b/f/0",
+      "C/n11/eB1/f/0>e2b/f/1"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e2a/f/0",
+    "L/e2a/f/1",
+    "L/eB1/f/0",
+    "L/eB1/f/1"
+   ],
+   "connectors": [
+    "C/n11/eB1/f/0>eB2/f/0",
+    "C/n11/eB1/f/1>eB2/f/1",
+    "C/n11/eB1/f/0>e2b/f/0",
+    "C/n11/eB1/f/0>e2b/f/1",
+    "C/n11/e2a/f/1>eB2/f/1",
+    "C/n11/e2a/f/1>eB2/f/0",
+    "C/n11/e2a/f/0>e2b/f/0",
+    "C/n11/e2a/f/1>e2b/f/1"
+   ]
+  },
+  {
+   "id": "n12",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n12/e2b/f/0>eA1/b/0",
+      "C/n12/e2b/f/1>eA2/f/0",
+      "C/n12/e2b/f/0>e2c/f/0",
+      "C/n12/e2b/f/1>e2c/f/1"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n12/eA1/f/0>eA2/f/0",
+      "C/n12/eA1/f/0>e2c/f/0",
+      "C/n12/eA1/f/0>e2c/f/1",
+      "C/n12/eA2/b/0>eA1/b/0",
+      "C/n12/eA2/b/0>e2c/f/1",
+      "C/n12/eA2/b/0>e2c/f/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e2b/f/0",
+    "L/e2b/f/1",
+    "L/eA1/f/0",
+    "L/eA2/b/0"
+   ],
+   "connectors": [
+    "C/n12/eA1/f/0>eA2/f/0",
+    "C/n12/eA1/f/0>e2c/f/0",
+    "C/n12/eA1/f/0>e2c/f/1",
+    "C/n12/eA2/b/0>eA1/b/0",
+    "C/n12/eA2/b/0>e2c/f/1",
+    "C/n12/eA2/b/0>e2c/f/0",
+    "C/n12/e2b/f/0>eA1/b/0",
+    "C/n12/e2b/f/1>eA2/f/0",
+    "C/n12/e2b/f/0>e2c/f/0",
+    "C/n12/e2b/f/1>e2c/f/1"
+   ]
+  },
+  {
+   "id": "n20",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n20/e3a/b/1>eF3/f/1",
+      "C/n20/e3a/b/0>eF3/f/0"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n20/eF4/f/0>eF3/f/0",
+      "C/n20/eF4/f/1>eF3/f/1",
+      "C/n20/eF4/f/1>e3a/f/1",
+      "C/n20/eF4/f/1>e3a/f/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e3a/b/0",
+    "L/e3a/b/1",
+    "L/eF4/f/0",
+    "L/eF4/f/1"
+   ],
+   "connectors": [
+    "C/n20/eF4/f/0>eF3/f/0",
+    "C/n20/eF4/f/1>eF3/f/1",
+    "C/n20/eF4/f/1>e3a/f/1",
+    "C/n20/eF4/f/1>e3a/f/0",
+    "C/n20/e3a/b/1>eF3/f/1",
+    "C/n20/e3a/b/0>eF3/f/0"
+   ]
+  },
+  {
+   "id": "n21",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n21/e3a/f/1>eB3/f/1",
+      "C/n21/e3a/f/1>eB3/f/0",
+      "C/n21/e3a/f/0>e3b/f/0",
+      "C/n21/e3a/f/1>e3b/f/1",
+      "C/n21/e3b/b/0>eB3/f/0",
+      "C/n21/e3b/b/0>eB3/f/1",
+      "C/n21/e3b/b/0>e3a/b/0",
+      "C/n21/e3b/b/1>e3a/b/1"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n21/eB2/f/0>eB3/f/0",
+      "C/n21/eB2/f/1>eB3/f/1",
+      "C/n21/eB2/f/1>e3a/b/1",
+      "C/n21/eB2/f/1>e3a/b/0",
+      "C/n21/eB2/f/0>e3b/f/0",
+      "C/n21/eB2/f/0>e3b/f/1"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e3a/f/0",
+    "L/e3a/f/1",
+    "L/e3b/b/0",
+    "L/e3b/b/1",
+    "L/eB2/f/0",
+    "L/eB2/f/1"
+   ],
+   "connectors": [
+    "C/n21/eB2/f/0>eB3/f/0",
+    "C/n21/eB2/f/1>eB3/f/1",
+    "C/n21/eB2/f/1>e3a/b/1",
+    "C/n21/eB2/f/1>e3a/b/0",
+    "C/n21/eB2/f/0>e3b/f/0",
+    "C/n21/eB2/f/0>e3b/f/1",
+    "C/n21/e3a/f/1>eB3/f/1",
+    "C/n21/e3a/f/1>eB3/f/0",
+    "C/n21/e3a/f/0>e3b/f/0",
+    "C/n21/e3a/f/1>e3b/f/1",
+    "C/n21/e3b/b/0>eB3/f/0",
+    "C/n21/e3b/b/0>eB3/f/1",
+    "C/n21/e3b/b/0>e3a/b/0",
+    "C/n21/e3b/b/1>e3a/b/1"
+   ]
+  },
+  {
+   "id": "n22",
+   "control": "signal",
+   "phases": [
+    {
+     "id": "NS",
+     "paths": [
+      "C/n22/e3b/f/0>eA2/b/0",
+      "C/n22/e3b/f/1>eA3/f/0",
+      "C/n22/e3b/f/0>e3c/f/0",
+      "C/n22/e3b/f/1>e3c/f/1",
+      "C/n22/e3c/b/1>eA2/b/0",
+      "C/n22/e3c/b/0>eA3/f/0",
+      "C/n22/e3c/b/0>e3b/b/0",
+      "C/n22/e3c/b/1>e3b/b/1"
+     ]
+    },
+    {
+     "id": "EW",
+     "paths": [
+      "C/n22/eA2/f/0>eA3/f/0",
+      "C/n22/eA2/f/0>e3b/b/1",
+      "C/n22/eA2/f/0>e3b/b/0",
+      "C/n22/eA2/f/0>e3c/f/0",
+      "C/n22/eA2/f/0>e3c/f/1",
+      "C/n22/eA3/b/0>eA2/b/0",
+      "C/n22/eA3/b/0>e3b/b/0",
+      "C/n22/eA3/b/0>e3b/b/1",
+      "C/n22/eA3/b/0>e3c/f/1",
+      "C/n22/eA3/b/0>e3c/f/0"
+     ]
+    }
+   ],
+   "inPaths": [
+    "L/e3b/f/0",
+    "L/e3b/f/1",
+    "L/e3c/b/0",
+    "L/e3c/b/1",
+    "L/eA2/f/0",
+    "L/eA3/b/0"
+   ],
+   "connectors": [
+    "C/n22/eA2/f/0>eA3/f/0",
+    "C/n22/eA2/f/0>e3b/b/1",
+    "C/n22/eA2/f/0>e3b/b/0",
+    "C/n22/eA2/f/0>e3c/f/0",
+    "C/n22/eA2/f/0>e3c/f/1",
+    "C/n22/eA3/b/0>eA2/b/0",
+    "C/n22/eA3/b/0>e3b/b/0",
+    "C/n22/eA3/b/0>e3b/b/1",
+    "C/n22/eA3/b/0>e3c/f/1",
+    "C/n22/eA3/b/0>e3c/f/0",
+    "C/n22/e3b/f/0>eA2/b/0",
+    "C/n22/e3b/f/1>eA3/f/0",
+    "C/n22/e3b/f/0>e3c/f/0",
+    "C/n22/e3b/f/1>e3c/f/1",
+    "C/n22/e3c/b/1>eA2/b/0",
+    "C/n22/e3c/b/0>eA3/f/0",
+    "C/n22/e3c/b/0>e3b/b/0",
+    "C/n22/e3c/b/1>e3b/b/1"
+   ]
+  },
+  {
+   "id": "M",
+   "control": "merge",
+   "phases": null,
+   "inPaths": [
+    "L/eF5/f/0",
+    "L/eF5/f/1",
+    "L/eROff/f/0"
+   ],
+   "connectors": [
+    "C/M/eF5/f/0>eF4/f/0",
+    "C/M/eF5/f/1>eF4/f/1",
+    "C/M/eROff/f/0>eF4/f/0",
+    "C/M/eROff/f/0>eF4/f/1"
+   ]
+  },
+  {
+   "id": "D",
+   "control": "none",
+   "phases": null,
+   "inPaths": [
+    "L/eF1/f/0",
+    "L/eF1/f/1"
+   ],
+   "connectors": [
+    "C/D/eF1/f/0>eF0/f/0",
+    "C/D/eF1/f/1>eF0/f/1",
+    "C/D/eF1/f/0>eROn/f/0"
+   ]
+  }
+ ],
+ "points": [
+  {
+   "id": "spawn-bFE",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eF5/f/0",
+     "s": 0.0
+    },
+    {
+     "path": "L/eF5/f/1",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bFW",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eF0/f/0",
+     "s": 82.0
+    },
+    {
+     "path": "L/eF0/f/1",
+     "s": 82.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-bW1",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eB0/f/0",
+     "s": 0.0
+    },
+    {
+     "path": "L/eB0/f/1",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bE1",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eB3/f/0",
+     "s": 168.0
+    },
+    {
+     "path": "L/eB3/f/1",
+     "s": 168.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-bW2",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eA0/f/0",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bW2",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eA0/b/0",
+     "s": 138.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-bE2",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eA3/b/0",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bE2",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eA3/f/0",
+     "s": 168.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-bN0",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e1c/b/0",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bN0",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e1c/f/0",
+     "s": 88.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bN1",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e2c/f/0",
+     "s": 88.0
+    },
+    {
+     "path": "L/e2c/f/1",
+     "s": 88.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-bN2",
+   "type": "edgeSpawn",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e3c/b/0",
+     "s": 0.0
+    },
+    {
+     "path": "L/e3c/b/1",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-bN2",
+   "type": "edgeSink",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e3c/f/0",
+     "s": 88.0
+    },
+    {
+     "path": "L/e3c/f/1",
+     "s": 88.0
+    }
+   ]
+  },
+  {
+   "id": "spawn-rOff",
+   "type": "rampSpawn",
+   "weight": 3,
+   "access": [
+    {
+     "path": "L/eROff/f/0",
+     "s": 0.0
+    }
+   ]
+  },
+  {
+   "id": "sink-rOn",
+   "type": "rampSink",
+   "weight": 3,
+   "access": [
+    {
+     "path": "L/eROn/f/0",
+     "s": 86.25
+    }
+   ]
+  },
+  {
+   "id": "park-g1",
+   "type": "parking",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eB1/f/1",
+     "s": 48.0
+    }
+   ],
+   "capacity": 400
+  },
+  {
+   "id": "park-g2",
+   "type": "parking",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e3b/f/1",
+     "s": 30.4
+    },
+    {
+     "path": "L/e3b/b/1",
+     "s": 45.6
+    }
+   ],
+   "capacity": 250
+  },
+  {
+   "id": "park-l1",
+   "type": "parking",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/eA2/f/0",
+     "s": 48.0
+    },
+    {
+     "path": "L/eA2/b/0",
+     "s": 48.0
+    }
+   ],
+   "capacity": 80
+  },
+  {
+   "id": "lunch-1",
+   "type": "lunchZone",
+   "weight": 2,
+   "access": [
+    {
+     "path": "L/eA1/f/0",
+     "s": 48.0
+    },
+    {
+     "path": "L/eA1/b/0",
+     "s": 48.0
+    }
+   ]
+  },
+  {
+   "id": "lunch-2",
+   "type": "lunchZone",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e1b/f/0",
+     "s": 38.0
+    },
+    {
+     "path": "L/e1b/b/0",
+     "s": 38.0
+    }
+   ]
+  },
+  {
+   "id": "lunch-3",
+   "type": "lunchZone",
+   "weight": 1,
+   "access": [
+    {
+     "path": "L/e3a/f/1",
+     "s": 45.6
+    },
+    {
+     "path": "L/e3a/b/1",
+     "s": 30.4
+    }
+   ]
+  }
+ ]
+}

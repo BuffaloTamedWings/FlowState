@@ -1,0 +1,64 @@
+{
+ "format": "flowstate-preset",
+ "version": 1,
+ "id": "night",
+ "label": "Night",
+ "durationSec": 1800,
+ "seed": 20261201,
+ "lighting": "night",
+ "warmup": {
+  "realSeconds": 5,
+  "playbackSpeed": 2
+ },
+ "spawnRate": {
+  "unit": "vehiclesPerMinute",
+  "curve": [
+   [
+    0,
+    15
+   ],
+   [
+    300,
+    45
+   ],
+   [
+    900,
+    60
+   ],
+   [
+    1500,
+    30
+   ],
+   [
+    1800,
+    15
+   ]
+  ]
+ },
+ "trips": [
+  {
+   "share": 0.8,
+   "from": [
+    "parking"
+   ],
+   "to": [
+    "rampSink",
+    "edgeSink"
+   ]
+  },
+  {
+   "share": 0.2,
+   "from": [
+    "rampSpawn",
+    "edgeSpawn"
+   ],
+   "to": [
+    "rampSink",
+    "edgeSink"
+   ]
+  }
+ ],
+ "parking": {
+  "initialOccupancy": 0.9
+ }
+}
