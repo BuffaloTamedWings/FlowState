@@ -5,7 +5,8 @@
  * backward through the line. One car (the "slow car") brakes down to a low speed for a
  * while, then recovers. With dense enough traffic, IDM turns that into stop-and-go waves.
  */
-import { DEFAULT_IDM, DT, equilibriumSpeed, idmAccel, integrate, type IdmParams } from './idm.js';
+import { SIM_DT } from '@shared/messages.js';
+import { DEFAULT_IDM, equilibriumSpeed, idmAccel, integrate, type IdmParams } from './idm.js';
 
 export interface RingOptions {
   /** Ring circumference (m). */
@@ -68,8 +69,8 @@ export function runRing(opts: Partial<RingOptions> = {}): RingResult {
   const accel = new Float64Array(n);
   const samples: RingSample[] = [];
   let minGap = Infinity;
-  const steps = Math.round(o.durationSec / DT);
-  const sampleEvery = Math.max(1, Math.round(o.sampleEverySec / DT));
+  const steps = Math.round(o.durationSec / SIM_DT);
+  const sampleEvery = Math.max(1, Math.round(o.sampleEverySec / SIM_DT));
 
   const gapTo = (i: number): number => {
     const lead = (i + 1) % n;
@@ -78,7 +79,7 @@ export function runRing(opts: Partial<RingOptions> = {}): RingResult {
   };
 
   for (let step = 0; step <= steps; step++) {
-    const t = step * DT;
+    const t = step * SIM_DT;
     if (step % sampleEvery === 0) {
       samples.push({ t, pos: pos.slice(), speed: speed.slice() });
     }
@@ -101,7 +102,7 @@ export function runRing(opts: Partial<RingOptions> = {}): RingResult {
 
     // Phase 2: move everyone.
     for (let i = 0; i < n; i++) {
-      const { v, ds } = integrate(speed[i]!, accel[i]!, DT);
+      const { v, ds } = integrate(speed[i]!, accel[i]!, SIM_DT);
       speed[i] = v;
       pos[i] = (pos[i]! + ds) % o.length;
     }
