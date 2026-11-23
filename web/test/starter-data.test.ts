@@ -25,7 +25,8 @@ describe('starter data files', () => {
   it('compiled network has the expected format and version', () => {
     const network = readJson('compiled/test-grid.compiled.json');
     expect(network.format).toBe('flowstate-network');
-    expect(network.version).toBe(1);
+    // v2 added the required ConnectorPath.stop flag; see shared/network.ts.
+    expect(network.version).toBe(2);
     expect(network.scenario).toBe('test-grid');
     expect(Array.isArray(network.paths)).toBe(true);
 

@@ -184,6 +184,40 @@ describe('compiled network contract', () => {
     expect(network.paths.filter(isConnectorPath)).toHaveLength(93);
   });
 
+  it('marks a stop exactly where PRD §8.4 requires one', () => {
+    const controlOf = new Map(network.nodes.map((n) => [n.id, n.control]));
+
+    for (const path of network.paths) {
+      if (!isConnectorPath(path)) continue;
+      expect(typeof path.stop, `connector ${path.id}.stop`).toBe('boolean');
+
+      const control = controlOf.get(path.node);
+      // The test grid selects allStop at n02 and nothing else that stops.
+      if (control === 'allStop') expect(path.stop, `connector ${path.id} at an allStop node`).toBe(true);
+      else expect(path.stop, `connector ${path.id} at a ${control} node`).toBe(false);
+    }
+
+    const stopping = network.paths.filter((p) => isConnectorPath(p) && p.stop);
+    expect(stopping).toHaveLength(12);
+    expect(new Set(stopping.map((p) => (isConnectorPath(p) ? p.node : '')))).toEqual(new Set(['n02']));
+  });
+
+  it('agrees on stop across every connector leaving the same lane', () => {
+    // A car stops at the stop line, before it has committed to a connector, so
+    // a lane whose connectors disagree would be unsimulatable. The compile rule
+    // keys off the incoming lane's edge, which guarantees this — nothing else does.
+    const byLane = new Map<string, Set<boolean>>();
+    for (const path of network.paths) {
+      if (!isConnectorPath(path)) continue;
+      const seen = byLane.get(path.from) ?? new Set<boolean>();
+      seen.add(path.stop);
+      byLane.set(path.from, seen);
+    }
+    for (const [lane, values] of byLane) {
+      expect([...values], `lane ${lane} has connectors that disagree about stop`).toHaveLength(1);
+    }
+  });
+
   it('uses only declared lane dirs, turns and conflict types', () => {
     for (const path of network.paths) {
       if (isLanePath(path)) {
@@ -287,6 +321,7 @@ describe('compiled network contract', () => {
   it('gives every surviving point access on a real lane', () => {
     const byId = pathsById(network);
     for (const point of network.points) {
+      oneOf(point.type, POINT_TYPES, `compiled point ${point.id}.type`);
       expect(point.access.length, `point ${point.id} has no access`).toBeGreaterThan(0);
       for (const access of point.access) {
         const path = byId.get(access.path);

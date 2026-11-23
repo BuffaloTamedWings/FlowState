@@ -271,14 +271,18 @@ Merge, diverge, boundary and rampEnd nodes are locked. Ramp edges are locked.
 - `carFree` and option changes can make a spawn, sink, parking or lunch point unreachable. The compile step drops points with no remaining access, and the engine must handle a destination becoming unavailable (see §8.5).
 - `oneWay` always keeps the edge's reference direction. If that creates silly dead ends in the real data, Dev can drop it for that edge in overrides.
 
-### 7.4 Compiled network (`flowstate-network`, v1)
+### 7.4 Compiled network (`flowstate-network`, v2)
+
+> **v2** added the required `ConnectorPath.stop` flag. v1 files cannot express
+> which approaches of a `yield` node carry a stop sign, so readers reject them
+> rather than defaulting the field.
 
 Built by the front end from the scenario + the currently selected options, every time Run starts a new layout. Also exported to `data/compiled/` by `tools/compile-cli.ts` for headless tests.
 
 ```jsonc
 {
   "format": "flowstate-network",
-  "version": 1,
+  "version": 2,
   "scenario": "test-grid",
   "layout": { "edges": { "eB1": "current", … }, "nodes": { "n11": "current", … } },
   "units": { "length": "m", "speed": "m/s", "time": "s" },
@@ -315,6 +319,7 @@ Built by the front end from the scenario + the currently selected options, every
 | `turn` | `through` · `left` · `right` |
 | `length`, `speedLimit` | Turns use 6.7 m/s (15 mph); through uses the lower of the two lanes' limits. |
 | `phase` | Signal phase ID, or null. |
+| `stop` | **v2.** True when a car must come to a full stop at the end of the incoming lane: every connector at an `allStop` node, and connectors from the minor approaches of a `yield` node (incoming edge not in `majorEdges`). False at signals, merges, roundabouts and `none`. Compiled in because `majorEdges` never reaches the engine. Says only *whether* to stop — who to give way to is `yieldTo`/`conflicts`, and the gap length comes from `control` (§8.4). |
 | `conflicts` | `[{path, type: "cross" \| "merge"}]`: connectors at the same node that cross this one or end in the same lane. Connectors from the same lane are never listed (cars on them are already in line). |
 | `yieldTo` | Connector IDs this one must give way to (see §8.4). |
 
@@ -334,7 +339,7 @@ Built by the front end from the scenario + the currently selected options, every
 6. **Connector shape:** A quadratic Bézier from the end of the incoming lane to the start of the outgoing lane, with its control point where the two lane directions intersect (a straight line if they're parallel). It must start and end **exactly** on the lane endpoints.
 7. **Conflicts:** Two connectors at the same node conflict if they end in the same lane (`merge`) or their curves intersect (`cross`), unless they start from the same lane.
 8. **Signal phases** (`signal`): two phases, `NS` and `EW`, by the incoming lane's heading. `signalProtectedLeft`: four phases (`NS-left`, `NS`, `EW-left`, `EW`), with lefts only in their left phase.
-9. **Yields:** see §8.4.
+9. **Yields and stops:** see §8.4. Set `stop` per the `ConnectorPath` table above. At a `yield` node, each minor-approach connector's `yieldTo` lists the conflicting connectors from the major approaches (the ones that don't stop).
 10. **Roundabouts:** replace the node with a ring of short one-lane ring connectors (counterclockwise), plus entry connectors (each approach → ring) and exit connectors (ring → each departure). Entries list the ring sections they join as `yieldTo`. Cars on the ring follow each other like on any lane.
 
 ### 7.5 Preset file (`flowstate-preset`, v1)
