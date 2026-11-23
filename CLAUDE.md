@@ -48,7 +48,9 @@ Browser-based 3D traffic sandbox of downtown Dallas (CS 4366 graphics class proj
 - For visual work, describe what should be visible so Dev can confirm in the browser; don't claim it looks right without checking.
 
 ## Agents
-- Orchestration runs on Opus; delegated subagents run on **Sonnet** (pass `model: "sonnet"` when spawning). Keep subagent tasks self-contained — they start without this session's context. If a task needs Opus-level reasoning, Dev will say so in chat.
+- Opus orchestrates; the actual work — coding, research, searching the codebase — gets delegated to **Sonnet** subagents to save tokens and usage limits. Spawn the plain `general-purpose` agent with `model: "sonnet"` and a specific prompt. Don't reach for persona or specialist agent types; the prompt carries the instructions.
+- Subagents start cold, so each prompt must be self-contained: the files to touch, the relevant PRD section or plan step, the conventions that apply, and what "done" looks like (usually `npm run typecheck` + `npm test`).
+- Opus keeps the design decisions, contract calls, review of what comes back, and anything touching `shared/`. If a task needs Opus-level reasoning, Dev will say so in chat.
 
 ## Git
 - Dev works on a local feature branch; Sashank on his own. Merge to `main` via PRs.
