@@ -12,3 +12,15 @@ computes a coordinate — the front end owns all geometry.
 - Contract types and the message protocol live in `shared/` (changes need both owners' agreement).
 - `src/index.ts` is a placeholder so `@engine/*` imports resolve.
 - Until this engine is ready the front end runs against `web/src/sim/stubEngine.ts`.
+
+## Layout
+- `src/idm.ts` — Intelligent Driver Model car following (PRD §8.2), fixed dt = 0.1 s.
+- `src/ring.ts` — S1 test bed: single-lane 1 km ring where one slow car triggers a stop-and-go wave.
+- `test/*.test.ts` — Vitest suites (run by the root `npm test`).
+- `test/wave.ts` — headless space-time diagram of the ring road.
+
+## Commands (from the repo root)
+- `npm test` — all tests, including the engine's.
+- `npm run typecheck` — covers `engine/src` and `engine/test`.
+- `npx tsx engine/test/wave.ts [--cars 60] [--seconds 600] [--row 10]` — print the S1 wave diagram.
+  Inside a sandbox that blocks local pipes, use `node --import tsx engine/test/wave.ts` instead.

@@ -1,8 +1,8 @@
 /**
  * Headless S1 demo: prints a space-time diagram of the ring road.
  *
- *   npm run wave
- *   npm run wave -- --cars 50 --seconds 900
+ *   npx tsx engine/test/wave.ts
+ *   npx tsx engine/test/wave.ts --cars 50 --seconds 900
  *
  * Each row is a moment in time (top = start). Each column is a stretch of road.
  * Characters show the slowest car in that stretch:
