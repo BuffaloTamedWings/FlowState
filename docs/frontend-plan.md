@@ -29,11 +29,11 @@ Steps from empty repo to the MVP, then polish. Each step has a **Done when** che
 **Done when:** `npm run dev` shows the canvas with a ground plane and the console logs `22 nodes, 25 edges`; `npm run typecheck` and `npm test` pass. Sashank is told the layout exists.
 
 ## 2. Contract types (`shared/`)
-- [ ] `scenario.ts` — Scenario, Node, NodeOption, Edge, EdgeOption, Lane, Point, Scenery (PRD §7.2).
-- [ ] `network.ts` — CompiledNetwork, LanePath, ConnectorPath, CompiledNode, CompiledPoint (§7.4).
-- [ ] `preset.ts` — Preset (§7.5).
-- [ ] `messages.ts` — UI→Engine and Engine→UI message unions, tick/stats buffer layout constants (§7.6).
-- [ ] Type-check the starter files against these (a test that imports the JSON and assigns it to the types).
+- [x] `scenario.ts` — Scenario, Node, NodeOption, Edge, EdgeOption, Lane, Point, Scenery (PRD §7.2).
+- [x] `network.ts` — CompiledNetwork, LanePath, ConnectorPath, CompiledNode, CompiledPoint (§7.4).
+- [x] `preset.ts` — Preset (§7.5).
+- [x] `messages.ts` — UI→Engine and Engine→UI message unions, tick/stats buffer layout constants (§7.6).
+- [x] Type-check the starter files against these (a test that imports the JSON and assigns it to the types).
 
 **Done when:** types compile, starter files type-check, and Sashank has signed off.
 
@@ -118,3 +118,5 @@ Steps from empty repo to the MVP, then polish. Each step has a **Done when** che
 _Add a line per session: date, what got done, anything blocked._
 
 - **2026-11-23** — Step 1 done on `dev/scaffold`: single-package Vite + TS (strict) app, `@shared`/`@engine`/`@web` aliases in tsconfig + vite, PRD §6 folders, scripts (`compile`/`sim` are stubs), Three.js canvas with OrbitControls + ground plane fetching `test-grid.scenario.json` (logs 22 nodes, 25 edges), `.gitignore`, Vitest smoke test over the starter JSON files. `npm run typecheck` and `npm test` pass; dev server serves `/data/*` via a small Vite plugin (data lives outside the Vite root). Pinned `vitest@^3` — `vitest@>=4` crashes npm 10.9.2's installer (`edgesOut`); revisit after an npm upgrade, which also clears the dev-only tinypool/mocker advisories. Rendering confirmed over HTTP only (page, module and scenario all 200) — Dev to eyeball the canvas. Next: tell Sashank the layout exists, then step 2 (`shared/` contract types).
+
+- **2026-11-23 (later)** — Step 2: `shared/{common,scenario,network,preset,messages}.ts` written against PRD §7, full spec including roundabout/protected-left/yield controls and params (deferred compiles, not deferred types). `shared/contract.test.ts` validates all five starter files — every enum against its `const` array, every ID reference, phase/control consistency, point access, trip shares, and the tick/stats buffer round-trip. 30 tests pass, typecheck clean. Two findings: (a) `network.nodes` excludes boundary/rampEnd nodes, so `LanePath.fromNode` can name a node with no `CompiledNode` — now documented and tested; (b) PRD §7.4 rule 10 doesn't say what `from`/`to`/`turn` hold for roundabout *ring* connectors, flagged for Sashank, blocks nothing before step 11. Also collapsed `engine/` into the root package per Dev — `engine/README.md` tells Sashank to drop his `engine/package.json`, `tsconfig.json` and lockfile on merge, and `web/test/aliases.test.ts` proves `@shared`/`@engine` resolve. Not blocking on sign-off: moving to step 3.
