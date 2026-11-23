@@ -5,6 +5,8 @@
  * Units: meters, seconds, m/s.
  */
 
+import { SIM_DT } from '@shared/messages.js';
+
 export interface IdmParams {
   /** Desired time headway T (s). */
   timeHeadway: number;
@@ -28,9 +30,6 @@ export const DEFAULT_IDM: Readonly<IdmParams> = Object.freeze({
   delta: 4,
   carLength: 4.5,
 });
-
-/** Fixed simulation timestep (s). PRD §8.1: playback speed never changes dt. */
-export const DT = 0.1;
 
 /**
  * IDM acceleration.
@@ -78,7 +77,7 @@ export function equilibriumSpeed(gap: number, v0: number, p: Readonly<IdmParams>
  * Advance one car by dt with a ballistic update, never letting speed go negative.
  * Returns the new speed and the distance travelled during the step.
  */
-export function integrate(v: number, accel: number, dt: number = DT): { v: number; ds: number } {
+export function integrate(v: number, accel: number, dt: number = SIM_DT): { v: number; ds: number } {
   const vNext = v + accel * dt;
   if (vNext >= 0) return { v: vNext, ds: v * dt + 0.5 * accel * dt * dt };
   // Car stops partway through the step: travel only until v reaches 0.
