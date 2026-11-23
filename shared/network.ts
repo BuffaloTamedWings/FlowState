@@ -15,10 +15,15 @@
  */
 
 import type { Polyline, Units } from './common.js';
-import type { NodeControl, Turn } from './scenario.js';
+import type { NodeControl, PointType, Turn } from './scenario.js';
 
 export const NETWORK_FORMAT = 'flowstate-network';
-export const NETWORK_VERSION = 1;
+/**
+ * v2 added the required `ConnectorPath.stop` flag. A v1 file has no way to say
+ * which approaches of a `yield` node carry a stop sign, so it cannot be
+ * simulated correctly — reject v1 rather than defaulting the field.
+ */
+export const NETWORK_VERSION = 2;
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -136,6 +141,25 @@ export interface ConnectorPath extends PathBase {
   turn: ConnectorTurn;
   /** Signal phase that releases this connector, or null when unsignalized. */
   phase: string | null;
+  /**
+   * Cars must come to a full stop at the end of the incoming lane before
+   * entering this connector (a stop sign). True for every connector at an
+   * `allStop` node, and for connectors from the minor approaches of a `yield`
+   * node — those whose incoming lane's edge is not in the node option's
+   * `majorEdges`. False everywhere else, including signals, merges, roundabouts
+   * and `none`.
+   *
+   * Compiled in because `majorEdges` lives in the scenario, which the engine
+   * never sees. `stop` says only *whether* to stop; who to give way to
+   * afterwards is `yieldTo` / `conflicts`, and how long a gap to wait for comes
+   * from the node's `control` (PRD §8.4: 4 s at yield and roundabouts, 3 s at
+   * merges).
+   *
+   * Stopping happens at the stop line — before a car has committed to a
+   * connector — so this is really a property of the approach: every connector
+   * leaving a given lane carries the same value.
+   */
+  stop: boolean;
   conflicts: Conflict[];
   /** Connectors this one must give way to (PRD §8.4). */
   yieldTo: string[];
@@ -199,7 +223,7 @@ export interface PointAccess {
  */
 export interface CompiledPoint {
   id: string;
-  type: string;
+  type: PointType;
   weight: number;
   capacity?: number;
   access: PointAccess[];

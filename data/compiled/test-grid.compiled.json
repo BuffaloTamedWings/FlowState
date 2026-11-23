@@ -1,6 +1,6 @@
 {
  "format": "flowstate-network",
- "version": 1,
+ "version": 2,
  "scenario": "test-grid",
  "layout": {
   "edges": {
@@ -1510,6 +1510,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -1602,6 +1603,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -1698,6 +1700,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -1785,6 +1788,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -1877,6 +1881,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -1973,6 +1978,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2081,6 +2087,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2189,6 +2196,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2281,6 +2289,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2377,6 +2386,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2481,6 +2491,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2585,6 +2596,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n01/e1a/f/0>eB1/f/0",
     "C/n01/e1a/f/0>e1b/f/0"
@@ -2688,6 +2700,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n01/e1a/f/0>eB1/f/1",
     "C/n01/e1a/f/0>eB1/f/0",
@@ -2800,6 +2813,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -2900,6 +2914,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3012,6 +3027,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3108,6 +3124,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3220,6 +3237,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3332,6 +3350,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3444,6 +3463,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3540,6 +3560,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3652,6 +3673,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3748,6 +3770,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3860,6 +3883,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -3956,6 +3980,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4068,6 +4093,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": null,
+   "stop": true,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4180,6 +4206,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -4267,6 +4294,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -4354,6 +4382,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -4441,6 +4470,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -4528,6 +4558,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4628,6 +4659,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4732,6 +4764,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4824,6 +4857,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -4920,6 +4954,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5012,6 +5047,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5108,6 +5144,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5212,6 +5249,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5312,6 +5350,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5416,6 +5455,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n12/eA2/b/0>eA1/b/0",
     "C/n12/eA2/b/0>e2c/f/0"
@@ -5523,6 +5563,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n12/eA2/b/0>eA1/b/0",
     "C/n12/eA2/b/0>e2c/f/1",
@@ -5639,6 +5680,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5747,6 +5789,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5843,6 +5886,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -5947,6 +5991,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6051,6 +6096,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6143,6 +6189,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6251,6 +6298,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6359,6 +6407,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6451,6 +6500,7 @@
    "length": 24.0,
    "speedLimit": 17.88,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6547,6 +6597,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -6634,6 +6685,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -6721,6 +6773,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6813,6 +6866,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -6909,6 +6963,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7025,6 +7080,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7141,6 +7197,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7233,6 +7290,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7329,6 +7387,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7437,6 +7496,7 @@
    "length": 22.6,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7549,6 +7609,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7645,6 +7706,7 @@
    "length": 17.02,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7749,6 +7811,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7861,6 +7924,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -7969,6 +8033,7 @@
    "length": 19.55,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n21/e3a/f/1>eB3/f/0",
     "C/n21/e3a/f/0>e3b/f/0",
@@ -8085,6 +8150,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n21/e3a/f/1>eB3/f/1",
     "C/n21/e3a/f/1>eB3/f/0",
@@ -8210,6 +8276,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -8318,6 +8385,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -8430,6 +8498,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -8554,6 +8623,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -8650,6 +8720,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -8754,6 +8825,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n22/eA3/b/0>eA2/b/0",
     "C/n22/eA3/b/0>e3c/f/0"
@@ -8873,6 +8945,7 @@
    "length": 25.21,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n22/eA3/b/0>eA2/b/0",
     "C/n22/eA3/b/0>e3c/f/1",
@@ -9001,6 +9074,7 @@
    "length": 24.0,
    "speedLimit": 13.41,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -9125,6 +9199,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n22/eA2/f/0>eA3/f/0",
     "C/n22/eA2/f/0>e3b/b/0"
@@ -9244,6 +9319,7 @@
    "length": 25.21,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [
     "C/n22/eA2/f/0>eA3/f/0",
     "C/n22/eA2/f/0>e3b/b/1",
@@ -9372,6 +9448,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -9468,6 +9545,7 @@
    "length": 16.63,
    "speedLimit": 6.7,
    "phase": "EW",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -9572,6 +9650,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n22/e3c/b/1>eA2/b/0",
     "C/n22/e3c/b/0>e3b/b/0",
@@ -9700,6 +9779,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -9796,6 +9876,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -9916,6 +9997,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10036,6 +10118,7 @@
    "length": 13.91,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10132,6 +10215,7 @@
    "length": 22.31,
    "speedLimit": 6.7,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [
     "C/n22/e3b/f/1>eA3/f/0",
     "C/n22/e3b/f/0>e3c/f/0",
@@ -10260,6 +10344,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10380,6 +10465,7 @@
    "length": 24.0,
    "speedLimit": 15.65,
    "phase": "NS",
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10500,6 +10586,7 @@
    "length": 16.0,
    "speedLimit": 17.88,
    "phase": null,
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10596,6 +10683,7 @@
    "length": 16.0,
    "speedLimit": 17.88,
    "phase": null,
+   "stop": false,
    "yieldTo": [],
    "conflicts": [
     {
@@ -10688,6 +10776,7 @@
    "length": 15.72,
    "speedLimit": 15.65,
    "phase": null,
+   "stop": false,
    "yieldTo": [
     "C/M/eF5/f/0>eF4/f/0"
    ],
@@ -10782,6 +10871,7 @@
    "length": 16.19,
    "speedLimit": 15.65,
    "phase": null,
+   "stop": false,
    "yieldTo": [
     "C/M/eF5/f/0>eF4/f/0",
     "C/M/eF5/f/1>eF4/f/1"
@@ -10881,6 +10971,7 @@
    "length": 16.0,
    "speedLimit": 17.88,
    "phase": null,
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -10968,6 +11059,7 @@
    "length": 16.0,
    "speedLimit": 17.88,
    "phase": null,
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [
@@ -11055,6 +11147,7 @@
    "length": 15.67,
    "speedLimit": 15.65,
    "phase": null,
+   "stop": false,
    "yieldTo": [],
    "conflicts": [],
    "debugPolyline": [

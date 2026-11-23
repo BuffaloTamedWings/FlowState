@@ -509,7 +509,7 @@ def make_conn(node, a, b, turn, kind="turn"):
     c = {
         "id": f"C/{node}/{a['id'][2:]}>{b['id'][2:]}", "kind": "connector", "node": node,
         "from": a["id"], "to": b["id"], "turn": turn, "length": r2(poly_len(pts)), "speedLimit": spd,
-        "phase": None, "yieldTo": [], "conflicts": [], "isBranch": kind == "branch",
+        "phase": None, "stop": False, "yieldTo": [], "conflicts": [], "isBranch": kind == "branch",
         "debugPolyline": [[r2(x), r2(y)] for x, y in pts],
     }
     connectors.append(c)
@@ -611,6 +611,28 @@ for nid, cs in by_node.items():
             if typ:
                 a["conflicts"].append({"path": b["id"], "type": typ})
                 b["conflicts"].append({"path": a["id"], "type": typ})
+    # PRD 8.4: a full stop at the stop line is required at an all-way stop, and
+    # on the minor approaches of a yield node (those whose edge is not in
+    # `majorEdges`). Signals, merges, roundabouts and `none` never stop.
+    # This is a property of the *approach*, so every connector leaving a given
+    # lane gets the same answer.
+    if control == "allStop":
+        for c in cs:
+            c["stop"] = True
+    elif control == "yield":
+        major = set(sel_node[nid].get("params", {}).get("majorEdges", []))
+        for c in cs:
+            src = next(p for p in paths if p["id"] == c["from"])
+            c["stop"] = src["edge"] not in major
+        # Rule 9: after stopping, a minor approach gives way to the major
+        # approaches it conflicts with.
+        for c in cs:
+            if not c["stop"]:
+                continue
+            c["yieldTo"] = [
+                cf["path"] for cf in c["conflicts"]
+                if not next(x for x in cs if x["id"] == cf["path"])["stop"]
+            ]
     phases = None
     if control == "signal":
         groups = {"NS": [], "EW": []}
@@ -676,7 +698,7 @@ for p in all_paths:
 
 compiled = {
     "format": "flowstate-network",
-    "version": 1,
+    "version": 2,
     "scenario": "test-grid",
     "layout": {
         "edges": {e["id"]: e["selected"] for e in scenario["edges"]},
