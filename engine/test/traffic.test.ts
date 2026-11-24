@@ -37,7 +37,7 @@ const car = (id: number, leg: number, s: number, v = 10): Car => ({ id, route: R
 function scan(net: Network, cars: Car[], who: Car, lookahead?: number) {
   const occ = new Occupancy(net.count);
   occ.rebuild(cars);
-  return lookAhead(who, net, occ, DEFAULT_IDM, lookahead);
+  return lookAhead(who, net, occ, lookahead);
 }
 
 describe('lookAhead on a lane → turn → lane road', () => {

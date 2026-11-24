@@ -1,36 +1,46 @@
 /**
- * S2: cars driving along routes on a loaded network.
+ * S2/S3: vehicles driving along routes on a loaded network.
  *
- * A car is just `(route, leg, s, v)`: which path it's on (`route[leg]`), how far
- * along it is, and how fast it's going. No coordinates — the front end owns geometry.
+ * A vehicle is just `(route, leg, s, v)`: which path it's on (`route[leg]`), how
+ * far along it is, and how fast it's going. `s` is the **front bumper**; the body
+ * extends `params.carLength` behind it, possibly back onto the previous path.
+ * No coordinates — the front end owns geometry.
  *
- * Each step, every car looks ahead along its own route for (a) the nearest car in
- * front, which may be on a later path, and (b) any slower speed limit coming up,
- * so it brakes for a turn before it gets there. IDM picks the acceleration from
- * (a), capped by (b).
+ * Each step, every vehicle looks ahead along its own route for (a) the nearest
+ * vehicle in front, which may be on a later path, and (b) any slower speed limit
+ * coming up, so it brakes for a turn before it gets there. IDM picks the
+ * acceleration from (a), capped by (b). Each vehicle uses its own IdmParams, and
+ * gaps are measured to the leader's rear bumper using the *leader's* length.
  *
- * Not here yet: stop lines and intersection control (S5). Cars on two different
- * connectors that cross or merge don't see each other until S5 adds conflicts.
+ * Not here yet: stop lines and intersection control (S5). Vehicles on two
+ * different connectors that cross or merge don't see each other until S5.
  */
 import { SIM_DT } from '@shared/messages.js';
 import { DEFAULT_IDM, idmAccel, integrate, type IdmParams } from './idm.js';
 import type { Network } from './network.js';
 
 export interface Car {
-  /** Unique within a run. Cars are processed in ID order for determinism. */
+  /** Unique within a run. Vehicles are processed in ID order for determinism. */
   readonly id: number;
-  /** Path indices from origin to destination. */
-  readonly route: Int32Array;
+  /** Path indices from origin to destination. Replaced when the vehicle re-routes. */
+  route: Int32Array;
   /** Position in `route`; the current path is `route[leg]`. */
   leg: number;
-  /** Meters along the current path. */
+  /** Meters along the current path (front bumper). */
   s: number;
   /** m/s. */
   v: number;
+  /** Driving parameters and length. Default: a car. */
+  params?: Readonly<IdmParams>;
+  /**
+   * Where the trip ends on the last path of the route (m). Default: the end of
+   * that path (a sink). Garages and lunch zones end mid-lane.
+   */
+  endS?: number;
 }
 
 export interface Leader {
-  /** Bumper-to-bumper distance (m). */
+  /** Bumper-to-bumper distance (m): to the leader's rear, using its length. */
   gap: number;
   /** Leader speed (m/s). */
   speed: number;
@@ -41,18 +51,23 @@ export interface LookAhead {
   /** Desired speed: the current path's limit. */
   v0: number;
   /**
-   * Upper bound on acceleration (m/s², usually negative) so the car reaches every
-   * slower path ahead at no more than that path's limit. +Infinity if no slowdown is needed.
+   * Upper bound on acceleration (m/s², usually negative) so the vehicle reaches
+   * every slower path ahead at no more than that path's limit. +Infinity if no
+   * slowdown is needed.
    */
   maxAccel: number;
 }
 
-/** Default distance a car scans ahead for leaders and speed drops (m). */
+/** Default distance a vehicle scans ahead for leaders and speed drops (m). */
 export const LOOKAHEAD_M = 150;
 
 export const currentPath = (car: Car): number => car.route[car.leg]!;
+export const paramsOf = (car: Car): Readonly<IdmParams> => car.params ?? DEFAULT_IDM;
+export const lengthOf = (car: Car): number => paramsOf(car).carLength;
+export const endSOf = (car: Car, net: Network): number =>
+  car.endS ?? net.length[car.route[car.route.length - 1]!]!;
 
-/** Cars on each path, front first (largest `s`). Rebuilt each step in a fixed order. */
+/** Vehicles on each path, front first (largest `s`). Rebuilt each step in a fixed order. */
 export class Occupancy {
   private readonly lists: Car[][];
 
@@ -72,24 +87,18 @@ export class Occupancy {
 }
 
 /**
- * Scan forward along the car's route: find its leader and its desired speed.
+ * Scan forward along the vehicle's route: find its leader and speed cap.
  *
- * Leader: the car directly ahead on the same path, else the rearmost car on the
- * first later path in the route that has one. Null if nothing within `lookahead`
- * or the route ends first (the end of the route is the destination).
+ * Leader: the vehicle directly ahead on the same path, else the rearmost vehicle
+ * on the first later path in the route that has one. Null if nothing within
+ * `lookahead` or the route ends first (the end of the route is the destination).
  *
- * Speed drops: for each later path at distance d whose limit is below the car's
- * speed, constant braking of (v² − limit²) / 2d gets it there at the limit. The
- * strongest of those is the cap. Braking starts gently as soon as the slower path
- * comes within the lookahead, the way a driver eases off before a turn.
+ * Speed drops: for each later path at distance d whose limit is below the
+ * vehicle's speed, constant braking of (v² − limit²) / 2d gets it there at the
+ * limit. The strongest of those is the cap. Braking starts gently as soon as the
+ * slower path comes within the lookahead, the way a driver eases off before a turn.
  */
-export function lookAhead(
-  car: Car,
-  net: Network,
-  occ: Occupancy,
-  p: Readonly<IdmParams> = DEFAULT_IDM,
-  lookahead: number = LOOKAHEAD_M,
-): LookAhead {
+export function lookAhead(car: Car, net: Network, occ: Occupancy, lookahead: number = LOOKAHEAD_M): LookAhead {
   const path = currentPath(car);
   const v0 = net.speedLimit[path]!;
   let maxAccel = Infinity;
@@ -99,7 +108,14 @@ export function lookAhead(
   const k = here.indexOf(car);
   if (k > 0) {
     const lead = here[k - 1]!;
-    leader = { gap: lead.s - car.s - p.carLength, speed: lead.v };
+    leader = { gap: lead.s - lengthOf(lead) - car.s, speed: lead.v };
+  } else if (k < 0) {
+    // Not registered on its path (e.g. a vehicle being tested for insertion):
+    // the leader is the rearmost vehicle on this path that is ahead of it.
+    for (let i = here.length - 1; i >= 0; i--) {
+      const c = here[i]!;
+      if (c.s > car.s) { leader = { gap: c.s - lengthOf(c) - car.s, speed: c.v }; break; }
+    }
   }
 
   let dist = net.length[path]! - car.s; // distance to the start of the next path
@@ -111,7 +127,7 @@ export function lookAhead(
     if (leader === null) {
       const there = occ.on(next);
       const rear = there[there.length - 1];
-      if (rear !== undefined && rear !== car) leader = { gap: dist + rear.s - p.carLength, speed: rear.v };
+      if (rear !== undefined && rear !== car) leader = { gap: dist + rear.s - lengthOf(rear), speed: rear.v };
     }
     dist += net.length[next]!;
   }
@@ -119,45 +135,47 @@ export function lookAhead(
   return { leader, v0, maxAccel };
 }
 
+/** Acceleration the vehicle would choose right now (IDM capped for slower paths ahead). */
+export function chooseAccel(car: Car, net: Network, occ: Occupancy): number {
+  const p = paramsOf(car);
+  const { leader, v0, maxAccel } = lookAhead(car, net, occ);
+  const a = leader ? idmAccel(car.v, v0, leader.gap, leader.speed, p) : idmAccel(car.v, v0, Infinity, 0, p);
+  return Math.min(a, maxAccel);
+}
+
 export interface StepResult {
-  /** IDs of cars that reached the end of their route this step, in ID order. */
+  /** IDs of vehicles that reached the end of their trip this step, in ID order. */
   finished: number[];
+  /** IDs of vehicles that moved onto a new lane path this step (re-route opportunities). */
+  enteredLane: number[];
 }
 
 /**
- * Advance every car by one step. Two phases, like the ring road: all cars decide
+ * Advance every vehicle by one step. Two phases, like the ring road: all decide
  * from the same snapshot, then all move. `cars` must be sorted by ID; finished
- * cars are removed from it in place.
+ * vehicles are removed from it in place.
  */
-export function stepCars(
-  net: Network,
-  cars: Car[],
-  occ: Occupancy,
-  p: Readonly<IdmParams> = DEFAULT_IDM,
-  dt: number = SIM_DT,
-): StepResult {
+export function stepCars(net: Network, cars: Car[], occ: Occupancy, dt: number = SIM_DT): StepResult {
   occ.rebuild(cars);
 
   const accel = new Float64Array(cars.length);
-  cars.forEach((car, i) => {
-    const { leader, v0, maxAccel } = lookAhead(car, net, occ, p);
-    const a = leader
-      ? idmAccel(car.v, v0, leader.gap, leader.speed, p)
-      : idmAccel(car.v, v0, Infinity, 0, p);
-    accel[i] = Math.min(a, maxAccel);
-  });
+  cars.forEach((car, i) => { accel[i] = chooseAccel(car, net, occ); });
 
   const finished: number[] = [];
+  const enteredLane: number[] = [];
   cars.forEach((car, i) => {
     const { v, ds } = integrate(car.v, accel[i]!, dt);
     car.v = v;
     car.s += ds;
-    // Carry overshoot onto the next path; a fast car may cross a short connector in one step.
+    // Carry overshoot onto the next path; a fast vehicle may cross a short connector in one step.
+    let movedToLane = false;
     while (car.s >= net.length[currentPath(car)]! && car.leg < car.route.length - 1) {
       car.s -= net.length[currentPath(car)]!;
       car.leg++;
+      if (net.isLane[currentPath(car)] === 1) movedToLane = true;
     }
-    if (car.leg === car.route.length - 1 && car.s >= net.length[currentPath(car)]!) finished.push(car.id);
+    if (car.leg === car.route.length - 1 && car.s >= endSOf(car, net)) finished.push(car.id);
+    else if (movedToLane) enteredLane.push(car.id);
   });
 
   if (finished.length > 0) {
@@ -166,5 +184,5 @@ export function stepCars(
     for (const car of cars) if (!done.has(car.id)) cars[w++] = car;
     cars.length = w;
   }
-  return { finished };
+  return { finished, enteredLane };
 }
