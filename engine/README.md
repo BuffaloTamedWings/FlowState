@@ -2,6 +2,8 @@
 
 **Owner: Sashank.** Dev does not edit anything in this folder.
 
+See `CONTEXT.md` for how the engine works, design decisions, results and next steps.
+
 The engine is TypeScript running in a Web Worker (and headless in Node for
 tests). It must not import Three.js and must not touch the DOM.
 
