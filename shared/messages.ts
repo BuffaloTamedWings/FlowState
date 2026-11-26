@@ -14,6 +14,7 @@
 
 import type { CompiledNetwork } from './network.js';
 import type { Preset } from './preset.js';
+import { VEHICLE_CODE_BITS } from './vehicles.js';
 
 // ---------------------------------------------------------------------------
 // Timing
@@ -39,7 +40,23 @@ export const TICK_STRIDE = 5;
 export const TICK_VEHICLE_ID = 0;
 /** Index into `CompiledNetwork.paths`. */
 export const TICK_PATH_INDEX = 1;
-/** Meters along that path. */
+/**
+ * Meters along that path, measured to the vehicle's **front bumper**.
+ *
+ * A vehicle extends *backward* from `s` by its length
+ * (`shared/vehicles.ts`), so for anything longer than a car the rear may still
+ * be on the path the vehicle came from. When the front end draws long
+ * vehicles it should place the rear at `s - length`, walking back onto the
+ * previous path when that goes negative, so a trailer follows a turn instead
+ * of cutting the corner.
+ *
+ * Two things that walk-back needs and the tick doesn't carry: predecessor
+ * links (`CompiledPath` has `next` but no `prev` — invert it) and *which*
+ * predecessor this vehicle actually came from, since a connector can have
+ * several. The front end already keeps the last two ticks per `vehicleId` for
+ * interpolation, so it can read the previous path from there. None of that is
+ * needed yet; this records the convention so the renderer is built against it.
+ */
 export const TICK_S = 2;
 /** Meters per second. */
 export const TICK_SPEED = 3;
@@ -49,6 +66,17 @@ export const TICK_FLAGS = 4;
 export const TICK_FLAG_BRAKING = 1 << 0;
 export const TICK_FLAG_STOPPED = 1 << 1;
 export const TICK_FLAG_YIELDING = 1 << 2;
+
+/**
+ * Bits 3-4 of `TICK_FLAGS` carry the vehicle type `code` from
+ * `shared/vehicles.ts`, so per-vehicle size rides along without widening the
+ * tick (`TICK_STRIDE` stays 5).
+ *
+ * Backward compatible by construction: a sender that knows nothing about
+ * vehicle types leaves these bits at 0, which decodes to `car`.
+ */
+export const TICK_FLAG_VEHICLE_SHIFT = 3;
+export const TICK_FLAG_VEHICLE_MASK = ((1 << VEHICLE_CODE_BITS) - 1) << TICK_FLAG_VEHICLE_SHIFT;
 
 // ---------------------------------------------------------------------------
 // Stats buffer: 4 floats per path, indexed by the path's `index`
@@ -233,6 +261,25 @@ export function writeTickCar(buf: Float32Array, i: number, car: TickCar): void {
 
 export function hasFlag(flags: number, mask: number): boolean {
   return (flags & mask) !== 0;
+}
+
+/** Reads the vehicle type code out of a flags word. Pair with `vehicleTypeByCode`. */
+export function vehicleCodeOf(flags: number): number {
+  return (flags & TICK_FLAG_VEHICLE_MASK) >>> TICK_FLAG_VEHICLE_SHIFT;
+}
+
+/**
+ * Returns `flags` with the vehicle type code replaced, leaving the braking,
+ * stopped and yielding bits untouched.
+ *
+ * `code` is masked to the reserved width rather than validated: this runs once
+ * per vehicle per tick, and `VEHICLE_TYPES` codes are range-checked by a
+ * contract test, so the only way to arrive here out of range is a bug that
+ * should not take down a frame.
+ */
+export function withVehicleCode(flags: number, code: number): number {
+  const bits = (code << TICK_FLAG_VEHICLE_SHIFT) & TICK_FLAG_VEHICLE_MASK;
+  return (flags & ~TICK_FLAG_VEHICLE_MASK) | bits;
 }
 
 /** One path's slice of a stats buffer, by the path's `index`. */
