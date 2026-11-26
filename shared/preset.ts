@@ -9,6 +9,8 @@
  * field, `lighting`, plus `label` for the preset picker.
  */
 
+import { VEHICLE_TYPES, type VehicleTypeId } from './vehicles.js';
+
 export const PRESET_FORMAT = 'flowstate-preset';
 export const PRESET_VERSION = 1;
 
@@ -55,6 +57,13 @@ export interface Trip {
   to: TripEndpointType[];
 }
 
+/** One slice of the vehicle mix. */
+export interface VehicleShare {
+  type: VehicleTypeId;
+  /** Fraction of new vehicles of this type; shares sum to 1. */
+  share: number;
+}
+
 export interface PresetParking {
   /** Fraction of every garage already full at t = 0. */
   initialOccupancy: number;
@@ -73,6 +82,53 @@ export interface Preset {
   spawnRate: SpawnRate;
   trips: Trip[];
   parking: PresetParking;
+  /**
+   * Optional. Fraction of new vehicles of each type; shares sum to 1. Omitted
+   * means every vehicle is a car, which is why adding this did not need a
+   * `version` bump — nothing that already existed changed meaning, and the
+   * starter presets stay valid untouched.
+   */
+  vehicleMix?: VehicleShare[];
+}
+
+/** Tolerance for share sums, matching the trip-share check. */
+const SHARE_EPSILON = 1e-6;
+
+/**
+ * Validates a vehicle mix, returning a list of problems (empty means valid).
+ *
+ * Returns messages rather than throwing so a caller can report every problem
+ * with a preset at once instead of one per run.
+ */
+export function validateVehicleMix(mix: VehicleShare[] | undefined): string[] {
+  if (mix === undefined) return [];
+
+  const errors: string[] = [];
+  if (mix.length === 0) {
+    errors.push('vehicleMix is present but empty; omit it instead to mean "all cars"');
+    return errors;
+  }
+
+  const seen = new Set<string>();
+  let total = 0;
+  for (const entry of mix) {
+    if (!VEHICLE_TYPES.some((v) => v.id === entry.type)) {
+      errors.push(`unknown vehicle type ${JSON.stringify(entry.type)}`);
+    }
+    if (seen.has(entry.type)) errors.push(`duplicate vehicle type ${JSON.stringify(entry.type)}`);
+    seen.add(entry.type);
+    if (!(entry.share >= 0)) errors.push(`share for ${entry.type} must be >= 0, got ${entry.share}`);
+    total += entry.share;
+  }
+  if (Math.abs(total - 1) > SHARE_EPSILON) {
+    errors.push(`shares sum to ${total}, expected 1`);
+  }
+  return errors;
+}
+
+/** The mix a preset implies, defaulting to all cars when it declares none. */
+export function vehicleMixOf(preset: Preset): VehicleShare[] {
+  return preset.vehicleMix ?? [{ type: 'car', share: 1 }];
 }
 
 /** Demand at a given sim second, linearly interpolated from the curve. */

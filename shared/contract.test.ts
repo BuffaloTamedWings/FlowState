@@ -35,25 +35,46 @@ import {
   SCENARIO_FORMAT,
   SCENARIO_SOURCES,
   SCENARIO_VERSION,
+  LANE_WIDTHS,
   TURNS,
   laneWidth,
   selectedEdgeOption,
   selectedNodeOption,
   type Scenario,
 } from './scenario.js';
-import { LIGHTINGS, PRESET_FORMAT, PRESET_VERSION, SPAWN_RATE_UNITS, spawnRateAt, type Preset } from './preset.js';
+import {
+  LIGHTINGS,
+  PRESET_FORMAT,
+  PRESET_VERSION,
+  SPAWN_RATE_UNITS,
+  spawnRateAt,
+  validateVehicleMix,
+  vehicleMixOf,
+  type Preset,
+} from './preset.js';
 import {
   PLAYBACK_SPEEDS,
   SIM_DT,
   STATS_STRIDE,
   TICK_FLAG_BRAKING,
   TICK_FLAG_STOPPED,
+  TICK_FLAG_VEHICLE_MASK,
   TICK_FLAG_YIELDING,
   TICK_STRIDE,
   hasFlag,
   readTickCar,
+  vehicleCodeOf,
+  withVehicleCode,
   writeTickCar,
 } from './messages.js';
+import {
+  DEFAULT_VEHICLE_TYPE,
+  VEHICLE_CODE_BITS,
+  VEHICLE_TYPES,
+  vehicleTypeByCode,
+  vehicleTypeById,
+  type VehicleTypeId,
+} from './vehicles.js';
 
 const dataDir = resolve(import.meta.dirname, '../data');
 
@@ -370,6 +391,138 @@ describe('preset contract', () => {
     expect(spawnRateAt(rate, 50)).toBeCloseTo(15, 6);
     expect(spawnRateAt(rate, 100)).toBe(20);
     expect(spawnRateAt(rate, 999)).toBe(20); // clamped after the last point
+  });
+});
+
+describe('vehicle types', () => {
+  it('has unique ids and codes, with car as code 0', () => {
+    const ids = VEHICLE_TYPES.map((v) => v.id);
+    const codes = VEHICLE_TYPES.map((v) => v.code);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(codes).size).toBe(codes.length);
+    // Code 0 must be `car` so a sender that knows nothing about vehicle types
+    // (today's engine, the stub) decodes as a car rather than a semi.
+    expect(vehicleTypeByCode(0).id).toBe('car');
+    expect(DEFAULT_VEHICLE_TYPE.id).toBe('car');
+  });
+
+  it('keeps every code inside the bits reserved in the tick flags', () => {
+    const maxCode = (1 << VEHICLE_CODE_BITS) - 1;
+    for (const v of VEHICLE_TYPES) {
+      expect(v.code, `${v.id} code`).toBeGreaterThanOrEqual(0);
+      expect(v.code, `${v.id} code must fit in ${VEHICLE_CODE_BITS} bits`).toBeLessThanOrEqual(maxCode);
+      expect(Number.isInteger(v.code), `${v.id} code`).toBe(true);
+    }
+    // Room for one more type before this needs a contract change.
+    expect(VEHICLE_TYPES.length).toBeLessThanOrEqual(maxCode + 1);
+  });
+
+  it('gives every type a positive length and width, ordered car < truck < semi', () => {
+    for (const v of VEHICLE_TYPES) {
+      expect(v.length, `${v.id} length`).toBeGreaterThan(0);
+      expect(v.width, `${v.id} width`).toBeGreaterThan(0);
+      // A vehicle wider than a lane would clip neighbours once drawn.
+      expect(v.width, `${v.id} width vs lane width`).toBeLessThan(LANE_WIDTHS.car);
+    }
+    expect(vehicleTypeById('car').length).toBeLessThan(vehicleTypeById('truck').length);
+    expect(vehicleTypeById('truck').length).toBeLessThan(vehicleTypeById('semi').length);
+  });
+
+  it('falls back to car for unknown ids and codes instead of throwing', () => {
+    expect(vehicleTypeById('tractor').id).toBe('car');
+    expect(vehicleTypeByCode(3).id).toBe('car');
+    expect(vehicleTypeByCode(-1).id).toBe('car');
+  });
+});
+
+describe('vehicle type in tick flags', () => {
+  it('round-trips every type without disturbing the other flags', () => {
+    const others = [
+      0,
+      TICK_FLAG_BRAKING,
+      TICK_FLAG_STOPPED,
+      TICK_FLAG_YIELDING,
+      TICK_FLAG_BRAKING | TICK_FLAG_STOPPED | TICK_FLAG_YIELDING,
+    ];
+    for (const v of VEHICLE_TYPES) {
+      for (const base of others) {
+        const flags = withVehicleCode(base, v.code);
+        expect(vehicleCodeOf(flags), `${v.id} over base ${base}`).toBe(v.code);
+        expect(vehicleTypeByCode(vehicleCodeOf(flags)).id).toBe(v.id);
+        // The three behavior bits must survive untouched.
+        expect(hasFlag(flags, TICK_FLAG_BRAKING)).toBe(hasFlag(base, TICK_FLAG_BRAKING));
+        expect(hasFlag(flags, TICK_FLAG_STOPPED)).toBe(hasFlag(base, TICK_FLAG_STOPPED));
+        expect(hasFlag(flags, TICK_FLAG_YIELDING)).toBe(hasFlag(base, TICK_FLAG_YIELDING));
+      }
+    }
+  });
+
+  it('reads a sender that knows nothing about vehicle types as car', () => {
+    const legacy = TICK_FLAG_BRAKING | TICK_FLAG_YIELDING;
+    expect(vehicleCodeOf(legacy)).toBe(0);
+    expect(vehicleTypeByCode(vehicleCodeOf(legacy)).id).toBe('car');
+  });
+
+  it('replaces rather than ORs the previous code', () => {
+    const asSemi = withVehicleCode(TICK_FLAG_STOPPED, 2);
+    const backToCar = withVehicleCode(asSemi, 0);
+    expect(vehicleCodeOf(backToCar)).toBe(0);
+    expect(hasFlag(backToCar, TICK_FLAG_STOPPED)).toBe(true);
+  });
+
+  it('survives a round trip through a Float32Array tick buffer', () => {
+    // Flags share the buffer with floats; the packed value must stay exact.
+    const buf = new Float32Array(TICK_STRIDE);
+    const flags = withVehicleCode(TICK_FLAG_BRAKING | TICK_FLAG_YIELDING, 2);
+    writeTickCar(buf, 0, { vehicleId: 7, pathIndex: 1, s: 12.5, speed: 9, flags });
+    const read = readTickCar(buf, 0);
+    expect(read.flags).toBe(flags);
+    expect(vehicleTypeByCode(vehicleCodeOf(read.flags)).id).toBe('semi');
+  });
+
+  it('does not collide with the behavior bits', () => {
+    const behavior = TICK_FLAG_BRAKING | TICK_FLAG_STOPPED | TICK_FLAG_YIELDING;
+    expect(TICK_FLAG_VEHICLE_MASK & behavior).toBe(0);
+  });
+});
+
+describe('preset vehicle mix', () => {
+  it('leaves the starter presets valid with no vehicleMix', () => {
+    for (const preset of presets) {
+      expect(preset.vehicleMix, `preset ${preset.id}`).toBeUndefined();
+      expect(validateVehicleMix(preset.vehicleMix), `preset ${preset.id}`).toEqual([]);
+      // An absent mix means all cars.
+      expect(vehicleMixOf(preset)).toEqual([{ type: 'car', share: 1 }]);
+    }
+  });
+
+  it('accepts a well-formed mix', () => {
+    expect(
+      validateVehicleMix([
+        { type: 'car', share: 0.9 },
+        { type: 'truck', share: 0.08 },
+        { type: 'semi', share: 0.02 },
+      ]),
+    ).toEqual([]);
+  });
+
+  it('rejects unknown types and shares that do not sum to 1', () => {
+    const unknown = validateVehicleMix([{ type: 'tractor' as VehicleTypeId, share: 1 }]);
+    expect(unknown.join(' ')).toContain('unknown vehicle type');
+
+    const badSum = validateVehicleMix([
+      { type: 'car', share: 0.5 },
+      { type: 'truck', share: 0.2 },
+    ]);
+    expect(badSum.join(' ')).toContain('sum to');
+
+    expect(validateVehicleMix([]).join(' ')).toContain('empty');
+    expect(
+      validateVehicleMix([
+        { type: 'car', share: 0.5 },
+        { type: 'car', share: 0.5 },
+      ]).join(' '),
+    ).toContain('duplicate');
   });
 });
 
