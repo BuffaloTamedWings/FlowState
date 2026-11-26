@@ -16,6 +16,7 @@
 import { SIM_DT, type CompletedTrip, type MetricsCounts } from '@shared/messages.js';
 import type { CompiledPoint, PointAccess } from '@shared/network.js';
 import type { Preset } from '@shared/preset.js';
+import { Intersections } from './control.js';
 import { Demand, freeSpaces, type ParkingState, type TripPlan } from './demand.js';
 import { idmAccel } from './idm.js';
 import type { Network } from './network.js';
@@ -25,7 +26,10 @@ import { chooseAccel, currentPath, lengthOf, Occupancy, paramsOf, stepCars, type
 import { VEHICLE_PARAMS } from './vehicles.js';
 
 /** A vehicle stopped this long is removed as gridlocked (PRD §8.5). */
-export const GRIDLOCK_SEC = 120;
+// PRD §8.5 suggests 120 s. With signals, an oversaturated approach can hold a queued
+// vehicle for several 60 s cycles without any deadlock (the drain tests prove the
+// network always empties), so 120 s removed legitimately queued vehicles.
+export const GRIDLOCK_SEC = 300;
 /** Below this speed a vehicle counts as stopped (m/s). */
 export const STOPPED_SPEED = 0.1;
 /** Seconds of expected wait per vehicle already queued, when choosing an origin lane. */
@@ -63,12 +67,20 @@ export interface SimCounts extends MetricsCounts {
   skipped: number;
 }
 
+export interface SimOptions {
+  /** Override the gridlock removal limit (s). */
+  gridlockSec?: number;
+}
+
 export class Sim {
   time = 0;
   /** Vehicles on the map, sorted by ID. */
   readonly cars: Car[] = [];
   readonly parking = new Map<string, ParkingState>();
   readonly router: Router;
+  readonly control: Intersections;
+  /** IDs of vehicles held at a stop line in the last step (for tick flags / metrics). */
+  held: ReadonlySet<number> = new Set();
 
   private readonly occ: Occupancy;
   private readonly travel: TravelTimes;
@@ -81,11 +93,16 @@ export class Sim {
   private stepCount = 0;
   private readonly counters = { requested: 0, entered: 0, finished: 0, skipped: 0, parkingFailed: 0, gridlockRemovals: 0 };
 
-  constructor(readonly net: Network, readonly preset: Preset, readonly seed: number) {
+  /** Seconds stopped before a vehicle is removed as gridlocked. */
+  readonly gridlockSec: number;
+
+  constructor(readonly net: Network, readonly preset: Preset, readonly seed: number, options: SimOptions = {}) {
+    this.gridlockSec = options.gridlockSec ?? GRIDLOCK_SEC;
     const rng = mulberry32(seed);
     this.occ = new Occupancy(net.count);
     this.travel = new TravelTimes(net);
     this.router = new Router(net, this.travel);
+    this.control = new Intersections(net);
 
     for (const p of net.points.values()) {
       if (p.type === 'parking') {
@@ -117,9 +134,12 @@ export class Sim {
     const dt = SIM_DT;
     this.request(dt);
     this.occ.rebuild(this.cars);
+    this.control.update(this.cars, this.occ, this.time);
     for (const q of this.queues) this.tryEnter(q);
+    this.control.update(this.cars, this.occ, this.time);
 
-    const { finished, enteredLane } = stepCars(this.net, this.cars, this.occ, dt);
+    const { finished, enteredLane, held } = stepCars(this.net, this.cars, this.occ, dt, this.control.gate);
+    this.held = new Set(held);
     for (const id of finished) this.finish(id);
     for (const id of enteredLane) this.maybeReroute(id);
     this.trackStopped(dt);
@@ -168,7 +188,7 @@ export class Sim {
       if (gap < params.minGap) return;
       if (!midLane) probe.v = Math.min(limit, ahead.v);
     }
-    if (chooseAccel(probe, this.net, this.occ) < -params.comfortDecel) return;
+    if (chooseAccel(probe, this.net, this.occ, this.control.gate) < -params.comfortDecel) return;
 
     // Anyone behind must be able to brake comfortably for the newcomer.
     for (const f of this.followersBehind(q.path, q.s, params.carLength)) {
@@ -249,7 +269,7 @@ export class Sim {
       if (car.v < STOPPED_SPEED) {
         t.stopped += dt;
         t.stoppedRun += dt;
-        if (t.stoppedRun > GRIDLOCK_SEC) removed = true;
+        if (t.stoppedRun > this.gridlockSec) removed = true;
       } else {
         t.stoppedRun = 0;
       }
@@ -258,7 +278,7 @@ export class Sim {
     let w = 0;
     for (const car of this.cars) {
       const t = this.trips.get(car.id)!;
-      if (t.stoppedRun > GRIDLOCK_SEC) {
+      if (t.stoppedRun > this.gridlockSec) {
         this.counters.gridlockRemovals++;
         this.trips.delete(car.id);
         const dest = t.plan.destination;

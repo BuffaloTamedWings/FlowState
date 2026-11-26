@@ -95,10 +95,13 @@ describe('vehicle mix on the test grid', () => {
       for (const c of sim.cars) if (!ids.has(c.id)) { ids.add(c.id); types[c.type ?? 'car']++; }
     }
     const c = sim.counts();
-    expect(c.finished).toBeGreaterThan(1000);
-    // Until S5 adds merge conflicts, cars from a second approach can keep cutting in
-    // ahead of a slow-starting truck at a merge, so it can occasionally starve past
-    // the 120 s gridlock limit. S5 should tighten this back to 0.
+    // Same preset with all cars, for comparison: trucks and semis take more room and
+    // start slower, so a little less gets through, but not dramatically less.
+    const allCars = new Sim(grid(), readPreset('morning'), 20261201);
+    allCars.run(1800);
+    expect(c.finished).toBeGreaterThan(0.85 * allCars.counts().finished);
+    // Morning is over capacity on the signalized test grid (see control.test.ts), so a
+    // few vehicles can queue past the gridlock limit; no deadlock (the drain tests).
     expect(c.gridlockRemovals).toBeLessThanOrEqual(5);
     expect(types.truck).toBeGreaterThan(0);
     expect(types.semi).toBeGreaterThan(0);

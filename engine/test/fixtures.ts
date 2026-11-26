@@ -1,7 +1,7 @@
 /** Small hand-built networks and presets for engine tests. */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import type { CompiledNetwork, CompiledPath, CompiledPoint } from '@shared/network.js';
+import type { CompiledNetwork, CompiledNode, CompiledPath, CompiledPoint } from '@shared/network.js';
 import type { Preset } from '@shared/preset.js';
 import { loadNetwork, type Network } from '../src/network.js';
 
@@ -21,7 +21,7 @@ export function conn(id: string, from: string, to: string, length: number, speed
   return { id, kind: 'connector', index: 0, node: 'n', from, to, turn: 'through', length, speedLimit, phase: null, stop: false, conflicts: [], yieldTo: [], next: [to] };
 }
 
-export function network(paths: CompiledPath[], points: CompiledPoint[] = []): Network {
+export function network(paths: CompiledPath[], points: CompiledPoint[] = [], nodes: CompiledNode[] = []): Network {
   return loadNetwork({
     format: 'flowstate-network',
     version: 2,
@@ -29,7 +29,7 @@ export function network(paths: CompiledPath[], points: CompiledPoint[] = []): Ne
     layout: { edges: {}, nodes: {} },
     units: { length: 'm', speed: 'm/s', time: 's' },
     paths: paths.map((p, index) => ({ ...p, index })),
-    nodes: [],
+    nodes,
     points,
   });
 }
@@ -63,4 +63,22 @@ export function preset(overrides: Partial<Preset>): Preset {
     parking: { initialOccupancy: 0 },
     ...overrides,
   };
+}
+
+/**
+ * A T-junction with a stop sign on the side street (a `yield` node):
+ * major M1 → Cmaj → M2 (no stop), minor m1 → Cmin → M2 (stop, then yield to Cmaj).
+ */
+export function yieldJunction(): Network {
+  const cmaj = { ...conn('Cmaj', 'M1', 'M2', 20, 15), conflicts: [{ path: 'Cmin', type: 'merge' as const }] };
+  const cmin = { ...conn('Cmin', 'm1', 'M2', 20, 6.7), turn: 'right' as const, stop: true, yieldTo: ['Cmaj'], conflicts: [{ path: 'Cmaj', type: 'merge' as const }] };
+  return network(
+    [lane('M1', 150, 15, ['Cmaj']), lane('m1', 100, 10, ['Cmin']), cmaj, cmin, lane('M2', 150, 15, [])],
+    [
+      { id: 'major', type: 'edgeSpawn', weight: 1, access: [{ path: 'M1', s: 0 }] },
+      { id: 'minor', type: 'edgeSpawn', weight: 1, access: [{ path: 'm1', s: 0 }] },
+      { id: 'out', type: 'edgeSink', weight: 1, access: [{ path: 'M2', s: 150 }] },
+    ],
+    [{ id: 'n', control: 'yield', phases: null, inPaths: ['M1', 'm1'], connectors: ['Cmaj', 'Cmin'] }],
+  );
 }

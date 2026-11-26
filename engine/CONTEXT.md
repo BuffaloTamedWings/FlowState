@@ -4,8 +4,8 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ on `backend` (S3/S4 not yet merged to `main`).
-Next: S5 (intersection control) + S7 (worker wrapper), due Wed 11/25.
+**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ · S5 ✅ on `backend` (S3 onward not yet merged to `main`).
+Next: S7 (worker wrapper), needed for first integration Fri 11/27; then S8 (metrics).
 
 ---
 
@@ -42,9 +42,10 @@ seed ─────────────────────────
 | `src/vehicles.ts` | S3 | Per-vehicle IDM behavior; lengths from `shared/vehicles.ts`. Default all cars. |
 | `src/routing.ts` | S4 | Cost-to-go tables, routes, travel times, re-route rule, free-flow time. |
 | `src/demand.ts` | S3 | Arrivals, trip / origin / destination choice, parking weights. |
+| `src/control.ts` | S5 | Intersection control: signal plans, vehicle bodies, the gate (signals, stops, yields, merges, don't block the box). |
 | `src/sim.ts` | S3 | `Sim` class tying it all together. S7's worker will wrap this. |
 | `test/*.test.ts` | | Vitest suites (run by root `npm test`). |
-| `test/fixtures.ts` | | Tiny hand-built networks/presets for tests. |
+| `test/fixtures.ts` | | Tiny hand-built networks/presets for tests (incl. a yield T-junction). |
 | `test/wave.ts` | S1 | Prints the ring-road space-time diagram. |
 | `test/load.ts` | S2 | Loads a compiled file and prints counts, or the validation error. |
 | `test/run.ts` | S3 | Headless preset run, one line per sim minute + trip summary (early S9). |
@@ -95,6 +96,35 @@ seed ─────────────────────────
 - **Re-route:** when a vehicle enters a new lane, if the best route from there is > 15% faster than the rest of its current route, it switches (PRD §8.3).
 - **Unreachable** = infinite cost. Used to filter origins/destinations at spawn. Layouts never change mid-run (edits restart from empty), so a destination can only be unreachable at spawn time.
 
+## S5: intersection control (2026-11-26)
+- **Mechanism:** a vehicle about to enter a connector asks `Intersections.gate(car, conn, distToLine)`. If refused, the end of its lane becomes a stopped leader in `lookAhead`, so IDM stops it at the line. No IDM changes. The gate reads one snapshot per step (`control.update`), so runs stay deterministic. Vehicles held at a line are reported in `StepResult.held` / `sim.held` (for S7's yielding flag and S8's metrics).
+- **Bodies:** each vehicle covers paths from its front back `length` meters along its route (`bodyPaths`), so a connector stays occupied until the **tail** leaves. Slivers under 1 µm are ignored (float leftovers).
+- **Rules for every control:**
+  - don't enter while any `cross` or `merge` conflict connector is occupied;
+  - give way (critical gap) to each connector in `mustYieldTo`;
+  - **don't block the box:** the outgoing lane needs room for length + min gap, after subtracting vehicles already on connectors into it, unless its rear vehicle is moving faster than 3 m/s.
+- **`mustYieldTo`** = the data's `yieldTo`, plus a deterministic tie-break: where two conflicting connectors have no yield relation either way (same phase at a signal, or any unsignalled control except all-way stop), the higher-index one yields. Without it both could enter in the same step.
+- **Signals:** fixed 60 s cycle, phases in array order, green ∝ distinct incoming lanes per phase, then 3 s yellow and 1 s all-red. Single-phase signals (`n10`) are always green. All offsets are 0 for now (S10 knob). Yellow means go only if you can't stop (v²/2b > distance). Red means stop. Protected-left is the same code with 4 phases.
+- **Permissive turns** yield to `yieldTo` traffic with a 4 s gap, using real arrival time = distance ÷ speed. A **stopped or crawling** priority vehicle (< 0.5 m/s) only counts if it could actually go: its own gate is open and IDM would accelerate it ≥ 0.3 m/s². Then use its time from rest. Otherwise a left-turner could wait forever on an oncoming car stuck behind a full lane.
+- **"Sneakers":** on yellow, a permissive turner waiting at the line may go, yielding only to oncoming vehicles too close to stop. Without this, lefts at busy signals never got a gap and blocked their lane for minutes.
+- **Stop signs** (`stop: true`): a vehicle must be below 0.1 m/s within min gap + 1.5 m of the line before the gate opens, and the stop time is recorded.
+  - All-way stop: first come, first served among conflicting approaches, but **only deferring to an earlier arrival that can actually go**. Deferring to one stuck behind a full lane deadlocked `n02` at night.
+  - Yield minor approach: stop, then a 4 s gap.
+- **Merge:** ramp connectors yield with a 3 s gap. **None** (diverge): shared rules only. **Roundabout:** generic 4 s yield to ring sections in `yieldTo`; real ring handling is S6.
+- **Gridlock limit raised 120 → 300 s** (`GRIDLOCK_SEC`, overridable with `new Sim(..., { gridlockSec })`). With signals, an oversaturated approach legitimately holds a queued vehicle for several cycles (measured up to 355 s in morning, with no deadlock). *This deviates from PRD §8.5's 120 s; revisit after S10 brings demand within capacity.*
+- **Bugs found and fixed while building it:**
+  1. Left-turners waiting forever on stopped oncoming cars (fixed by the free-to-go check and sneakers).
+  2. All-way-stop FCFS deadlock (only defer to vehicles that can go).
+  3. Float slivers making a cleared connector look occupied.
+- **Tests (`test/control.test.ts`):**
+  - Signal timing: lane-proportional split, yellow / all-red placement, single-phase always green, 4-phase protected-left.
+  - Semi body straddling a turn.
+  - **Safety invariants every step for 30 min of each preset, plus morning with trucks:** no two bodies on crossing connectors, no overlaps on any path, no red-light entries, no stop-sign entries without a stop.
+  - **Drain tests:** each preset, plus morning with trucks, empties completely once arrivals stop, with gridlock removal off.
+  - Nobody stops inside an intersection.
+  - Yield T-junction: minor vehicles always stop and only go with a gap; major vehicles only wait while a minor vehicle is already in the junction.
+  - Afternoon and night: 0 gridlock removals.
+
 ## Lanes (decision, 2026-11-23)
 - Each lane is its own path, so a vehicle's lane is just its path. **No mid-block lane changes** (PRD §1/§8.3).
 - Vehicles choose lanes **at intersections** via connectors (PRD §7.4 rule 4) and the routing cost, which includes congestion, so traffic spreads across lanes. This matters for the added-lane trap: a new lane only helps if vehicles use it.
@@ -106,17 +136,29 @@ seed ─────────────────────────
 - S7 must write `withVehicleCode(flags, vehicleCode(car.type ?? 'car'))` into each tick.
 - Tests (`test/vehicles.test.ts`): lengths equal shared, flag round-trip, invalid mix rejected, follower sees a semi's 18 m across a path boundary, mixed traffic keeps a positive gap everywhere on a merge-free road (incl. mid-lane garage exits), type shares match the mix.
 - Morning on the test grid with the PRD mix (90/8/2): 1214 finished vs 1232 all-cars, mean trip 164.5 s vs 142.5 s, entry queue 55.4 s vs 49.0 s.
-- **Known pre-S5 issue:** 1 gridlock removal with the mix. A box truck waiting to merge onto `eA1/b/0` kept getting cut off by newer cars from another approach (no merge conflicts yet), and a semi behind it passed 120 s stopped. S5's merge / FCFS rules should fix it; then tighten that test back to `gridlockRemovals === 0`.
+- **Pre-S5 issue (fixed by S5's merge rules):** 1 gridlock removal with the mix. A box truck waiting to merge onto `eA1/b/0` kept getting cut off by newer cars from another approach (no merge conflicts yet), and a semi behind it passed 120 s stopped. S5's merge / FCFS rules should fix it; then tighten that test back to `gridlockRemovals === 0`.
 - S5 must treat a connector as clear only when the vehicle's **tail** has left it, and "don't block the box" must reserve the full length.
 
 ---
 
-## Results on the test grid (no signals yet)
+## Results on the test grid
 
-`npx tsx engine/test/run.ts --preset <p> --minutes 30`, default seed:
+`npx tsx engine/test/run.ts --preset <p> --minutes 30`, default seed, **with S5 intersection control**:
 
-| Preset | Requested | Finished | Garages | Mean trip | Free-flow | Travel time index | Entry queue |
-|---|---|---|---|---|---|---|---|
+| Preset | Requested | Finished | Waiting to enter at 30 min | Gridlock | Mean trip | Free-flow | Travel time index | Stopped / trip | Entry queue |
+|---|---|---|---|---|---|---|---|---|---|
+| Morning | 1253 | 689 | 431 | 4 | 296.6 s | 33.2 s | 9.90 | 101.2 s | 100.0 s |
+| Afternoon | 611 | 514 | 33 | 0 | 148.5 s | 30.9 s | 5.46 | 57.7 s | 6.3 s |
+| Night | 1250 | 859 | 222 | 0 | 280.1 s | 40.5 s | 6.33 | 65.1 s | 102.6 s |
+
+Before S5 (no control) morning finished 1232 with a travel time index of 4.14. Signals cut the test grid's capacity a lot.
+
+- **Morning and night are over capacity** on the signalized test grid: hundreds of vehicles are still waiting to enter at 30 min. With arrivals switched off afterwards, everything drains (all 1253 / 1250 trips finish), so it's overload, not deadlock. **S10 must tune demand down** (or signal splits / offsets up).
+- **Morning `parkingFailed` (328) happens while garages still have space:** vehicles waiting in entry queues already hold garage reservations (PRD §8.5 reserves at spawn), so free spaces run out on paper. Worth revisiting in S10 (e.g. reserve on entry instead of on request).
+- Afternoon is light (25 veh/min) yet trips take ~5× free flow: several fixed 60 s signals per trip, no coordination. Offsets are an S10 knob.
+- Earlier, pre-S5: the `park-g1` single-lane bottleneck and night garages emptying by minute 20 (both still true).
+
+---|---|---|---|---|---|---|---|
 | Morning | 1253 | 1232 | fill 730/730; then 331 `parkingFailed` | 142.5 s | 34.7 s | 4.14 | 49.0 s |
 | Afternoon | 611 | 600 | ~80% full throughout | 52.4 s | 29.1 s | 1.90 | 1.1 s |
 | Night | 1250 | 1222 | empty by minute 20 | 162.1 s | 43.8 s | 3.53 | 67.4 s |
@@ -145,7 +187,7 @@ seed ─────────────────────────
 | Sat 11/28 | S10, **MVP on test grid** |
 | Sun 11/29 | S10 (downtown) |
 
-## Next up: S5 notes to self
+## S5 notes to self (done; kept for reference)
 - Stop lines = stationary leader at the end of the incoming lane when the vehicle may not enter the connector (red/yellow, stop sign before its full stop, no gap).
 - Signals: fixed-time 60 s cycle, green split ∝ incoming car lanes per phase, 3 s yellow, 1 s all-red, phases in array order. Permissive lefts yield via `yieldTo`.
 - `stop: true` ⇒ come to a full stop first; `allStop` = first-come-first-served while no conflicting connector is occupied; `yield` = 4 s critical gap to conflicting major vehicles; `merge` = 3 s gap.

@@ -12,8 +12,9 @@
  * acceleration from (a), capped by (b). Each vehicle uses its own IdmParams, and
  * gaps are measured to the leader's rear bumper using the *leader's* length.
  *
- * Not here yet: stop lines and intersection control (S5). Vehicles on two
- * different connectors that cross or merge don't see each other until S5.
+ * Intersection control (S5) plugs in as a `Gate`: before entering a connector
+ * a vehicle asks the gate; if refused, the end of its lane becomes a stopped
+ * leader so IDM stops it at the line. See control.ts.
  */
 import { SIM_DT } from '@shared/messages.js';
 import { DEFAULT_IDM, idmAccel, integrate, type IdmParams } from './idm.js';
@@ -49,8 +50,13 @@ export interface Leader {
   speed: number;
 }
 
+/** May `car` (front `dist` m from the line) enter connector `conn` now? */
+export type Gate = (car: Car, conn: number, dist: number) => boolean;
+
 export interface LookAhead {
   leader: Leader | null;
+  /** True when the gate refused the next connector, so the leader is the stop line. */
+  held: boolean;
   /** Desired speed: the current path's limit. */
   v0: number;
   /**
@@ -101,7 +107,13 @@ export class Occupancy {
  * limit. The strongest of those is the cap. Braking starts gently as soon as the
  * slower path comes within the lookahead, the way a driver eases off before a turn.
  */
-export function lookAhead(car: Car, net: Network, occ: Occupancy, lookahead: number = LOOKAHEAD_M): LookAhead {
+export function lookAhead(
+  car: Car,
+  net: Network,
+  occ: Occupancy,
+  lookahead: number = LOOKAHEAD_M,
+  gate?: Gate,
+): LookAhead {
   const path = currentPath(car);
   const v0 = net.speedLimit[path]!;
   let maxAccel = Infinity;
@@ -121,6 +133,16 @@ export function lookAhead(car: Car, net: Network, occ: Occupancy, lookahead: num
     }
   }
 
+  // Intersection control: a refused connector turns the stop line into a stopped leader.
+  if (gate && net.isLane[path] === 1 && car.leg + 1 < car.route.length) {
+    const nextPath = car.route[car.leg + 1]!;
+    const toLine = net.length[path]! - car.s;
+    if (net.isLane[nextPath] === 0 && toLine <= lookahead && !gate(car, nextPath, toLine)) {
+      if (!leader || toLine < leader.gap) leader = { gap: toLine, speed: 0 };
+      return { leader, held: true, v0, maxAccel };
+    }
+  }
+
   let dist = net.length[path]! - car.s; // distance to the start of the next path
   for (let leg = car.leg + 1; leg < car.route.length && dist <= lookahead; leg++) {
     const next = car.route[leg]!;
@@ -135,15 +157,19 @@ export function lookAhead(car: Car, net: Network, occ: Occupancy, lookahead: num
     dist += net.length[next]!;
   }
 
-  return { leader, v0, maxAccel };
+  return { leader, held: false, v0, maxAccel };
 }
 
 /** Acceleration the vehicle would choose right now (IDM capped for slower paths ahead). */
-export function chooseAccel(car: Car, net: Network, occ: Occupancy): number {
+export function chooseAccel(car: Car, net: Network, occ: Occupancy, gate?: Gate): number {
+  return decide(car, net, occ, gate).accel;
+}
+
+function decide(car: Car, net: Network, occ: Occupancy, gate?: Gate): { accel: number; held: boolean } {
   const p = paramsOf(car);
-  const { leader, v0, maxAccel } = lookAhead(car, net, occ);
+  const { leader, held, v0, maxAccel } = lookAhead(car, net, occ, LOOKAHEAD_M, gate);
   const a = leader ? idmAccel(car.v, v0, leader.gap, leader.speed, p) : idmAccel(car.v, v0, Infinity, 0, p);
-  return Math.min(a, maxAccel);
+  return { accel: Math.min(a, maxAccel), held };
 }
 
 export interface StepResult {
@@ -151,6 +177,8 @@ export interface StepResult {
   finished: number[];
   /** IDs of vehicles that moved onto a new lane path this step (re-route opportunities). */
   enteredLane: number[];
+  /** IDs of vehicles held at a stop line by the gate this step (waiting / yielding). */
+  held: number[];
 }
 
 /**
@@ -158,11 +186,16 @@ export interface StepResult {
  * from the same snapshot, then all move. `cars` must be sorted by ID; finished
  * vehicles are removed from it in place.
  */
-export function stepCars(net: Network, cars: Car[], occ: Occupancy, dt: number = SIM_DT): StepResult {
+export function stepCars(net: Network, cars: Car[], occ: Occupancy, dt: number = SIM_DT, gate?: Gate): StepResult {
   occ.rebuild(cars);
 
   const accel = new Float64Array(cars.length);
-  cars.forEach((car, i) => { accel[i] = chooseAccel(car, net, occ); });
+  const held: number[] = [];
+  cars.forEach((car, i) => {
+    const d = decide(car, net, occ, gate);
+    accel[i] = d.accel;
+    if (d.held) held.push(car.id);
+  });
 
   const finished: number[] = [];
   const enteredLane: number[] = [];
@@ -187,5 +220,5 @@ export function stepCars(net: Network, cars: Car[], occ: Occupancy, dt: number =
     for (const car of cars) if (!done.has(car.id)) cars[w++] = car;
     cars.length = w;
   }
-  return { finished, enteredLane };
+  return { finished, enteredLane, held };
 }
