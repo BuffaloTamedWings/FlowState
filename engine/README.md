@@ -25,6 +25,9 @@ coordinate — the front end owns all geometry.
 - `src/routing.ts` — S4: backward Dijkstra "cost to go" tables per destination (no coordinates needed), greedy routes that pick lanes for upcoming turns, smoothed travel times, re-route rule (>15% better, tables refreshed every 30 s).
 - `src/demand.ts` — S3: Poisson arrivals from the preset curve, trip / origin / destination choice (reachable only), parking weights and the `parkingFailed` fallback.
 - `src/control.ts` — S5: intersection control. Fixed-time signals, stop signs, all-way stops, yields, merges, don't-block-the-box, via a gate that turns a refused stop line into a stopped leader.
+- `src/stats.ts` — S7: per-path stats for the heatmap.
+- `src/host.ts` — S7: `EngineHost`, the runtime protocol (PRD §7.6) and real-time loop; testable without a worker.
+- `src/worker.ts` — S7: Web Worker entry. Front end: `new Worker(new URL('../../../engine/src/worker.ts', import.meta.url), { type: 'module' })`.
 - `src/sim.ts` — `Sim(network, preset, seed)`: entry queues with safe insertion (lane starts and mid-lane garages), despawn, parking, trip records, gridlock removal, re-routing. The S7 worker will wrap this.
 - `test/fixtures.ts` — tiny hand-built networks and presets for tests.
 - `test/*.test.ts` — Vitest suites (run by the root `npm test`).

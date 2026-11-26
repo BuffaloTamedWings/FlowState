@@ -81,6 +81,11 @@ export class Sim {
   readonly control: Intersections;
   /** IDs of vehicles held at a stop line in the last step (for tick flags / metrics). */
   held: ReadonlySet<number> = new Set();
+  /**
+   * Vehicles that left each path (moved on or finished), counted since the last
+   * `takeExits()`. Feeds the per-path flow stat.
+   */
+  private exits: Uint32Array;
 
   private readonly occ: Occupancy;
   private readonly travel: TravelTimes;
@@ -103,6 +108,7 @@ export class Sim {
     this.travel = new TravelTimes(net);
     this.router = new Router(net, this.travel);
     this.control = new Intersections(net);
+    this.exits = new Uint32Array(net.count);
 
     for (const p of net.points.values()) {
       if (p.type === 'parking') {
@@ -138,8 +144,11 @@ export class Sim {
     for (const q of this.queues) this.tryEnter(q);
     this.control.update(this.cars, this.occ, this.time);
 
+    const pathBefore = this.cars.map((c) => ({ car: c, path: currentPath(c) }));
     const { finished, enteredLane, held } = stepCars(this.net, this.cars, this.occ, dt, this.control.gate);
     this.held = new Set(held);
+    const done = new Set(finished);
+    for (const { car, path } of pathBefore) if (done.has(car.id) || currentPath(car) !== path) this.exits[path]!++;
     for (const id of finished) this.finish(id);
     for (const id of enteredLane) this.maybeReroute(id);
     this.trackStopped(dt);
@@ -291,6 +300,18 @@ export class Sim {
       }
     }
     this.cars.length = w;
+  }
+
+  /** Number of steps taken since load. */
+  get steps(): number {
+    return this.stepCount;
+  }
+
+  /** Per-path exit counts since the last call, then reset. */
+  takeExits(): Uint32Array {
+    const out = this.exits;
+    this.exits = new Uint32Array(this.net.count);
+    return out;
   }
 
   /** Trips completed since the last call. */

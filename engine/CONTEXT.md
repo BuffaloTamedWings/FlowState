@@ -4,8 +4,8 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ · S5 ✅ on `backend` (S3 onward not yet merged to `main`).
-Next: S7 (worker wrapper), needed for first integration Fri 11/27; then S8 (metrics).
+**Status (2026-11-26):** S1–S5 + vehicle sizes merged to `main` (PR #8). **S7 ✅ on `backend`** (not yet merged).
+Next: S8 (per-node delay / LOS, per-path max queue in `metrics`); S6 roundabouts once the ring-connector format is settled.
 
 ---
 
@@ -43,7 +43,11 @@ seed ─────────────────────────
 | `src/routing.ts` | S4 | Cost-to-go tables, routes, travel times, re-route rule, free-flow time. |
 | `src/demand.ts` | S3 | Arrivals, trip / origin / destination choice, parking weights. |
 | `src/control.ts` | S5 | Intersection control: signal plans, vehicle bodies, the gate (signals, stops, yields, merges, don't block the box). |
-| `src/sim.ts` | S3 | `Sim` class tying it all together. S7's worker will wrap this. |
+| `src/sim.ts` | S3 | `Sim` class tying it all together. |
+| `src/stats.ts` | S7 | Per-path stats for the heatmap (speed ratio, occupancy, queue length, flow). |
+| `src/host.ts` | S7 | `EngineHost`: the §7.6 protocol + real-time loop, with injected post / clock / timer (testable in Node). |
+| `src/worker.ts` | S7 | Web Worker entry: wires `self` to `EngineHost`. This is what the front end loads. |
+| `src/index.ts` | | Public exports (`EngineHost`, `Sim`, `loadNetwork`, …) for headless use. |
 | `test/*.test.ts` | | Vitest suites (run by root `npm test`). |
 | `test/fixtures.ts` | | Tiny hand-built networks/presets for tests (incl. a yield T-junction). |
 | `test/wave.ts` | S1 | Prints the ring-road space-time diagram. |
@@ -124,6 +128,31 @@ seed ─────────────────────────
   - Nobody stops inside an intersection.
   - Yield T-junction: minor vehicles always stop and only go with a gap; major vehicles only wait while a minor vehicle is already in the junction.
   - Afternoon and night: 0 gridlock removals.
+
+## S7: worker wrapper (2026-11-26)
+- **Split:** `EngineHost` (`host.ts`) holds all protocol logic and takes `post`, `now`, `schedule` and `cancel` from outside. `worker.ts` is ~10 lines wiring it to `self`. Tests drive the host with a fake clock.
+- **Front end starts it with** `new Worker(new URL('../../../engine/src/worker.ts', import.meta.url), { type: 'module' })` (relative path from `web/src/sim/`). Checked that Vite bundles it (47 KB), and ran the **built** bundle in Node against the test grid: 3 s real at 4× gave 11.9 s sim, all message types, all ticks transferred, no errors.
+- **Messages in:**
+  - `load` validates and builds `Sim`, then replies `ready {pathCount}` plus an empty tick, and stays paused. Bad input becomes an `error` message.
+  - `run` / `pause`.
+  - `setSpeed` changes steps per real second, never dt.
+  - `skip` simulates ahead with no ticks, then sends one tick + stats + metrics.
+  - `reset` re-loads the last network, preset and seed.
+  - **Warm-up is the front end's job** (PRD §10: it sends `setSpeed`).
+- **Loop:** wakes about 60×/s (`WAKE_MS`) and runs `elapsed × multiplier ÷ 0.1` steps, carrying fractions over. At most 20 steps per wake; after a stall (e.g. a background tab) the backlog is dropped rather than replayed. Sim time is still step-exact, so it stays deterministic.
+- **Messages out:**
+  - `tick` every step: 5 floats per vehicle, buffer transferred. Flags: braking if a < −0.5 m/s², stopped if v < 0.1, yielding if held at a line (`sim.held`), type code in bits 3–4.
+  - `stats` every 1 sim-s (`stats.ts`).
+  - `metrics` every 5 sim-s, **partial until S8**: `completedTrips` and `counts` are live, `nodes` / `paths` are `{}`.
+  - Any exception becomes `error` and pauses.
+- **Stats details:** speed ratio = mean front-on-path speed ÷ limit (1 when empty). Occupancy = body length ÷ path length. Queue = unbroken line of vehicles under 1 m/s starting within minGap + 5 m of the path end. Flow = exits per minute over the interval (`Sim.takeExits`).
+- **Tests (`test/host.test.ts`):**
+  - ready + empty tick; errors for v1 / broken refs / bad mix / run-before-load;
+  - a tick per step whose buffer matches `sim.cars` and is in the transfer list;
+  - 1× vs 4× step rates, pause, stall backlog dropped;
+  - stopped + yielding flags at red lights, type codes for trucks and semis;
+  - skip = exactly one tick + stats + metrics; reset reproduces identical ticks;
+  - stats cadence and value ranges, queues and flow present; metrics cadence with trips and counts.
 
 ## Lanes (decision, 2026-11-23)
 - Each lane is its own path, so a vehicle's lane is just its path. **No mid-block lane changes** (PRD §1/§8.3).

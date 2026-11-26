@@ -36,6 +36,8 @@ export interface Car {
   params?: Readonly<IdmParams>;
   /** Vehicle type, for the tick flags. Default: car. */
   type?: VehicleTypeId;
+  /** Acceleration chosen in the last step (m/s²), for the braking flag. */
+  a?: number;
   /**
    * Where the trip ends on the last path of the route (m). Default: the end of
    * that path (a sink). Garages and lunch zones end mid-lane.
@@ -200,6 +202,7 @@ export function stepCars(net: Network, cars: Car[], occ: Occupancy, dt: number =
   const finished: number[] = [];
   const enteredLane: number[] = [];
   cars.forEach((car, i) => {
+    car.a = accel[i]!;
     const { v, ds } = integrate(car.v, accel[i]!, dt);
     car.v = v;
     car.s += ds;
