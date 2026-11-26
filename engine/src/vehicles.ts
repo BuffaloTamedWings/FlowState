@@ -2,23 +2,29 @@
  * Per-vehicle driving parameters. Every vehicle carries its own IdmParams, so
  * longer, slower vehicles (trucks, semis) need no special cases elsewhere.
  *
- * Lengths here must match what the front end draws. Once `shared/vehicles.ts`
- * lands (proposed to Dev), take `carLength` from there instead of these literals.
- * Until a preset has a `vehicleMix`, every vehicle is a car.
+ * **Lengths come from `shared/vehicles.ts`**, the single source of truth the
+ * front end also draws from, so engine gaps and on-screen meshes always agree.
+ * Only driving behavior (acceleration, headway, braking) is defined here.
  */
+import { vehicleTypeById, VEHICLE_TYPES, type VehicleTypeId } from '@shared/vehicles.js';
 import { DEFAULT_IDM, type IdmParams } from './idm.js';
 
-export type VehicleTypeId = 'car' | 'truck' | 'semi';
+export type { VehicleTypeId };
 
-export const VEHICLE_PARAMS: Readonly<Record<VehicleTypeId, Readonly<IdmParams>>> = Object.freeze({
-  car: DEFAULT_IDM,
-  truck: Object.freeze({ timeHeadway: 1.8, maxAccel: 0.7, comfortDecel: 1.5, minGap: 2.5, delta: 4, carLength: 9 }),
-  semi: Object.freeze({ timeHeadway: 2.2, maxAccel: 0.5, comfortDecel: 1.2, minGap: 3, delta: 4, carLength: 18 }),
-});
+type Behavior = Omit<IdmParams, 'carLength'>;
 
-export interface VehicleShare {
-  type: VehicleTypeId;
-  share: number;
-}
+const BEHAVIOR: Readonly<Record<VehicleTypeId, Behavior>> = {
+  car: { timeHeadway: DEFAULT_IDM.timeHeadway, maxAccel: DEFAULT_IDM.maxAccel, comfortDecel: DEFAULT_IDM.comfortDecel, minGap: DEFAULT_IDM.minGap, delta: DEFAULT_IDM.delta },
+  truck: { timeHeadway: 1.8, maxAccel: 0.7, comfortDecel: 1.5, minGap: 2.5, delta: 4 },
+  semi: { timeHeadway: 2.2, maxAccel: 0.5, comfortDecel: 1.2, minGap: 3, delta: 4 },
+};
 
-export const ALL_CARS: readonly VehicleShare[] = [{ type: 'car', share: 1 }];
+/** Full IDM params per type: engine behavior + shared length. */
+export const VEHICLE_PARAMS: Readonly<Record<VehicleTypeId, Readonly<IdmParams>>> = Object.freeze(
+  Object.fromEntries(
+    VEHICLE_TYPES.map((t) => [t.id, Object.freeze({ ...BEHAVIOR[t.id], carLength: vehicleTypeById(t.id).length })]),
+  ) as Record<VehicleTypeId, Readonly<IdmParams>>,
+);
+
+/** Tick-flag code for a type (bits 3–4 of `flags`, see `shared/messages.ts`). */
+export const vehicleCode = (type: VehicleTypeId): number => vehicleTypeById(type).code;

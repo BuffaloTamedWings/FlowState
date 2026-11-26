@@ -18,6 +18,7 @@
 import { SIM_DT } from '@shared/messages.js';
 import { DEFAULT_IDM, idmAccel, integrate, type IdmParams } from './idm.js';
 import type { Network } from './network.js';
+import type { VehicleTypeId } from './vehicles.js';
 
 export interface Car {
   /** Unique within a run. Vehicles are processed in ID order for determinism. */
@@ -32,6 +33,8 @@ export interface Car {
   v: number;
   /** Driving parameters and length. Default: a car. */
   params?: Readonly<IdmParams>;
+  /** Vehicle type, for the tick flags. Default: car. */
+  type?: VehicleTypeId;
   /**
    * Where the trip ends on the last path of the route (m). Default: the end of
    * that path (a sink). Garages and lunch zones end mid-lane.

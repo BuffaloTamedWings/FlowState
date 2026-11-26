@@ -178,7 +178,7 @@ export class Sim {
     }
 
     q.waiting.shift();
-    const car: Car = { id: this.nextId++, route: head.plan.route, leg: 0, s: q.s, v: probe.v, params, endS: head.plan.endS };
+    const car: Car = { id: this.nextId++, route: head.plan.route, leg: 0, s: q.s, v: probe.v, params, type: head.plan.vehicle, endS: head.plan.endS };
     this.cars.push(car); // IDs increase, so `cars` stays sorted by ID
     this.trips.set(car.id, {
       plan: head.plan,

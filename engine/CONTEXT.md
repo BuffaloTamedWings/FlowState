@@ -4,7 +4,7 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-23):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ on `backend` (`d78fde1`, not yet merged to `main`).
+**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ on `backend` (S3/S4 not yet merged to `main`).
 Next: S5 (intersection control) + S7 (worker wrapper), due Wed 11/25.
 
 ---
@@ -39,7 +39,7 @@ seed ─────────────────────────
 | `src/network.ts` | S2 | Validates a compiled network (v2) and builds flat arrays: `length`, `speedLimit`, `isLane`, `next`, `prev`, `byId`, nodes, points. |
 | `src/traffic.ts` | S2/S3 | `Car`, `Occupancy` (who's on each path, front first), `lookAhead` (leader + speed cap), `stepCars`. |
 | `src/rng.ts` | S3 | mulberry32 PRNG, weighted pick, Poisson draws. The only randomness. |
-| `src/vehicles.ts` | S3 | Per-vehicle IDM params: car / truck / semi. Default all cars. |
+| `src/vehicles.ts` | S3 | Per-vehicle IDM behavior; lengths from `shared/vehicles.ts`. Default all cars. |
 | `src/routing.ts` | S4 | Cost-to-go tables, routes, travel times, re-route rule, free-flow time. |
 | `src/demand.ts` | S3 | Arrivals, trip / origin / destination choice, parking weights. |
 | `src/sim.ts` | S3 | `Sim` class tying it all together. S7's worker will wrap this. |
@@ -100,9 +100,13 @@ seed ─────────────────────────
 - Vehicles choose lanes **at intersections** via connectors (PRD §7.4 rule 4) and the routing cost, which includes congestion, so traffic spreads across lanes. This matters for the added-lane trap: a new lane only helps if vehicles use it.
 - Sashank's "road chunks with car-sized slots" idea was discussed and deferred: it would replace the continuous IDM model and change the contract. A cheaper version for after the MVP: lane changes at checkpoints (~every 40 m) with a gap check using the existing leader lookup.
 
-## Vehicle sizes (proposed, 2026-11-23)
-- Engine side done: each vehicle has its own `params` (`vehicles.ts`); gaps use the leader's length; entry checks use the new vehicle's length. Truck 9 m / semi 18 m params exist but nothing spawns them until a preset has `vehicleMix`.
-- Contract proposal sent to Dev (not merged yet): `shared/vehicles.ts` with lengths as the single source of truth, vehicle type code in tick `flags` bits 3–4, optional preset `vehicleMix`. When it lands: read `carLength` from `shared/vehicles.ts` and write the type bits in ticks (S7).
+## Vehicle sizes (done, 2026-11-26)
+- Contract landed in PR #7: `shared/vehicles.ts` (car 4.5 m, box truck 9 m, semi 18 m) is the single source of truth for lengths. Type code goes in tick `flags` bits 3–4 (`withVehicleCode` / `vehicleCodeOf`). Optional preset `vehicleMix` (`validateVehicleMix`, `vehicleMixOf`). Missing = all cars.
+- Engine: `vehicles.ts` takes **length from shared** and keeps only driving behavior (truck: a 0.7, b 1.5, T 1.8 s, s₀ 2.5 m; semi: a 0.5, b 1.2, T 2.2 s, s₀ 3 m). Each `Car` has `params` and `type`. Gaps use the leader's length, entry checks use the new vehicle's length. `Sim` throws on an invalid `vehicleMix`.
+- S7 must write `withVehicleCode(flags, vehicleCode(car.type ?? 'car'))` into each tick.
+- Tests (`test/vehicles.test.ts`): lengths equal shared, flag round-trip, invalid mix rejected, follower sees a semi's 18 m across a path boundary, mixed traffic keeps a positive gap everywhere on a merge-free road (incl. mid-lane garage exits), type shares match the mix.
+- Morning on the test grid with the PRD mix (90/8/2): 1214 finished vs 1232 all-cars, mean trip 164.5 s vs 142.5 s, entry queue 55.4 s vs 49.0 s.
+- **Known pre-S5 issue:** 1 gridlock removal with the mix. A box truck waiting to merge onto `eA1/b/0` kept getting cut off by newer cars from another approach (no merge conflicts yet), and a semi behind it passed 120 s stopped. S5's merge / FCFS rules should fix it; then tighten that test back to `gridlockRemovals === 0`.
 - S5 must treat a connector as clear only when the vehicle's **tail** has left it, and "don't block the box" must reserve the full length.
 
 ---

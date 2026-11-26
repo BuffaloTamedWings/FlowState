@@ -11,14 +11,15 @@
  *   reachable) are skipped and their share falls to the others.
  * - Parking: a vehicle heading for a garage reserves a space at spawn. If every
  *   garage is full it's sent to a reachable exit instead (`parkingFailed`).
+ * - Vehicle type: from the preset's optional `vehicleMix` (default all cars).
  */
 import type { CompiledPoint, PointAccess } from '@shared/network.js';
-import { spawnRateAt, type Preset, type Trip } from '@shared/preset.js';
+import { spawnRateAt, validateVehicleMix, vehicleMixOf, type Preset, type Trip, type VehicleShare } from '@shared/preset.js';
 import type { PointType } from '@shared/scenario.js';
 import type { Network } from './network.js';
 import { pickWeighted, poisson, type Rng } from './rng.js';
 import type { Router } from './routing.js';
-import { ALL_CARS, type VehicleShare, type VehicleTypeId } from './vehicles.js';
+import type { VehicleTypeId } from './vehicles.js';
 
 export interface ParkingState {
   readonly capacity: number;
@@ -63,8 +64,9 @@ export class Demand {
       list.push(p);
       this.byType.set(p.type, list);
     }
-    const mix = (preset as Preset & { vehicleMix?: VehicleShare[] }).vehicleMix;
-    this.mix = mix && mix.length > 0 ? mix : ALL_CARS;
+    const problems = validateVehicleMix(preset.vehicleMix);
+    if (problems.length > 0) throw new Error(`Invalid preset ${preset.id}: ${problems.join('; ')}`);
+    this.mix = vehicleMixOf(preset);
   }
 
   /** Vehicles requested during the step [t, t + dt). */
