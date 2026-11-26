@@ -47,7 +47,7 @@ export function idmAccel(
   vLead: number,
   p: Readonly<IdmParams> = DEFAULT_IDM,
 ): number {
-  const free = 1 - Math.pow(v / Math.max(v0, 0.1), p.delta);
+  const free = 1 - Math.pow(v / Math.max(v0, 1e-3), p.delta); // guard v0 = 0 only
   if (!Number.isFinite(gap)) return p.maxAccel * free;
 
   const dv = v - vLead; // closing speed (positive = approaching)
