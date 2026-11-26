@@ -4,7 +4,7 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-26):** S1–S5 + vehicle sizes merged to `main` (PR #8). **S7 ✅ on `backend`** (not yet merged).
+**Status (2026-11-26):** S1–S5 + vehicle sizes merged to `main` (PR #8). **S7 ✅** merged to `main` (PR #9).
 Next: S8 (per-node delay / LOS, per-path max queue in `metrics`); S6 roundabouts once the ring-connector format is settled.
 
 ---
