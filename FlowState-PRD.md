@@ -355,13 +355,19 @@ Built by the front end from the scenario + the currently selected options, every
     { "share": 0.8, "from": ["rampSpawn", "edgeSpawn"], "to": ["parking"] },
     { "share": 0.2, "from": ["rampSpawn", "edgeSpawn"], "to": ["rampSink", "edgeSink"] }
   ],
-  "parking": { "initialOccupancy": 0.1 }
+  "parking": { "initialOccupancy": 0.1 },
+  "vehicleMix": [
+    { "type": "car", "share": 0.9 },
+    { "type": "truck", "share": 0.08 },
+    { "type": "semi", "share": 0.02 }
+  ]
 }
 ```
 
 - `spawnRate.curve`: `[simSecond, vehiclesPerMinute]` pairs, linearly interpolated. Total for the whole map.
 - `trips`: each new car picks a trip type by `share`, then an origin and destination of those point types, weighted by `weight` (parking by free capacity).
 - `parking.initialOccupancy`: fraction of every garage full at t = 0.
+- `vehicleMix`: **optional.** Fraction of new vehicles of each type, from `shared/vehicles.ts`; shares sum to 1. Omitted means every vehicle is a car, so existing preset files stay valid and the format version does not change.
 - `lighting`: front end only.
 - The numbers in the starter files are for the test grid. **Sashank tunes them for downtown.**
 
@@ -394,11 +400,15 @@ Built by the front end from the scenario + the currently selected options, every
 |---|---|
 | 0 | `vehicleId` (stable for the car's lifetime; unique within a run) |
 | 1 | `pathIndex` (index into `paths`) |
-| 2 | `s` — meters along that path |
+| 2 | `s` — meters along that path, to the vehicle's **front bumper** (see below) |
 | 3 | `speed` — m/s |
-| 4 | `flags` — bit 0 braking, bit 1 stopped, bit 2 yielding |
+| 4 | `flags` — bit 0 braking, bit 1 stopped, bit 2 yielding, **bits 3-4 vehicle type `code`** (`shared/vehicles.ts`; 0 = car, so a sender that ignores types still decodes correctly) |
 
 The front end converts `(pathIndex, s)` to x/y and heading using its own curves, then **interpolates between the last two ticks in x/y** (not in `s`, because a car may switch paths between ticks).
+
+**`s` is the front bumper.** A vehicle extends *backward* from `s` by its `length` (`shared/vehicles.ts`), so anything longer than a car may still have its rear on the path it came from. To draw a long vehicle, place the rear at `s − length`, walking back onto the previous path when that goes negative, so trailers follow turns instead of cutting corners. Two things that walk-back needs and the tick doesn't carry: predecessor links (`CompiledPath` has `next` but no `prev` — invert it) and *which* predecessor the vehicle came from, since a connector can have several; the front end can read that from the previous tick it already keeps for interpolation.
+
+**Vehicle sizes are shared, not per-side.** The engine uses `length` for gaps, the front end for mesh size. They must be the same number or a truck will visibly overlap the vehicle behind it — the same rule that applies to path lengths.
 
 ---
 
