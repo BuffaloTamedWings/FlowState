@@ -4,7 +4,7 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ · S5 ✅ on `backend` (S3 onward not yet merged to `main`).
+**Status (2026-11-26):** S1 ✅ · S2 ✅ · S3 ✅ · S4 ✅ · vehicle sizes ✅ · S5 ✅ merged to `main` in PR #8 (`04efbb8`).
 Next: S7 (worker wrapper), needed for first integration Fri 11/27; then S8 (metrics).
 
 ---
