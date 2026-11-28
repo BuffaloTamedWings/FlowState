@@ -78,12 +78,13 @@ Mitigation: **step 4 ends with a hand-written "hard case" fixture** that fakes t
 
 ## 5. First render of the test grid (`web/src/render/`)
 _Test grid only. Downtown is step 8._
-- [ ] Lane ribbons from geometry (one mesh per lane path, flat at z unless `elevation`).
-- [ ] Intersection fill polygons.
-- [ ] Simple lane-line rendering (plain lines are fine; the shader comes in step 11).
-- [ ] Camera framed on `meta.bounds`.
+- [x] Lane ribbons from geometry (one mesh per lane path, flat at z unless `elevation`). Built from the **scenario**, not the compiled network, so bike and transit lanes draw too — the compile step emits car lanes only. `laneGeometry.ts` mirrors `compile/lanePaths.ts`'s trimming, and a test pins all 54 car lanes to their compiled `debugPolyline` vertex-for-vertex so the two can't drift apart.
+- [x] Intersection fill polygons: convex hull of each compiled node's connector geometry, fan-triangulated.
+- [x] Simple lane-line rendering (plain `LineSegments`; the shader comes in step 11). Outer edge lines white, lane dividers grey, two-way centerline gold.
+- [x] Camera framed on `meta.bounds` — sized to the bounds **diagonal**, because the camera looks in along a diagonal and a box-sized frame clips the corners once you orbit.
+- [x] `coords.ts` is the one place the `(x, y, z)` → `(x, z, -y)` mapping appears. `ribbon.ts`, `hull.ts`, `elevation.ts` and `laneGeometry.ts` stay Three-free so they unit-test in plain Node.
 
-**Done when:** the test grid in the browser matches `test-grid-preview.png`.
+**Done when:** the test grid in the browser matches `test-grid-preview.png`. ✅ **Code done 2026-11-27, 593 tests green — pending Dev's visual confirmation in the browser.** The preview's buildings, park and freeway strip are scenery and belong to step 11, so the ground is bare around the roads.
 
 ## 6. Stub engine + car rendering
 - [ ] `web/src/sim/engineClient.ts` — starts a worker, sends `load`/`run`/`pause`/`setSpeed`/`skip`/`reset`, receives `tick`/`stats`/`metrics` per `shared/messages.ts`.
