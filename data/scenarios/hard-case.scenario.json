@@ -1,0 +1,1391 @@
+{
+ "format": "flowstate-scenario",
+ "version": 1,
+ "meta": {
+  "id": "hard-case",
+  "name": "Hard-case fixture (hand-made, not real data)",
+  "source": "hand",
+  "units": {
+   "length": "m",
+   "speed": "m/s",
+   "time": "s"
+  },
+  "origin": {
+   "lat": 32.78,
+   "lon": -96.8,
+   "note": "sample value; arbitrary for this fixture"
+  },
+  "bounds": {
+   "minX": -170,
+   "minY": -170,
+   "maxX": 1000,
+   "maxY": 170
+  },
+  "attribution": "\u00a9 OpenStreetMap contributors"
+ },
+ "nodes": [
+  {
+   "id": "bW",
+   "name": "Main St (west edge)",
+   "x": -150,
+   "y": 0,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "nDiv",
+   "name": "Main St off-ramp split",
+   "x": 0,
+   "y": 0,
+   "z": 0,
+   "kind": "diverge",
+   "branch": {
+    "edge": "eDivRamp",
+    "side": "left"
+   },
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "rD",
+   "name": "Off-ramp end",
+   "x": -30,
+   "y": -90,
+   "z": -6,
+   "kind": "rampEnd",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "nYield",
+   "name": "Main St & Side St",
+   "x": 150,
+   "y": 0,
+   "z": 0,
+   "kind": "intersection",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "yield",
+     "params": {
+      "majorEdges": [
+       "eDiv_Yield",
+       "eYield_N5"
+      ]
+     }
+    },
+    {
+     "id": "signal",
+     "label": "Traffic signal",
+     "control": "signal",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "stop"
+   }
+  },
+  {
+   "id": "bS",
+   "name": "Side St (south edge)",
+   "x": 150,
+   "y": -150,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "n5",
+   "name": "Main St, North Loop & Cross St (5-way)",
+   "x": 330,
+   "y": 0,
+   "z": 0,
+   "kind": "intersection",
+   "branch": null,
+   "restrictions": [
+    {
+     "fromEdge": "eN5_BS2",
+     "toEdge": "eN5_BN1",
+     "type": "noTurn"
+    }
+   ],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "allStop",
+     "label": "All-way stop",
+     "control": "allStop",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "bN1",
+   "name": "Cross St (north edge)",
+   "x": 330,
+   "y": 150,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bN2",
+   "name": "North Loop (north edge)",
+   "x": 480,
+   "y": 150,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bS2",
+   "name": "Cross St (south edge)",
+   "x": 330,
+   "y": -150,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "nMerge",
+   "name": "Main St on-ramp merge",
+   "x": 480,
+   "y": 0,
+   "z": 0,
+   "kind": "merge",
+   "branch": {
+    "edge": "eMergeRamp",
+    "side": "left"
+   },
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "rM",
+   "name": "On-ramp end",
+   "x": 560,
+   "y": -90,
+   "z": -6,
+   "kind": "rampEnd",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "nProtLeft",
+   "name": "Main St & Elm St",
+   "x": 630,
+   "y": 0,
+   "z": 0,
+   "kind": "intersection",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "signalProtectedLeft",
+     "label": "Signal with protected left turns",
+     "control": "signalProtectedLeft",
+     "params": {}
+    }
+   ],
+   "selected": "signalProtectedLeft",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "highway": "traffic_signals"
+   }
+  },
+  {
+   "id": "bPLN",
+   "name": "Cedar St (north edge)",
+   "x": 630,
+   "y": 180,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bPLS",
+   "name": "Cedar St (south edge)",
+   "x": 630,
+   "y": -180,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "nRound",
+   "name": "Main St & Oak St",
+   "x": 830,
+   "y": 0,
+   "z": 0,
+   "kind": "intersection",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "signal",
+     "params": {}
+    },
+    {
+     "id": "roundabout",
+     "label": "Roundabout",
+     "control": "roundabout",
+     "params": {
+      "radius": 18
+     }
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmIds": [],
+   "tags": {
+    "flowstate:note": "The roundabout option is offered but not selected: PRD 7.4 rule 10 (the ring) is deferred to step 11, and compiling a selected roundabout throws on purpose. Select it once rule 10 lands."
+   }
+  },
+  {
+   "id": "bN4",
+   "name": "Oak St (north edge)",
+   "x": 830,
+   "y": 150,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  },
+  {
+   "id": "bE",
+   "name": "Main St (east edge)",
+   "x": 980,
+   "y": 0,
+   "z": 0,
+   "kind": "boundary",
+   "branch": null,
+   "restrictions": [],
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "control": "none",
+     "params": {}
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmIds": [],
+   "tags": {}
+  }
+ ],
+ "edges": [
+  {
+   "id": "eBW_Div",
+   "name": "Main St",
+   "from": "bW",
+   "to": "nDiv",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     -150,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eDivRamp",
+   "name": "Off-ramp",
+   "from": "nDiv",
+   "to": "rD",
+   "roadClass": "ramp",
+   "centerline": [
+    [
+     0,
+     0
+    ],
+    [
+     -10,
+     -30
+    ],
+    [
+     -25,
+     -60
+    ],
+    [
+     -30,
+     -90
+    ]
+   ],
+   "elevation": [
+    0,
+    -2,
+    -4,
+    -6
+   ],
+   "speedLimit": 13.4,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eDiv_Yield",
+   "name": "Main St",
+   "from": "nDiv",
+   "to": "nYield",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     0,
+     0
+    ],
+    [
+     150,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car",
+       "turns": [
+        "through"
+       ]
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eYield_BS",
+   "name": "Side St",
+   "from": "nYield",
+   "to": "bS",
+   "roadClass": "residential",
+   "centerline": [
+    [
+     150,
+     0
+    ],
+    [
+     150,
+     -150
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 11.18,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eYield_N5",
+   "name": "Main St",
+   "from": "nYield",
+   "to": "n5",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     150,
+     0
+    ],
+    [
+     330,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eN5_BN1",
+   "name": "Cross St",
+   "from": "n5",
+   "to": "bN1",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     330,
+     0
+    ],
+    [
+     330,
+     150
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 11.18,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eN5_BN2",
+   "name": "North Loop",
+   "from": "n5",
+   "to": "bN2",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     330,
+     0
+    ],
+    [
+     360,
+     50
+    ],
+    [
+     360,
+     95
+    ],
+    [
+     410,
+     135
+    ],
+    [
+     480,
+     150
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 11.18,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eN5_BS2",
+   "name": "Cross St",
+   "from": "n5",
+   "to": "bS2",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     330,
+     0
+    ],
+    [
+     330,
+     -150
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 11.18,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eN5_Merge",
+   "name": "Main St",
+   "from": "n5",
+   "to": "nMerge",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     330,
+     0
+    ],
+    [
+     480,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car",
+       "width": 4.6
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eMergeRamp",
+   "name": "On-ramp",
+   "from": "rM",
+   "to": "nMerge",
+   "roadClass": "ramp",
+   "centerline": [
+    [
+     560,
+     -90
+    ],
+    [
+     520,
+     -90
+    ],
+    [
+     520,
+     -40
+    ],
+    [
+     480,
+     0
+    ]
+   ],
+   "elevation": [
+    -6,
+    -4,
+    -2,
+    0
+   ],
+   "speedLimit": 13.4,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": []
+    }
+   ],
+   "selected": "current",
+   "locked": true,
+   "osmWayIds": [],
+   "tags": {
+    "oneway": "yes"
+   }
+  },
+  {
+   "id": "eMerge_ProtLeft",
+   "name": "Main St",
+   "from": "nMerge",
+   "to": "nProtLeft",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     480,
+     0
+    ],
+    [
+     630,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eProtLeft_Round",
+   "name": "Main St",
+   "from": "nProtLeft",
+   "to": "nRound",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     630,
+     0
+    ],
+    [
+     830,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eProtLeft_BPLN",
+   "name": "Cedar St",
+   "from": "nProtLeft",
+   "to": "bPLN",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     630,
+     0
+    ],
+    [
+     630,
+     180
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eProtLeft_BPLS",
+   "name": "Cedar St",
+   "from": "nProtLeft",
+   "to": "bPLS",
+   "roadClass": "secondary",
+   "centerline": [
+    [
+     630,
+     0
+    ],
+    [
+     630,
+     -180
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 13.41,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eRound_BN4",
+   "name": "Oak St",
+   "from": "nRound",
+   "to": "bN4",
+   "roadClass": "tertiary",
+   "centerline": [
+    [
+     830,
+     0
+    ],
+    [
+     830,
+     150
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 11.18,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  },
+  {
+   "id": "eRound_BE",
+   "name": "Main St",
+   "from": "nRound",
+   "to": "bE",
+   "roadClass": "primary",
+   "centerline": [
+    [
+     830,
+     0
+    ],
+    [
+     980,
+     0
+    ]
+   ],
+   "elevation": null,
+   "speedLimit": 17.88,
+   "estimated": {
+    "speedLimit": false,
+    "lanes": false
+   },
+   "options": [
+    {
+     "id": "current",
+     "label": "Current layout",
+     "kind": "current",
+     "forward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ],
+     "backward": [
+      {
+       "type": "car"
+      },
+      {
+       "type": "car"
+      }
+     ]
+    }
+   ],
+   "selected": "current",
+   "locked": false,
+   "osmWayIds": [],
+   "tags": {}
+  }
+ ],
+ "points": [
+  {
+   "id": "spawn-bW",
+   "type": "edgeSpawn",
+   "name": "Main St (west edge)",
+   "node": "bW",
+   "weight": 1
+  },
+  {
+   "id": "sink-bW",
+   "type": "edgeSink",
+   "name": "Main St (west edge)",
+   "node": "bW",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bN1",
+   "type": "edgeSpawn",
+   "name": "Cross St (north edge)",
+   "node": "bN1",
+   "weight": 1
+  },
+  {
+   "id": "sink-bS",
+   "type": "edgeSink",
+   "name": "Side St (south edge)",
+   "node": "bS",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bN4",
+   "type": "edgeSpawn",
+   "name": "Oak St (north edge)",
+   "node": "bN4",
+   "weight": 1
+  },
+  {
+   "id": "sink-bN2",
+   "type": "edgeSink",
+   "name": "North Loop (north edge)",
+   "node": "bN2",
+   "weight": 1
+  },
+  {
+   "id": "sink-bS2",
+   "type": "edgeSink",
+   "name": "Cross St (south edge)",
+   "node": "bS2",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bE",
+   "type": "edgeSpawn",
+   "name": "Main St (east edge)",
+   "node": "bE",
+   "weight": 1
+  },
+  {
+   "id": "sink-bE",
+   "type": "edgeSink",
+   "name": "Main St (east edge)",
+   "node": "bE",
+   "weight": 1
+  },
+  {
+   "id": "sink-rD",
+   "type": "rampSink",
+   "name": "Off-ramp end",
+   "node": "rD",
+   "weight": 3
+  },
+  {
+   "id": "spawn-rM",
+   "type": "rampSpawn",
+   "name": "On-ramp end",
+   "node": "rM",
+   "weight": 3
+  },
+  {
+   "id": "park-g1",
+   "type": "parking",
+   "name": "Garage 1",
+   "at": {
+    "edge": "eMerge_ProtLeft",
+    "t": 0.5
+   },
+   "capacity": 150,
+   "estimated": {
+    "capacity": true
+   },
+   "osmIds": [],
+   "tags": {
+    "amenity": "parking",
+    "parking": "multi-storey"
+   }
+  },
+  {
+   "id": "lunch-1",
+   "type": "lunchZone",
+   "name": "Lunch zone 1",
+   "at": {
+    "edge": "eProtLeft_Round",
+    "t": 0.4
+   },
+   "weight": 1
+  },
+  {
+   "id": "spawn-bPLN",
+   "type": "edgeSpawn",
+   "name": "Cedar St (north edge)",
+   "node": "bPLN",
+   "weight": 1
+  },
+  {
+   "id": "sink-bPLN",
+   "type": "edgeSink",
+   "name": "Cedar St (north edge)",
+   "node": "bPLN",
+   "weight": 1
+  },
+  {
+   "id": "spawn-bPLS",
+   "type": "edgeSpawn",
+   "name": "Cedar St (south edge)",
+   "node": "bPLS",
+   "weight": 1
+  },
+  {
+   "id": "sink-bPLS",
+   "type": "edgeSink",
+   "name": "Cedar St (south edge)",
+   "node": "bPLS",
+   "weight": 1
+  }
+ ],
+ "scenery": {
+  "freeways": [],
+  "buildings": [],
+  "parks": []
+ }
+}

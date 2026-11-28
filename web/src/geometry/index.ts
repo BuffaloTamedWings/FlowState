@@ -7,7 +7,9 @@
 
 export { add, cross, dot, length, normalize, rightOf, scale, sub } from './vec2.js';
 
+export type { ClosestPoint } from './polyline.js';
 export {
+  closestPointOnPolyline,
   headingAtEnd,
   headingAtStart,
   offsetPolyline,
