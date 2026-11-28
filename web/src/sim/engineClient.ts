@@ -54,6 +54,13 @@ export class EngineClient {
   private playbackTimer: ReturnType<typeof setTimeout> | null = null;
   /** Set by `reset` so the run continues across the re-`load` it triggers. */
   private resumeAfterReady = false;
+  /**
+   * Sim second the *next* `ready` should warm up to, overriding the preset's
+   * own warm-up target. `main.ts` sets this when re-running after an edit so
+   * the new layout starts at the same sim time the old one was showing — see
+   * `warmupTargetSec`.
+   */
+  private warmupOverrideSec: number | null = null;
 
   simTime = 0;
   carCount = 0;
@@ -76,6 +83,15 @@ export class EngineClient {
       this.readyWaiters.push(resolve);
       this.post({ type: 'load', network, preset, seed });
     });
+  }
+
+  /**
+   * Makes the next `load`/`reset` warm up to `simSeconds` instead of this
+   * preset's default target. Consumed by the next `ready` and then cleared, so
+   * it only ever affects the run it was set for.
+   */
+  setWarmupTarget(simSeconds: number | null): void {
+    this.warmupOverrideSec = simSeconds;
   }
 
   run(): void {
@@ -209,10 +225,12 @@ export class EngineClient {
     if (!this.lastPreset) return;
     const { warmup } = this.lastPreset;
     if (this.warmupMode === 'skip') {
-      const simSeconds = warmup.realSeconds * warmup.playbackSpeed;
-      if (simSeconds > 0) this.skip(simSeconds);
+      const target = warmupTargetSec(this.lastPreset, this.warmupOverrideSec);
+      this.warmupOverrideSec = null;
+      if (target > 0) this.skip(target);
       return;
     }
+    this.warmupOverrideSec = null;
     // 'playback': run fast for the warm-up window, then drop back to 1x.
     const speed = warmup.playbackSpeed as PlaybackSpeed;
     this.setSpeed(speed);
@@ -222,4 +240,45 @@ export class EngineClient {
       this.setSpeed(1);
     }, warmup.realSeconds * 1000);
   }
+}
+
+/**
+ * The sim second a fresh load should warm up to.
+ *
+ * `preset.warmup` describes a *wall-clock* window (morning: 5 real seconds at
+ * 2x), which as a sim-time target is 10 seconds — and at 10 seconds the
+ * morning curve is still at its opening 15 vehicles/minute, i.e. **one car
+ * every four seconds**. Pressing Run therefore looked broken: an essentially
+ * empty map that took ten real minutes to fill (Dev, 2026-11-28 — "cars are
+ * not populating when i hit run"). Measured on the test grid: t=10s gives 1
+ * car, t=617s gives 115.
+ *
+ * So the target is instead the sim second where demand first peaks: the busiest
+ * point of `spawnRate.curve`. That is where congestion -- the thing the player
+ * is here to edit -- actually exists, and it is a fixed function of the preset,
+ * so two runs of the same preset still start from the identical state and an
+ * A/B layout comparison stays fair.
+ *
+ * `overrideSec`, when given, wins: re-running after an edit warms up to the sim
+ * time the previous run had reached, so the new layout is compared against the
+ * old one at the same moment of the day rather than being thrown back to the
+ * peak.
+ */
+export function warmupTargetSec(preset: Preset, overrideSec: number | null = null): number {
+  if (overrideSec !== null && overrideSec > 0) return overrideSec;
+
+  const curve = preset.spawnRate.curve;
+  let best = 0;
+  let bestRate = -1;
+  for (const point of curve) {
+    const [time, rate] = point;
+    if (rate > bestRate) {
+      bestRate = rate;
+      best = time;
+    }
+  }
+  // A preset with no curve at all (or a flat one peaking at t=0) still gets the
+  // original wall-clock-derived warm-up rather than no warm-up at all.
+  if (best <= 0) return preset.warmup.realSeconds * preset.warmup.playbackSpeed;
+  return Math.min(best, preset.durationSec);
 }

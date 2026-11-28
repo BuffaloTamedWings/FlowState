@@ -51,7 +51,7 @@ if (!app) throw new Error('#app container is missing from index.html');
 
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-enableShadows(renderer); // morning/afternoon cast; night doesn't (see render/lighting.ts)
+enableShadows(renderer); // all three times of day cast (see render/lighting.ts)
 app.appendChild(renderer.domElement);
 
 const scene = new Scene();
@@ -332,6 +332,14 @@ async function runOrPause(): Promise<void> {
   if (!currentPreset) return;
   runInFlight = true;
   try {
+    // Re-running after an *edit* should pick the day back up where it was, not
+    // throw the player back to the preset's warm-up target: the whole point is
+    // comparing the new layout against the old one at the same moment of the
+    // day. A *preset* change is different -- the new time of day has its own
+    // demand curve, so it warms up to its own peak (null = preset default).
+    const samePreset = lastRunPresetId !== null && lastRunPresetId === currentPreset.id;
+    client.setWarmupTarget(samePreset && client.simTime > 0 ? client.simTime : null);
+
     const network = compileScenario(layoutState.scenario);
     currentNetwork = network;
     swapSimNetwork(network);

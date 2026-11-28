@@ -13,7 +13,7 @@ import type { EngineToUI, UIToEngine } from '@shared/messages.js';
 import type { CompiledNetwork } from '@shared/network.js';
 import type { Preset } from '@shared/preset.js';
 
-import { EngineClient, type TickFrame } from '@web/sim/engineClient.js';
+import { EngineClient, warmupTargetSec, type TickFrame } from '@web/sim/engineClient.js';
 import type { EngineTransport } from '@web/sim/transport.js';
 
 const dataDir = resolve(import.meta.dirname, '../../../data');
@@ -98,10 +98,11 @@ describe('load', () => {
   it('resolves when ready arrives, and warms up via skip by default', async () => {
     const { transport, client, ticks } = setup();
     await client.load(grid(), morning(), 20261201);
-    // morning.json: warmup.realSeconds=5, playbackSpeed=2 -> skip(10) sim seconds.
+    // The warm-up skips to the busiest point of morning.json's spawn curve
+    // (t=900s), not to `realSeconds * playbackSpeed` -- see `warmupTargetSec`.
     const latest = client.latestTick();
     expect(latest).not.toBeNull();
-    expect(latest!.simTime).toBeCloseTo(10, 6);
+    expect(latest!.simTime).toBeCloseTo(warmupTargetSec(morning()), 6);
     expect(ticks.length).toBeGreaterThan(0);
     expect(transport.terminated).toBe(false);
   });
@@ -166,7 +167,7 @@ describe('skip and reset', () => {
     // like a fresh `load` with the same seed -- so the post-reset state
     // should match the post-load state, not stay empty.
     client.reset();
-    expect(client.simTime).toBeCloseTo(10, 6); // warm-up skip landed again
+    expect(client.simTime).toBeCloseTo(warmupTargetSec(morning()), 6); // warm-up skip landed again
     expect(client.carCount).toBeGreaterThan(0);
   });
 });

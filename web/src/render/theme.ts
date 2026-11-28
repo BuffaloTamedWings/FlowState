@@ -275,57 +275,66 @@ export const theme: Theme = {
   },
 
   lighting: {
-    // Low warm sun out of the east, long shadows, cool haze on the horizon.
+    // Dev's brief (2026-11-28): keep it simple -- one sun that moves east ->
+    // overhead -> west, tinted yellow / white / orange. No second light, no
+    // per-mode rig; only these numbers change between the three times of day.
+    //
+    // Azimuth is degrees clockwise from north, so 90 = due east, 270 = due
+    // west; elevation is degrees above the horizon (90 = straight overhead).
+
+    // Sun low in the east, warm yellow.
     morning: {
-      sunColor: 0xffd9a0,
-      sunIntensity: 1.5,
-      sunElevationDeg: 14,
-      sunAzimuthDeg: 88,
+      sunColor: 0xffd24a,
+      sunIntensity: 2.0,
+      sunElevationDeg: 22,
+      sunAzimuthDeg: 90,
       sunDistance: 900,
-      ambientColor: 0x9fb4cc,
-      ambientIntensity: 0.75,
-      backgroundColor: 0x213040,
-      fogEnabled: true,
-      fogColor: 0x33465c,
-      fogNear: 450,
-      fogFar: 2000,
-      headlights: false,
-      shadows: true,
-    },
-    // High, bright, neutral: the strong-contrast reference look.
-    afternoon: {
-      sunColor: 0xfff6e8,
-      sunIntensity: 2.1,
-      sunElevationDeg: 66,
-      sunAzimuthDeg: 205,
-      sunDistance: 900,
-      ambientColor: 0xc8d6e4,
+      ambientColor: 0xbcd0e6,
       ambientIntensity: 0.85,
-      backgroundColor: 0x4a6478,
+      backgroundColor: 0x33465c,
       fogEnabled: true,
-      fogColor: 0x6d8699,
-      fogNear: 600,
-      fogFar: 2600,
+      fogColor: 0x47618a,
+      fogNear: 700,
+      fogFar: 3000,
       headlights: false,
       shadows: true,
     },
-    // No real sun: a dim cool fill, dark sky, and the headlight glows doing
-    // the visual work.
-    night: {
-      sunColor: 0x30466b,
-      sunIntensity: 0.12,
-      sunElevationDeg: 72,
-      sunAzimuthDeg: 20,
+    // Straight overhead, neutral white. The reference look.
+    afternoon: {
+      sunColor: 0xffffff,
+      sunIntensity: 2.2,
+      sunElevationDeg: 90,
+      sunAzimuthDeg: 180,
       sunDistance: 900,
-      ambientColor: 0x33425c,
-      ambientIntensity: 0.22,
-      backgroundColor: 0x070a0f,
+      ambientColor: 0xd4e2f0,
+      ambientIntensity: 0.9,
+      backgroundColor: 0x5a7a90,
       fogEnabled: true,
-      fogColor: 0x080c12,
-      fogNear: 450,
-      fogFar: 2200,
+      fogColor: 0x7d94a8,
+      fogNear: 800,
+      fogFar: 3400,
+      headlights: false,
+      shadows: true,
+    },
+    // Sun low in the west, orange. This is *evening*, not midnight: Dev's note
+    // is that "night" still has to be legible, so the sun stays on (dimmer and
+    // orange) and ambient stays high enough to read the road surface, rather
+    // than cutting to a near-black scene lit only by headlight sprites.
+    night: {
+      sunColor: 0xff7a2a,
+      sunIntensity: 1.6,
+      sunElevationDeg: 16,
+      sunAzimuthDeg: 270,
+      sunDistance: 900,
+      ambientColor: 0x8a93b0,
+      ambientIntensity: 0.6,
+      backgroundColor: 0x2b2437,
+      fogEnabled: true,
+      fogColor: 0x4a3a46,
+      fogNear: 700,
+      fogFar: 3000,
       headlights: true,
-      shadows: false,
+      shadows: true,
     },
   },
 
