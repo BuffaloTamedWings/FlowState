@@ -114,14 +114,21 @@ export function createHeadlightsView(carCapacity: number): HeadlightsView {
   let enabled = false;
   root.visible = false;
 
+  // These three must be initialised *before* the `makeMesh` calls below.
+  // `makeMesh` is a hoisted function declaration, so calling it earlier in the
+  // body is legal, but it reads `hidden` -- and a `const` is in its temporal
+  // dead zone until its own line runs. Declaring them after the calls threw
+  // `ReferenceError: Cannot access 'hidden' before initialization` on the first
+  // frame, which took down `createCarsView` -> `startSim` and left the whole UI
+  // inert (every button no-ops when `main.ts`'s `client` is null).
+  const matrix = new Matrix4();
+  const scale = new Vector3();
+  const hidden = new Matrix4().makeScale(0, 0, 0);
+
   let capacity = Math.max(1, carCapacity);
   let front = makeMesh(frontMaterial, capacity);
   let rear = makeMesh(rearMaterial, capacity);
   root.add(front, rear);
-
-  const matrix = new Matrix4();
-  const scale = new Vector3();
-  const hidden = new Matrix4().makeScale(0, 0, 0);
 
   function makeMesh(material: MeshBasicMaterial, cap: number): InstancedMesh {
     const mesh = new InstancedMesh(geometry, material, cap * LAMPS_PER_CAR);

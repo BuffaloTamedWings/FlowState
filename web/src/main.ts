@@ -311,7 +311,14 @@ function swapSimNetwork(network: CompiledNetwork): void {
 }
 
 async function runOrPause(): Promise<void> {
-  if (!client || !layoutState || runInFlight) return;
+  if (runInFlight) return;
+  if (!client || !layoutState) {
+    // Startup failed (see `loadScenario`'s catch). Say so rather than
+    // swallowing the click.
+    panelMessage ??= 'The simulation failed to start -- see the browser console.';
+    renderPanel();
+    return;
+  }
 
   if (client.running) {
     client.pause();
@@ -546,7 +553,15 @@ async function loadScenario(): Promise<void> {
     await startSim(network);
     renderPanel();
   } catch (err: unknown) {
+    // Make the failure *visible*. A throw in here (the headlights TDZ bug,
+    // 2026-11-28) leaves `client` null, which silently turns every button in
+    // the HUD into a no-op -- the UI looks intact and simply ignores clicks,
+    // which is the worst possible way for this to fail. Surfacing it in the
+    // panel, and still rendering the panel at all, turns that into something
+    // diagnosable from the screen instead of only from the console.
     console.error('Failed to compile/render the network:', err);
+    panelMessage = `Startup failed: ${err instanceof Error ? err.message : String(err)}`;
+    renderPanel();
   }
 }
 
