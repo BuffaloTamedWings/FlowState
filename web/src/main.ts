@@ -13,12 +13,22 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-import type { PlaybackSpeed } from '@shared/messages.js';
+import type { Metrics, PlaybackSpeed } from '@shared/messages.js';
 import { isConnectorPath, isLanePath, type CompiledNetwork } from '@shared/network.js';
-import type { Preset } from '@shared/preset.js';
+import { PRESET_IDS, type Preset } from '@shared/preset.js';
 import type { Edge, Node, Scenario } from '@shared/scenario.js';
 import { compileScenario } from '@web/compile/index.js';
-import { buildNetworkView, buildPathLookup, createCarsView, frameBounds, SCENE_BACKGROUND, type CarsView, type NetworkView } from '@web/render/index.js';
+import {
+  buildNetworkView,
+  buildPathLookup,
+  createCarsView,
+  createHeatmapView,
+  frameBounds,
+  SCENE_BACKGROUND,
+  type CarsView,
+  type HeatmapView,
+  type NetworkView,
+} from '@web/render/index.js';
 import { createTransport, EngineClient, type TickFrame } from '@web/sim/index.js';
 
 import { LayoutState } from './ui/layoutState.js';
@@ -26,10 +36,10 @@ import { edgeOptionsFor, nodeOptionsFor } from './ui/options.js';
 import { decideRunAction } from './ui/runController.js';
 import { findSubgroup, setGroupHighlighted } from './ui/highlight.js';
 import { isClick, pick, toNdc, type PointerPos } from './ui/picking.js';
-import { Panel, type PanelSelectionInfo, type PanelState } from './ui/panel.js';
+import { Panel, type PanelMetrics, type PanelPreset, type PanelSelectionInfo, type PanelState } from './ui/panel.js';
 
 const SCENARIO_URL = '/data/scenarios/test-grid.scenario.json';
-const PRESET_URL = '/data/presets/morning.json';
+const presetUrl = (id: string): string => `/data/presets/${id}.json`;
 const FALLBACK_GROUND_SIZE = 1200; // meters, used only if a scenario fails to load
 
 // Swap point for step 6: ?engine=stub forces the fallback stub engine; the
@@ -80,7 +90,20 @@ let carsView: CarsView | null = null;
 let layoutState: LayoutState | null = null;
 let currentPreset: Preset | null = null;
 let lastRunHash: string | null = null;
+let lastRunPresetId: string | null = null;
 let runInFlight = false;
+/** The compiled network currently loaded into the engine; `stats` path indices are only meaningful against this one. */
+let currentNetwork: CompiledNetwork | null = null;
+
+// --- HUD state (step 10) -------------------------------------------------
+const presetsById = new Map<string, Preset>();
+let attribution: string | null = null;
+let speed: PlaybackSpeed = 1;
+let heatmapView: HeatmapView | null = null;
+let heatmapOn = false;
+let latestMetrics: Metrics | null = null;
+let completedTripCount = 0;
+let completedTripTimeSum = 0;
 
 // Current selection, or null for "nothing picked".
 let selection: { kind: 'edge' | 'node'; id: string } | null = null;
@@ -124,7 +147,51 @@ const panel = new Panel(document.body, {
     void runOrPause();
   },
   onRevertAll: () => revertAll(),
+  onSelectPreset: (presetId) => selectPreset(presetId),
+  onSetSpeed: (next) => setSpeed(next),
+  onSkip: () => client?.skip(300),
+  onReset: () => {
+    completedTripCount = 0;
+    completedTripTimeSum = 0;
+    latestMetrics = null;
+    client?.reset();
+  },
+  onToggleHeatmap: () => toggleHeatmap(),
 });
+
+function selectPreset(presetId: string): void {
+  if (client?.running) return; // editing/preset changes only allowed while paused
+  const preset = presetsById.get(presetId);
+  if (!preset) return;
+  currentPreset = preset;
+  renderPanel();
+}
+
+function setSpeed(next: PlaybackSpeed): void {
+  speed = next;
+  client?.setSpeed(next);
+  renderPanel();
+}
+
+function toggleHeatmap(): void {
+  heatmapOn = !heatmapOn;
+  heatmapView?.setEnabled(heatmapOn);
+  renderPanel();
+}
+
+/** Builds the HUD's rolled-up metrics view from the latest `Metrics` message, if any. */
+function metricsSummary(): PanelMetrics | null {
+  if (!latestMetrics) return null;
+  const { counts } = latestMetrics;
+  return {
+    carsActive: counts.carsActive,
+    carsWaitingToEnter: counts.carsWaitingToEnter,
+    parkingFailed: counts.parkingFailed,
+    gridlockRemovals: counts.gridlockRemovals,
+    completedTrips: completedTripCount,
+    meanTripTimeSec: completedTripCount > 0 ? completedTripTimeSum / completedTripCount : null,
+  };
+}
 
 function findEdge(id: string): Edge | undefined {
   return layoutState?.scenario.edges.find((e) => e.id === id);
@@ -154,6 +221,11 @@ function renderPanel(): void {
     }
   }
 
+  const presets: PanelPreset[] = PRESET_IDS.map((id) => {
+    const preset = presetsById.get(id);
+    return { id, label: preset?.label ?? id };
+  }).filter((p) => presetsById.has(p.id));
+
   const state: PanelState = {
     selection: selectionInfo,
     options,
@@ -162,6 +234,12 @@ function renderPanel(): void {
     simTime: client?.simTime ?? 0,
     carCount: client?.carCount ?? 0,
     message: panelMessage,
+    presets,
+    presetId: currentPreset?.id ?? null,
+    speed,
+    heatmapOn,
+    attribution,
+    metrics: metricsSummary(),
   };
   panel.render(state);
 }
@@ -182,6 +260,7 @@ function applySelection(optionId: string): void {
       layoutState.selectEdgeOption(edge.id, optionId);
       const network = compileScenario(layoutState.scenario);
       networkView.rebuild(layoutState.scenario, network, { edges: [edge.id], nodes: [edge.from, edge.to] });
+      heatmapView?.rebind();
     } catch (err: unknown) {
       layoutState.selectEdgeOption(edge.id, previous);
       panelMessage = err instanceof Error ? err.message : String(err);
@@ -195,6 +274,7 @@ function applySelection(optionId: string): void {
       layoutState.selectNodeOption(node.id, optionId);
       const network = compileScenario(layoutState.scenario);
       networkView.rebuild(layoutState.scenario, network, { edges: [], nodes: [node.id] });
+      heatmapView?.rebind();
     } catch (err: unknown) {
       layoutState.selectNodeOption(node.id, previous);
       panelMessage = err instanceof Error ? err.message : String(err);
@@ -214,6 +294,7 @@ function revertAll(): void {
     edges: layoutState.scenario.edges.map((e) => e.id),
     nodes: layoutState.scenario.nodes.map((n) => n.id),
   });
+  heatmapView?.rebind();
   renderPanel();
 }
 
@@ -237,25 +318,31 @@ async function runOrPause(): Promise<void> {
     return;
   }
 
-  const action = decideRunAction(layoutState.hash(), lastRunHash);
+  const action = decideRunAction(layoutState.hash(), lastRunHash, currentPreset?.id ?? null, lastRunPresetId);
   if (action === 'resume') {
     client.run();
     renderPanel();
     return;
   }
 
-  // 'compile-load-run': layout or preset changed since the last run (or
-  // there was no last run) -> compile, load, run, restart from empty on the
-  // same seed. See CLAUDE.md's "Run semantics" paragraph.
+  // 'compile-load-run': the layout or the preset changed since the last run
+  // (or there was no last run) -> compile, load, run, restart from empty on
+  // the same seed. See CLAUDE.md's "Run semantics" paragraph.
   if (!currentPreset) return;
   runInFlight = true;
   try {
     const network = compileScenario(layoutState.scenario);
+    currentNetwork = network;
     swapSimNetwork(network);
+    completedTripCount = 0;
+    completedTripTimeSum = 0;
+    latestMetrics = null;
+    client.setSpeed(speed);
     await client.load(network, currentPreset, currentPreset.seed);
     client.run();
     layoutState.markRunBaseline();
     lastRunHash = layoutState.hash();
+    lastRunPresetId = currentPreset.id;
   } catch (err: unknown) {
     panelMessage = err instanceof Error ? err.message : String(err);
   } finally {
@@ -309,25 +396,31 @@ window.addEventListener('keydown', (e) => {
       void runOrPause();
       break;
     case '1':
-      client.setSpeed(1);
+      setSpeed(1);
       break;
     case '2':
-      client.setSpeed(2 as PlaybackSpeed);
+      setSpeed(2 as PlaybackSpeed);
       break;
     case '4':
-      client.setSpeed(4 as PlaybackSpeed);
+      setSpeed(4 as PlaybackSpeed);
       break;
     case 's':
       client.skip(300);
       break;
     case 'r':
+      completedTripCount = 0;
+      completedTripTimeSum = 0;
+      latestMetrics = null;
       client.reset();
+      break;
+    case 'h':
+      toggleHeatmap();
       break;
     default:
       break;
   }
 });
-console.log('keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset');
+console.log('keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset, h = heatmap toggle');
 
 let lastLogAt = 0;
 function maybeLogSimStatus(): void {
@@ -375,6 +468,7 @@ async function loadScenario(): Promise<void> {
 
   fitGroundToBounds(scenario.meta.bounds);
   layoutState = new LayoutState(scenario);
+  attribution = scenario.meta.attribution;
 
   try {
     const network = compileScenario(layoutState.scenario);
@@ -389,6 +483,10 @@ async function loadScenario(): Promise<void> {
     networkView = view;
     networkGroup = view.group;
     scene.add(networkGroup);
+
+    heatmapView?.dispose();
+    heatmapView = createHeatmapView(networkGroup);
+    heatmapView.setEnabled(heatmapOn);
 
     let meshCount = 0;
     let lineCount = 0;
@@ -418,10 +516,17 @@ async function loadScenario(): Promise<void> {
  * worker failing to start) doesn't also take down the static network view.
  */
 async function startSim(network: CompiledNetwork): Promise<void> {
-  const res = await fetch(PRESET_URL);
-  if (!res.ok) throw new Error(`${PRESET_URL} -> HTTP ${res.status}`);
-  const preset = (await res.json()) as Preset;
-  currentPreset = preset;
+  currentNetwork = network;
+  presetsById.clear();
+  for (const id of PRESET_IDS) {
+    const res = await fetch(presetUrl(id));
+    if (!res.ok) throw new Error(`${presetUrl(id)} -> HTTP ${res.status}`);
+    presetsById.set(id, (await res.json()) as Preset);
+  }
+  // Morning is the default time of day; fall back to whatever loaded first
+  // if a future scenario ever omits it.
+  currentPreset = presetsById.get('morning') ?? presetsById.values().next().value ?? null;
+  if (!currentPreset) throw new Error('no presets loaded');
 
   const transport = createTransport(engineKind);
   swapSimNetwork(network);
@@ -433,6 +538,17 @@ async function startSim(network: CompiledNetwork): Promise<void> {
       previousTickAt = latestTickAt;
       latestTickAt = performance.now();
     },
+    onStats: (_simTime, buf) => {
+      if (heatmapView && currentNetwork) heatmapView.update(buf, currentNetwork);
+    },
+    onMetrics: (_simTime, metrics) => {
+      latestMetrics = metrics;
+      for (const trip of metrics.completedTrips) {
+        completedTripCount++;
+        completedTripTimeSum += trip.tripTimeSec;
+      }
+      renderPanel();
+    },
     onError: (message) => {
       console.error(`engine (${engineKind}) error:`, message);
       panelMessage = message;
@@ -441,9 +557,10 @@ async function startSim(network: CompiledNetwork): Promise<void> {
   });
 
   console.log(`sim: starting ${engineKind} engine, loading network (${network.paths.length} paths)`);
-  await client.load(network, preset, preset.seed);
+  await client.load(network, currentPreset, currentPreset.seed);
   layoutState?.markRunBaseline();
   lastRunHash = layoutState?.hash() ?? null;
+  lastRunPresetId = currentPreset.id;
   console.log(`sim: ready, ${client.carCount} cars after warm-up`);
 }
 

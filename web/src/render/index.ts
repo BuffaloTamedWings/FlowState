@@ -31,3 +31,9 @@ export { interpolateCarPose, SlotAllocator } from './carsCore.js';
 
 export type { CarsView } from './cars.js';
 export { createCarsView } from './cars.js';
+
+export type { RGB } from './heatmap.js';
+export { speedRatioColor } from './heatmap.js';
+
+export type { HeatmapView } from './heatmapView.js';
+export { applyStatsToHeatmap, createHeatmapView } from './heatmapView.js';

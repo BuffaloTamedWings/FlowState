@@ -130,10 +130,12 @@ _Test grid only. Downtown is step 8._
 **Done when:** the **test grid** runs the morning preset with Sashank's engine, cars stop at signals, and edits work.
 
 ## 10. Heatmap + HUD
-- [ ] Per-lane color from `stats` (`meanSpeed/speedLimit`: ≥0.7 green, 0.4–0.7 yellow, <0.4 red, blended).
-- [ ] HUD: preset picker, Run/Pause, speed 1×/4×, Skip 5 min, Reset, Revert all, sim clock, "© OpenStreetMap contributors".
+- [x] Per-lane color from `stats`, blended through the three stops. **An empty lane is not a fast lane:** `engine/src/stats.ts` reports `speedRatio = 1` for a path with no cars, so the heatmap keys "no data" off `occupancy`, not speed. Without that the whole map paints green at night and before warm-up.
+- [x] HUD: preset picker, Run/Pause, speed 1×/2×/4× (the contract allows 2× and it's the same code), Skip 5 min, Reset, Revert all, heatmap toggle, sim clock, metrics counts, attribution from `scenario.meta.attribution` rather than hardcoded.
+- [x] **A preset change counts as a layout change** for Run semantics — otherwise switching morning → night would resume the morning run under a night label. `decideRunAction` now takes both.
+- [x] Heatmap materials are per-mesh clones created once and mutated in place; the shared singletons in `materials.ts` are never touched. Base materials are captured at bind time, not lazily, so a lane that is selected when the first `stats` lands doesn't get its highlight clone recorded as its base.
 
-**Done when:** congestion visibly builds and clears in the morning preset **on the test grid**. **← MVP complete** (downtown is step 8, after this).
+**Done when:** congestion visibly builds and clears in the morning preset **on the test grid**. ✅ **Code done 2026-11-28, 703 tests green — pending Dev's confirmation in the browser. ← MVP complete** (downtown is step 8, after this).
 
 ## 11. Polish (after MVP)
 - [ ] **Per-type vehicle meshes** from `shared/vehicles.ts` (car / box truck / semi), sized by the shared `length`/`width` so they match the gaps the engine leaves. Read the type from tick flag bits 3-4. For long vehicles, place the rear at `s − length`, walking back onto the previous path (invert `next` for predecessors; take *which* predecessor from the previous tick) so trailers follow turns rather than cutting corners.
