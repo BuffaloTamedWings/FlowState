@@ -87,12 +87,18 @@ _Test grid only. Downtown is step 8._
 **Done when:** the test grid in the browser matches `test-grid-preview.png`. ✅ **Code done 2026-11-27, 593 tests green — pending Dev's visual confirmation in the browser.** The preview's buildings, park and freeway strip are scenery and belong to step 11, so the ground is bare around the roads.
 
 ## 6. Stub engine + car rendering
-- [ ] `web/src/sim/engineClient.ts` — starts a worker, sends `load`/`run`/`pause`/`setSpeed`/`skip`/`reset`, receives `tick`/`stats`/`metrics` per `shared/messages.ts`.
-- [ ] `web/src/sim/stubEngine.ts` — worker that spawns fake cars at spawn points and moves them along random valid `next` paths at the speed limit; sends ticks in the real buffer layout. Seeded.
-- [ ] `InstancedMesh` cars, slot per `vehicleId`; position via arc-length lookup; interpolate between the last two ticks in x/y; heading from tangent; brake-light flag.
-- [ ] Swap point: one line to choose stub vs real engine.
+**Reordered: the real engine is the primary target here, not step 9.** Sashank's engine was merged and green (S7, `f2dc7a7`) before this step started, and `EngineHost` takes an injected clock with no Worker APIs in it — so `engineClient.ts` is tested in Node against the **real engine** with a fake clock, which a stub could never prove. The stub stays as the fallback and as a way to isolate front-end bugs from sim bugs. **This largely absorbs step 9.**
+- [x] `web/src/sim/engineClient.ts` — sends `load`/`run`/`pause`/`setSpeed`/`skip`/`reset`, receives `tick`/`stats`/`metrics`/`error`. Talks to an `EngineTransport` interface, never a `Worker` directly, so the real worker, the stub and the in-process test harness all plug into the same client.
+- [x] `web/src/sim/stubEngine.ts` (+ `stubHost.ts`, `prng.ts`) — seeded fallback engine in the real buffer layout. Its own mulberry32, not Sashank's `rng.ts`.
+- [x] `InstancedMesh` cars, slot per `vehicleId`; position via arc-length lookup; interpolate between the last two ticks in x/y; heading from tangent; brake-light flag; per-instance scale from the tick's vehicle-type bits.
+- [x] Swap point: `createTransport(kind)`, chosen by `?engine=stub`, defaulting to the real worker.
+- [x] **Warm-up uses `skip(realSeconds × playbackSpeed)`, not a wall-clock timer.** A wall-clock warm-up makes the sim time where the player takes control depend on frame timing, so two runs of one layout don't start from the same state and the A/B comparison isn't fair. `warmupMode: 'playback'` keeps the original behaviour if the instant fill reads worse at the demo. **Tell Sashank.**
+- [x] Cars clear on `ready`, not on the first empty tick — an empty tick is also what a drained map looks like.
+- [x] Interpolation does **not** stop at a path change. Consecutive paths touch by construction, so lerping x/y across the boundary is smooth; snapping there would hitch every car at every intersection. A >50 m jump between ticks is treated as a teleport and snapped instead. A test walks all 186 lane↔connector handoffs in the grid and confirms every one is continuous.
 
-**Done when:** ~1,000 stub cars move smoothly across lanes and turns at 60 FPS.
+**Done when:** ~1,000 stub cars move smoothly across lanes and turns at 60 FPS. ✅ **Code done 2026-11-27, 623 tests green — pending Dev's visual confirmation in the browser.**
+
+**Open question for Sashank:** is `vehicleId` recycled after a car exits? The slot allocator is written to be correct either way, so it isn't blocking.
 
 ## 7. Editing + Run/Pause/restart
 - [ ] Raycast picking for edges and intersection nodes; highlight selection.
@@ -115,8 +121,8 @@ _Test grid only. Downtown is step 8._
 **Done when:** downtown loads, passes validation, compiles, and looks right in the browser.
 
 ## 9. Integrate the real engine
-**Runs before step 8**, on the test grid.
-- [ ] Swap stub → Sashank's worker on the test grid.
+**Mostly absorbed into step 6** — the real worker is already wired and is the default. What's left here is confirming it in the browser and fixing whatever that surfaces.
+- [x] Swap stub → Sashank's worker on the test grid. Done in step 6; `?engine=stub` selects the fallback.
 - [ ] Fix contract mismatches together (no silent changes to `shared/`).
 - [ ] Downtown comes later, as part of step 8.
 

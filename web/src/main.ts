@@ -13,13 +13,22 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+import type { PlaybackSpeed } from '@shared/messages.js';
+import { isConnectorPath, isLanePath, type CompiledNetwork } from '@shared/network.js';
+import type { Preset } from '@shared/preset.js';
 import type { Scenario } from '@shared/scenario.js';
-import { isConnectorPath, isLanePath } from '@shared/network.js';
 import { compileScenario } from '@web/compile/index.js';
-import { buildNetworkView, frameBounds, SCENE_BACKGROUND } from '@web/render/index.js';
+import { buildNetworkView, buildPathLookup, createCarsView, frameBounds, SCENE_BACKGROUND, type CarsView } from '@web/render/index.js';
+import { createTransport, EngineClient, type TickFrame } from '@web/sim/index.js';
 
 const SCENARIO_URL = '/data/scenarios/test-grid.scenario.json';
+const PRESET_URL = '/data/presets/morning.json';
 const FALLBACK_GROUND_SIZE = 1200; // meters, used only if a scenario fails to load
+
+// Swap point for step 6: ?engine=stub forces the fallback stub engine; the
+// real engine (finished and the primary target, see docs/frontend-plan.md
+// step 6) is the default otherwise.
+const engineKind = new URLSearchParams(window.location.search).get('engine') === 'stub' ? 'stub' : 'worker';
 
 const app = document.getElementById('app');
 if (!app) throw new Error('#app container is missing from index.html');
@@ -57,6 +66,17 @@ scene.add(grid);
 
 let networkGroup: Group | null = null;
 
+// --- Sim wiring (step 6) -----------------------------------------------
+// This is deliberately minimal: no HUD, no pause/speed UI beyond raw
+// keyboard bindings. The real HUD is step 10.
+let client: EngineClient | null = null;
+let carsView: CarsView | null = null;
+// Real wall-clock timestamps (performance.now(), ms) of the two most recent
+// ticks, so the render loop can compute how far between them "now" sits,
+// independent of playback speed or frame rate.
+let latestTickAt = 0;
+let previousTickAt = 0;
+
 function resize(): void {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -69,8 +89,56 @@ window.addEventListener('resize', resize);
 
 renderer.setAnimationLoop(() => {
   controls.update();
+  if (client && carsView) {
+    const latest = client.latestTick();
+    const previous = client.previousTick();
+    if (latest) {
+      const span = latestTickAt - previousTickAt;
+      const alpha = span > 0 ? Math.min(Math.max((performance.now() - latestTickAt) / span, 0), 1) : 1;
+      carsView.update(latest, previous, alpha);
+    }
+  }
   renderer.render(scene, camera);
 });
+
+let lastLogAt = 0;
+function maybeLogSimStatus(): void {
+  if (!client) return;
+  const now = performance.now();
+  if (now - lastLogAt < 1000) return;
+  lastLogAt = now;
+  console.log(`sim: t=${client.simTime.toFixed(1)}s cars=${client.carCount} running=${client.running}`);
+}
+setInterval(maybeLogSimStatus, 1000);
+
+window.addEventListener('keydown', (e) => {
+  if (!client) return;
+  switch (e.key) {
+    case ' ':
+      e.preventDefault();
+      if (client.running) client.pause();
+      else client.run();
+      break;
+    case '1':
+      client.setSpeed(1);
+      break;
+    case '2':
+      client.setSpeed(2 as PlaybackSpeed);
+      break;
+    case '4':
+      client.setSpeed(4 as PlaybackSpeed);
+      break;
+    case 's':
+      client.skip(300);
+      break;
+    case 'r':
+      client.reset();
+      break;
+    default:
+      break;
+  }
+});
+console.log('keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset');
 
 /** Resizes the ground plane and grid to fit the scenario's bounds, centered on them. */
 function fitGroundToBounds(bounds: Scenario['meta']['bounds'], padding = 1.5): void {
@@ -132,9 +200,50 @@ async function loadScenario(): Promise<void> {
     );
 
     frameBounds(camera, controls, scenario.meta.bounds);
+
+    await startSim(network);
   } catch (err: unknown) {
     console.error('Failed to compile/render the network:', err);
   }
+}
+
+/**
+ * Sets up the engine transport + client, loads the compiled network, and
+ * starts the car renderer. Isolated from `loadScenario`'s render setup so a
+ * sim failure (e.g. the real engine worker failing to start) doesn't also
+ * take down the static network view.
+ */
+async function startSim(network: CompiledNetwork): Promise<void> {
+  const res = await fetch(PRESET_URL);
+  if (!res.ok) throw new Error(`${PRESET_URL} -> HTTP ${res.status}`);
+  const preset = (await res.json()) as Preset;
+
+  const transport = createTransport(engineKind);
+  const lookup = buildPathLookup(network);
+
+  if (carsView) {
+    scene.remove(carsView.object);
+    carsView.dispose();
+  }
+  carsView = createCarsView(lookup);
+  scene.add(carsView.object);
+
+  if (client) client.dispose();
+  client = new EngineClient({
+    transport,
+    onTick: (_frame: TickFrame) => {
+      previousTickAt = latestTickAt;
+      latestTickAt = performance.now();
+    },
+    onError: (message) => {
+      console.error(`engine (${engineKind}) error:`, message);
+    },
+  });
+
+  console.log(`sim: starting ${engineKind} engine, loading network (${network.paths.length} paths)`);
+  await client.load(network, preset, preset.seed);
+  console.log(`sim: ready, ${client.carCount} cars after warm-up`);
+  client.run(); // auto-run after load
 }
 
 loadScenario().catch((err: unknown) => {

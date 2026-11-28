@@ -23,3 +23,11 @@ export type { NetworkView } from './networkView.js';
 export { buildNetworkView } from './networkView.js';
 
 export { frameBounds } from './camera.js';
+
+export { buildPathLookup, samplePath } from './pathLookup.js';
+
+export type { CarPose } from './carsCore.js';
+export { interpolateCarPose, SlotAllocator } from './carsCore.js';
+
+export type { CarsView } from './cars.js';
+export { createCarsView } from './cars.js';
