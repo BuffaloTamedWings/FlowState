@@ -1,16 +1,4 @@
-import {
-  AmbientLight,
-  Color,
-  DirectionalLight,
-  GridHelper,
-  Group,
-  Mesh,
-  MeshLambertMaterial,
-  PerspectiveCamera,
-  PlaneGeometry,
-  Scene,
-  WebGLRenderer,
-} from 'three';
+import { Color, Group, Mesh, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import type { Metrics, PlaybackSpeed } from '@shared/messages.js';
@@ -19,15 +7,26 @@ import { PRESET_IDS, type Preset } from '@shared/preset.js';
 import type { Edge, Node, Scenario } from '@shared/scenario.js';
 import { compileScenario } from '@web/compile/index.js';
 import {
+  applyLighting,
+  buildGround,
   buildNetworkView,
   buildPathLookup,
+  buildScenery,
+  configureShadowCamera,
   createCarsView,
   createHeatmapView,
+  createLightingRig,
+  enableShadows,
   frameBounds,
+  refreshLighting,
   SCENE_BACKGROUND,
+  subscribeTheme,
   type CarsView,
+  type GroundView,
   type HeatmapView,
+  type LightingRig,
   type NetworkView,
+  type SceneryView,
 } from '@web/render/index.js';
 import { createTransport, EngineClient, type TickFrame } from '@web/sim/index.js';
 
@@ -37,10 +36,10 @@ import { decideRunAction } from './ui/runController.js';
 import { findSubgroup, setGroupHighlighted } from './ui/highlight.js';
 import { isClick, pick, toNdc, type PointerPos } from './ui/picking.js';
 import { Panel, type PanelMetrics, type PanelPreset, type PanelSelectionInfo, type PanelState } from './ui/panel.js';
+import { createTuningPanel } from './ui/tuningPanel.js';
 
 const SCENARIO_URL = '/data/scenarios/test-grid.scenario.json';
 const presetUrl = (id: string): string => `/data/presets/${id}.json`;
-const FALLBACK_GROUND_SIZE = 1200; // meters, used only if a scenario fails to load
 
 // Swap point for step 6: ?engine=stub forces the fallback stub engine; the
 // real engine (finished and the primary target, see docs/frontend-plan.md
@@ -52,6 +51,7 @@ if (!app) throw new Error('#app container is missing from index.html');
 
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+enableShadows(renderer); // morning/afternoon cast; night doesn't (see render/lighting.ts)
 app.appendChild(renderer.domElement);
 
 const scene = new Scene();
@@ -66,20 +66,16 @@ controls.enableDamping = true;
 controls.maxPolarAngle = Math.PI * 0.49;
 controls.target.set(0, 0, 0);
 
-scene.add(new AmbientLight(0xffffff, 1.1));
-const sun = new DirectionalLight(0xffffff, 1.6);
-sun.position.set(220, 400, 160);
-scene.add(sun);
+// Lighting (step 11): one reused ambient + directional pair, driven by
+// `preset.lighting` through `render/lighting.ts`. Starts on morning.
+const lightingRig: LightingRig = createLightingRig(scene);
 
-// Ground plane: PlaneGeometry is in the XY plane, so rotate it flat onto Three's XZ.
-const groundMaterial = new MeshLambertMaterial({ color: 0x2a3138 });
-const ground = new Mesh(new PlaneGeometry(FALLBACK_GROUND_SIZE, FALLBACK_GROUND_SIZE), groundMaterial);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = -0.02; // just under the road meshes
-scene.add(ground);
-
-let grid = new GridHelper(FALLBACK_GROUND_SIZE, FALLBACK_GROUND_SIZE / 50, 0x3c454e, 0x333b42);
-scene.add(grid);
+// The ground (with the freeway trench cut into it) and the static scenery are
+// both derived from the scenario, so they are built in `rebuildStaticScene`
+// once it has loaded.
+let groundView: GroundView | null = null;
+let sceneryView: SceneryView | null = null;
+let loadedScenario: Scenario | null = null;
 
 let networkGroup: Group | null = null;
 let networkView: NetworkView | null = null;
@@ -164,6 +160,10 @@ function selectPreset(presetId: string): void {
   const preset = presetsById.get(presetId);
   if (!preset) return;
   currentPreset = preset;
+  // Lighting is a look change, not a sim change: switch it immediately rather
+  // than waiting for the next Run (plan step 11).
+  applyLighting(scene, lightingRig, preset.lighting);
+  carsView?.setHeadlights(lightingRig.headlights);
   renderPanel();
 }
 
@@ -306,6 +306,7 @@ function swapSimNetwork(network: CompiledNetwork): void {
     carsView.dispose();
   }
   carsView = createCarsView(lookup);
+  carsView.setHeadlights(lightingRig.headlights);
   scene.add(carsView.object);
 }
 
@@ -420,7 +421,13 @@ window.addEventListener('keydown', (e) => {
       break;
   }
 });
-console.log('keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset, h = heatmap toggle');
+// The look-tuning panel (step 11). Hidden until `g`; top-left so it never
+// overlaps the HUD. Development tool only -- nothing in the demo needs it.
+const tuningPanel = createTuningPanel();
+console.log(
+  'keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset, h = heatmap toggle, g = look tuning panel',
+);
+void tuningPanel;
 
 let lastLogAt = 0;
 function maybeLogSimStatus(): void {
@@ -433,29 +440,53 @@ function maybeLogSimStatus(): void {
 }
 setInterval(maybeLogSimStatus, 1000);
 
-/** Resizes the ground plane and grid to fit the scenario's bounds, centered on them. */
-function fitGroundToBounds(bounds: Scenario['meta']['bounds'], padding = 1.5): void {
-  const width = Math.max(1, bounds.maxX - bounds.minX);
-  const height = Math.max(1, bounds.maxY - bounds.minY);
-  const size = Math.max(width, height) * padding;
-  const centerX = (bounds.minX + bounds.maxX) / 2;
-  const centerY = (bounds.minY + bounds.maxY) / 2;
+/**
+ * (Re)builds everything static about the scene that is derived from the
+ * scenario: the ground with the freeway trench cut into it, and the scenery
+ * (buildings, parks, freeway surfaces). Called once on load, and again whenever
+ * the tuning panel moves a number that is baked into that geometry.
+ */
+function rebuildStaticScene(scenario: Scenario): void {
+  if (groundView) {
+    scene.remove(groundView.group);
+    groundView.dispose();
+  }
+  groundView = buildGround(scenario);
+  scene.add(groundView.group);
 
-  ground.geometry.dispose();
-  ground.geometry = new PlaneGeometry(size, size);
-  // PlaneGeometry's local XY maps onto Three's XZ after the -90deg X rotation
-  // above: plane-local x -> world x, plane-local y -> world -z. Center it on
-  // the scenario's centroid (local meters, mapped the same way main's other
-  // coordinates are: world x = local x, world z = -local y).
-  ground.position.set(centerX, -0.02, -centerY);
-
-  scene.remove(grid);
-  grid.geometry.dispose();
-  (grid.material as { dispose?: () => void }).dispose?.();
-  grid = new GridHelper(size, Math.max(1, Math.round(size / 25)), 0x3c454e, 0x333b42);
-  grid.position.set(centerX, -0.01, -centerY);
-  scene.add(grid);
+  if (sceneryView) {
+    scene.remove(sceneryView.group);
+    sceneryView.dispose();
+  }
+  sceneryView = buildScenery(scenario);
+  scene.add(sceneryView.group);
 }
+
+// Theme edits from the tuning panel: colours and intensities re-tint themselves
+// (every view subscribes to the theme), but the lighting rig has to be
+// re-applied by hand, and structural numbers need their geometry rebuilt.
+subscribeTheme((change) => {
+  refreshLighting(scene, lightingRig);
+  if (loadedScenario) configureShadowCamera(lightingRig, loadedScenario.meta.bounds);
+  carsView?.setHeadlights(lightingRig.headlights);
+  if (change.structural && loadedScenario) {
+    rebuildStaticScene(loadedScenario);
+    // The network view bakes `theme.roads.connectorWidth` into its connector
+    // ribbons, so a structural change has to rebuild it too.
+    if (networkView && layoutState) {
+      try {
+        const network = compileScenario(layoutState.scenario);
+        networkView.rebuild(layoutState.scenario, network, {
+          edges: layoutState.scenario.edges.map((e) => e.id),
+          nodes: layoutState.scenario.nodes.map((n) => n.id),
+        });
+        heatmapView?.rebind();
+      } catch (err: unknown) {
+        console.error('theme rebuild failed:', err);
+      }
+    }
+  }
+});
 
 async function loadScenario(): Promise<void> {
   const res = await fetch(SCENARIO_URL);
@@ -466,7 +497,9 @@ async function loadScenario(): Promise<void> {
     `${scenario.meta.name} (${scenario.format} v${scenario.version}): ${scenario.nodes.length} nodes, ${scenario.edges.length} edges`,
   );
 
-  fitGroundToBounds(scenario.meta.bounds);
+  loadedScenario = scenario;
+  configureShadowCamera(lightingRig, scenario.meta.bounds);
+  rebuildStaticScene(scenario);
   layoutState = new LayoutState(scenario);
   attribution = scenario.meta.attribution;
 
@@ -527,6 +560,7 @@ async function startSim(network: CompiledNetwork): Promise<void> {
   // if a future scenario ever omits it.
   currentPreset = presetsById.get('morning') ?? presetsById.values().next().value ?? null;
   if (!currentPreset) throw new Error('no presets loaded');
+  applyLighting(scene, lightingRig, currentPreset.lighting);
 
   const transport = createTransport(engineKind);
   swapSimNetwork(network);

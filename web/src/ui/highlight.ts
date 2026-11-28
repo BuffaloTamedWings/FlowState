@@ -9,8 +9,7 @@
 
 import { MeshLambertMaterial, type Group, type Mesh, type Object3D } from 'three';
 
-const HIGHLIGHT_EMISSIVE = 0x3a6cff;
-const HIGHLIGHT_INTENSITY = 0.55;
+import { theme } from '@web/render/theme.js';
 
 interface Entry {
   original: MeshLambertMaterial;
@@ -36,8 +35,8 @@ export function setGroupHighlighted(group: Group, highlighted: boolean): void {
       if (!entry) {
         const original = mesh.material as MeshLambertMaterial;
         const clone = original.clone();
-        clone.emissive.setHex(HIGHLIGHT_EMISSIVE);
-        clone.emissiveIntensity = HIGHLIGHT_INTENSITY;
+        clone.emissive.setHex(theme.roads.highlightEmissiveColor);
+        clone.emissiveIntensity = theme.roads.highlightIntensity;
         entry = { original, highlighted: clone };
         cache.set(mesh, entry);
       }

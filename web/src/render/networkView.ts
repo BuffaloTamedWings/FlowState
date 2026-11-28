@@ -29,6 +29,7 @@ import { ribbonBuffers } from './ribbon.js';
 import { nodeFootprint } from './hull.js';
 import { drawableLanes, laneBoundaries, type DrawableLane, type LaneBoundary } from './laneGeometry.js';
 import { laneMaterial, lineMaterials, surfaceMaterials } from './materials.js';
+import { theme } from './theme.js';
 
 /** What a pickable mesh's `userData.pick` holds (see `web/src/ui/picking.ts`). */
 export interface PickTag {
@@ -133,6 +134,7 @@ function buildEdgeGroup(
     const geom = toThreeGeometry(buffers, Z.lane);
     geomSink.push(geom);
     const mesh = new Mesh(geom, laneMaterial(dl.type));
+    mesh.receiveShadow = true;
     mesh.name = dl.id;
     tagPick(mesh, { kind: 'edge', id: edgeId });
     group.add(mesh);
@@ -164,7 +166,7 @@ function buildNodeGroup(
   const connectorsAt = network.paths.filter(isConnectorPath).filter((c) => c.node === nodeId);
   if (connectorsAt.length === 0) return group;
 
-  // Connector ribbons: width 3.5 m, z lerped from the end-z of the lane they
+  // Connector ribbons: width `theme.roads.connectorWidth`, z lerped from the end-z of the lane they
   // leave to the start-z of the lane they enter. Missing debugPolyline (the
   // in-memory handoff strips it) is skipped quietly, not an error.
   for (const path of connectorsAt) {
@@ -175,10 +177,11 @@ function buildNodeGroup(
     const zStart = fromZArr && fromZArr.length > 0 ? (fromZArr[fromZArr.length - 1] ?? 0) : 0;
     const zEnd = toZArr && toZArr.length > 0 ? (toZArr[0] ?? 0) : 0;
     const z = lerpZ(poly.length, zStart, zEnd);
-    const buffers = ribbonBuffers(poly, 3.5, z);
+    const buffers = ribbonBuffers(poly, theme.roads.connectorWidth, z);
     const geom = toThreeGeometry(buffers, Z.connector);
     geomSink.push(geom);
     const mesh = new Mesh(geom, surfaceMaterials.connector);
+    mesh.receiveShadow = true;
     mesh.name = path.id;
     tagPick(mesh, { kind: 'node', id: nodeId });
     group.add(mesh);
@@ -205,6 +208,7 @@ function buildNodeGroup(
     if (geom) {
       geomSink.push(geom);
       const mesh = new Mesh(geom, surfaceMaterials.nodeFill);
+      mesh.receiveShadow = true;
       mesh.name = `node-fill/${nodeId}`;
       tagPick(mesh, { kind: 'node', id: nodeId });
       group.add(mesh);

@@ -5,7 +5,11 @@
  * Per `docs/frontend-plan.md`: `meanSpeed / speedLimit` (`PathStats.speedRatio`)
  * >= 0.7 is green, 0.4-0.7 is yellow, < 0.4 is red, and the transitions are a
  * smooth blend through those stops rather than three hard-edged buckets.
+ *
+ * The colours and the two thresholds themselves live in `theme.ts`.
  */
+
+import { theme } from './theme.js';
 
 export interface RGB {
   r: number;
@@ -13,17 +17,20 @@ export interface RGB {
   b: number;
 }
 
-/** 0-1 channel values, matching `THREE.Color.setRGB`'s default (linear-ish) convention. */
-const RED: RGB = { r: 0.82, g: 0.24, b: 0.24 };
-const YELLOW: RGB = { r: 0.86, g: 0.7, b: 0.27 };
-const GREEN: RGB = { r: 0.24, g: 0.66, b: 0.45 };
-
-/** `[ratio, color]` stops, ascending by ratio. Below the first and above the last, the end color holds flat. */
-const STOPS: ReadonlyArray<readonly [number, RGB]> = [
-  [0, RED],
-  [0.4, YELLOW],
-  [0.7, GREEN],
-];
+/**
+ * `[ratio, color]` stops, ascending by ratio. Below the first and above the
+ * last, the end color holds flat. Read from `theme.ts` on every call (not
+ * captured at module load) so the tuning panel can move the colours and the
+ * two thresholds live.
+ */
+function stops(): ReadonlyArray<readonly [number, RGB]> {
+  const h = theme.heatmap;
+  return [
+    [0, h.red],
+    [h.yellowAt, h.yellow],
+    [h.greenAt, h.green],
+  ];
+}
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
@@ -46,6 +53,7 @@ export function speedRatioColor(ratio: number | null | undefined): RGB | null {
 
   const clamped = Math.min(1, Math.max(0, ratio));
 
+  const STOPS = stops();
   const first = STOPS[0]!;
   if (clamped <= first[0]) return { ...first[1] };
 

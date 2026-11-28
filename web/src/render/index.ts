@@ -17,7 +17,37 @@ export { elevationSampler, polylineElevations } from './elevation.js';
 export type { DrawableLane, LaneBoundary } from './laneGeometry.js';
 export { drawableLanes, laneBoundaries } from './laneGeometry.js';
 
-export { disposeMaterials, laneMaterial, lineMaterials, surfaceMaterials, SCENE_BACKGROUND } from './materials.js';
+export { disposeMaterials, laneMaterial, lineMaterials, retintMaterials, surfaceMaterials, SCENE_BACKGROUND } from './materials.js';
+
+export type { LightingModeTheme, ShadowTheme, Theme, ThemeChange, ThemeListener, ThemeRGB } from './theme.js';
+export {
+  clearThemeListeners,
+  hexToRGB,
+  idJitter,
+  lightingMode,
+  notifyThemeChanged,
+  resolveLightingName,
+  subscribeTheme,
+  theme,
+  themeToSource,
+} from './theme.js';
+
+export type { LightingRig } from './lighting.js';
+export {
+  applyLighting,
+  configureShadowCamera,
+  createLightingRig,
+  enableShadows,
+  LIGHTING_MODE_NAMES,
+  refreshLighting,
+  sunPosition,
+} from './lighting.js';
+
+export type { SceneryView } from './scenery.js';
+export { buildingShade, buildScenery } from './scenery.js';
+
+export type { GroundView } from './ground.js';
+export { buildGround } from './ground.js';
 
 export type { NetworkView, PickTag } from './networkView.js';
 export { buildNetworkView } from './networkView.js';
@@ -31,6 +61,9 @@ export { interpolateCarPose, SlotAllocator } from './carsCore.js';
 
 export type { CarsView } from './cars.js';
 export { createCarsView } from './cars.js';
+
+export type { HeadlightsView } from './headlights.js';
+export { createHeadlightsView } from './headlights.js';
 
 export type { RGB } from './heatmap.js';
 export { speedRatioColor } from './heatmap.js';
