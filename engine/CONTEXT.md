@@ -4,8 +4,8 @@ Running notes on how the traffic engine works, the decisions behind it, and what
 Kept up to date per milestone, so a new session (or Sashank) can pick up without re-reading the code.
 Spec references are to `FlowState-PRD.md`. Commands run from the repo root.
 
-**Status (2026-11-26):** S1–S5 + vehicle sizes merged to `main` (PR #8). **S7 ✅** merged to `main` (PR #9).
-Next: S8 (per-node delay / LOS, per-path max queue in `metrics`); S6 roundabouts once the ring-connector format is settled.
+**Status (2026-11-28):** S1–S5, vehicle sizes and S7 merged to `main` (PRs #8, #9); Dev's front end merged (PR #10). **S8 + S9 ✅ on `backend`** (not yet merged).
+Next: S10 (tuning: demand, signal splits/offsets, LOS C–D target); S6 roundabouts once the ring-connector format is settled.
 
 ---
 
@@ -45,6 +45,7 @@ seed ─────────────────────────
 | `src/control.ts` | S5 | Intersection control: signal plans, vehicle bodies, the gate (signals, stops, yields, merges, don't block the box). |
 | `src/sim.ts` | S3 | `Sim` class tying it all together. |
 | `src/stats.ts` | S7 | Per-path stats for the heatmap (speed ratio, occupancy, queue length, flow). |
+| `src/metrics.ts` | S8 | Control delay per node, max queue per path, HCM level-of-service helper. |
 | `src/host.ts` | S7 | `EngineHost`: the §7.6 protocol + real-time loop, with injected post / clock / timer (testable in Node). |
 | `src/worker.ts` | S7 | Web Worker entry: wires `self` to `EngineHost`. This is what the front end loads. |
 | `src/index.ts` | | Public exports (`EngineHost`, `Sim`, `loadNetwork`, …) for headless use. |
@@ -52,13 +53,13 @@ seed ─────────────────────────
 | `test/fixtures.ts` | | Tiny hand-built networks/presets for tests (incl. a yield T-junction). |
 | `test/wave.ts` | S1 | Prints the ring-road space-time diagram. |
 | `test/load.ts` | S2 | Loads a compiled file and prints counts, or the validation error. |
-| `test/run.ts` | S3 | Headless preset run, one line per sim minute + trip summary (early S9). |
+| `test/run.ts` | S9 | Headless harness (`npm run sim`): per-minute lines, throughput, trip delay, per-node delay + LOS, longest queues. |
 
 ## Commands
 - `npm test` / `npm run typecheck`
 - `npx tsx engine/test/wave.ts [--cars 60]`
 - `npx tsx engine/test/load.ts data/compiled/test-grid.compiled.json`
-- `npx tsx engine/test/run.ts --preset morning|afternoon|night [--minutes 30] [--seed N] [--network file]`
+- `npm run sim -- --preset morning|afternoon|night [--minutes 30] [--seed N] [--network file] [--quiet]` (S9 harness; same as `npx tsx engine/test/run.ts ...`)
 - Inside the Claude sandbox, `tsx`'s CLI can't open its pipe; use `node --import tsx <file>` instead.
 
 ---
@@ -153,6 +154,36 @@ seed ─────────────────────────
   - stopped + yielding flags at red lights, type codes for trucks and semis;
   - skip = exactly one tick + stats + metrics; reset reproduces identical ticks;
   - stats cadence and value ranges, queues and flow present; metrics cadence with trips and counts.
+
+## S8 + S9: metrics and the headless harness (2026-11-28)
+- **`metrics` message is now complete:**
+  - `completedTrips`: since the last message;
+  - `counts`: now;
+  - **`nodes` and `paths`: running totals since load.** Per node: average control delay and vehicles served. Per path: max standing queue. *Dev's scoring should read them as cumulative.* LOS is an average over a period, and 5 s windows are shorter than a signal cycle. Reset or restart zeroes them.
+- **Control delay** (`MetricsTracker`):
+  - the approach starts when a vehicle joins a lane (at its start, or mid-lane for garage exits);
+  - when it leaves the connector at the end of that lane, delay = elapsed − (lane remainder ÷ lane limit + connector ÷ connector limit), clamped at 0;
+  - every compiled node counts (signals, stops, merge, diverge);
+  - vehicles that end mid-lane or are removed as gridlocked aren't counted;
+  - fed from `Sim.step` using each vehicle's route leg before re-routing, so a short connector crossed in one step is still caught.
+- **Max queue:** same definition as the `stats` queue, sampled every sim-second (also during `skip`).
+- **`levelOfService(delay, control)`:** HCM bounds from PRD §9.2. Signals use the signalized table (10/20/35/55/80 s); everything else the unsignalized one (10/15/25/35/50 s). Used by the harness; Dev's scoring grades its own UI.
+- **S9:** root `npm run sim` now runs `engine/test/run.ts` (was a placeholder in Dev's `package.json`; Sashank approved the edit). It prints per-minute lines (`--quiet` skips them), throughput, trip delay, a per-intersection table (served, avg delay, LOS) and the 5 longest queues.
+- **Tests (`test/metrics.test.ts`):**
+  - LOS boundaries for both tables;
+  - a lone vehicle through an uncontrolled junction has < 0.2 s delay (step rounding); a busier one < 3 s (following);
+  - vehicles served equals connector exits at every grid node;
+  - signals and the all-way stop show positive delay; always-green `n10` < busy `n22`;
+  - max queue equals the largest per-second stats queue; never-queued paths are 0;
+  - the metrics message covers all 11 nodes and 147 paths, totals never decrease, and reset zeroes them.
+- **Results, default seed, 30 min on the test grid:**
+
+  | Preset | Intersection grades |
+  |---|---|
+  | Morning (over capacity) | n22 F 101.7 s · n02 F 181.8 s · M F 65.4 s · n01 E 57.1 s · n20 C · n00/n12/n21/n11 B · n10 A |
+  | Afternoon | n21 D 50.2 s · n01 E 61.9 s · n02 E 44.6 s · n11 D · n20/n22 C · n12 B · n10/n00/M/D A |
+
+  PRD §9.2's calibration target is **LOS C–D at the busiest nodes for morning on the current layout**, so S10 has to bring morning demand down.
 
 ## Lanes (decision, 2026-11-23)
 - Each lane is its own path, so a vehicle's lane is just its path. **No mid-block lane changes** (PRD §1/§8.3).

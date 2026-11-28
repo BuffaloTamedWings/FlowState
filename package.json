@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "compile": "tsx tools/compile-cli.ts",
-    "sim": "node -e \"console.error('npm run sim is Sashank\\'s headless harness in engine/ — not implemented yet.'); process.exit(1)\""
+    "sim": "tsx engine/test/run.ts"
   },
   "dependencies": {
     "lil-gui": "^0.20.0",

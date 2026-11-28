@@ -18,6 +18,7 @@ import type { CompiledPoint, PointAccess } from '@shared/network.js';
 import type { Preset } from '@shared/preset.js';
 import { Intersections } from './control.js';
 import { Demand, freeSpaces, type ParkingState, type TripPlan } from './demand.js';
+import { MetricsTracker } from './metrics.js';
 import { idmAccel } from './idm.js';
 import type { Network } from './network.js';
 import { mulberry32 } from './rng.js';
@@ -79,6 +80,8 @@ export class Sim {
   readonly parking = new Map<string, ParkingState>();
   readonly router: Router;
   readonly control: Intersections;
+  /** Control delay per node and max queue per path (S8). */
+  readonly metrics: MetricsTracker;
   /** IDs of vehicles held at a stop line in the last step (for tick flags / metrics). */
   held: ReadonlySet<number> = new Set();
   /**
@@ -108,6 +111,7 @@ export class Sim {
     this.travel = new TravelTimes(net);
     this.router = new Router(net, this.travel);
     this.control = new Intersections(net);
+    this.metrics = new MetricsTracker(net);
     this.exits = new Uint32Array(net.count);
 
     for (const p of net.points.values()) {
@@ -144,11 +148,15 @@ export class Sim {
     for (const q of this.queues) this.tryEnter(q);
     this.control.update(this.cars, this.occ, this.time);
 
-    const pathBefore = this.cars.map((c) => ({ car: c, path: currentPath(c) }));
+    const pathBefore = this.cars.map((c) => ({ car: c, path: currentPath(c), leg: c.leg }));
     const { finished, enteredLane, held } = stepCars(this.net, this.cars, this.occ, dt, this.control.gate);
     this.held = new Set(held);
     const done = new Set(finished);
-    for (const { car, path } of pathBefore) if (done.has(car.id) || currentPath(car) !== path) this.exits[path]!++;
+    const tEnd = (this.stepCount + 1) * dt;
+    for (const { car, path, leg } of pathBefore) {
+      if (done.has(car.id)) { this.exits[path]!++; this.metrics.left(car.id); continue; }
+      if (currentPath(car) !== path) { this.exits[path]!++; this.metrics.moved(car, leg, tEnd); }
+    }
     for (const id of finished) this.finish(id);
     for (const id of enteredLane) this.maybeReroute(id);
     this.trackStopped(dt);
@@ -158,6 +166,7 @@ export class Sim {
     if (this.stepCount % Math.round(1 / dt) === 0) {
       this.occ.rebuild(this.cars);
       this.travel.sample(this.occ, 1);
+      this.metrics.sampleQueues(this.occ);
     }
     if (this.stepCount % Math.round(REFRESH_SEC / dt) === 0) this.router.refresh();
   }
@@ -218,6 +227,7 @@ export class Sim {
       stoppedRun: 0,
     });
     this.counters.entered++;
+    this.metrics.entered(car, this.time);
     this.occ.rebuild(this.cars);
   }
 
@@ -289,6 +299,7 @@ export class Sim {
       const t = this.trips.get(car.id)!;
       if (t.stoppedRun > this.gridlockSec) {
         this.counters.gridlockRemovals++;
+        this.metrics.left(car.id);
         this.trips.delete(car.id);
         const dest = t.plan.destination;
         if (dest.type === 'parking') {
