@@ -168,6 +168,8 @@ export function createTuningPanel(options: { toggleKey?: string } = {}): TuningP
   num(scenery, sceneryTarget, 'trenchBankWidth', 1, 60, 0.5, true, 'trench bank width (m) [rebuild]');
   num(scenery, sceneryTarget, 'trenchFloorDrop', 0, 3, 0.05, true, 'trench floor drop (m) [rebuild]');
   num(scenery, sceneryTarget, 'groundPadding', 20, 1200, 10, true, 'ground padding (m) [rebuild]');
+  num(scenery, sceneryTarget, 'rampFloorMargin', 0, 20, 0.5, true, 'ramp floor margin (m) [rebuild]');
+  num(scenery, sceneryTarget, 'groundGridStep', 1, 20, 0.5, true, 'ground grid step (m) [rebuild]');
   bool(scenery, sceneryTarget, 'gridVisible', false, 'reference grid');
   col(scenery, sceneryTarget, 'gridMajorColor', 'grid major');
   col(scenery, sceneryTarget, 'gridMinorColor', 'grid minor');

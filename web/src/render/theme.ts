@@ -117,6 +117,21 @@ export interface SceneryTheme {
   /** Extra ground beyond the scenario bounds / freeway extents, meters. */
   groundPadding: number;
 
+  /**
+   * Extra flat floor on each side of a sunken edge (ramp) that isn't a
+   * `scenery.freeway`, meters, added to its selected option's total lane
+   * width. Smaller than `trenchFloorMargin` because a ramp corridor only has
+   * to clear its own lanes, not someone else's ramp tips.
+   */
+  rampFloorMargin: number;
+  /**
+   * Grid step of the ground heightfield, meters. The ground (and its cuts)
+   * is one continuous displaced mesh rather than a flat plane with holes, so
+   * this is the resolution at which the trench floor and banks are sampled;
+   * smaller is smoother but more triangles.
+   */
+  groundGridStep: number;
+
   gridVisible: boolean;
   gridMajorColor: number;
   gridMinorColor: number;
@@ -251,6 +266,8 @@ export const theme: Theme = {
     trenchBankWidth: 14,
     trenchFloorDrop: 0.25,
     groundPadding: 220,
+    rampFloorMargin: 2,
+    groundGridStep: 5,
 
     gridVisible: true,
     gridMajorColor: 0x3c454e,

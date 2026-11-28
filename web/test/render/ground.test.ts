@@ -1,11 +1,18 @@
 /**
- * The ground with the freeway cut (plan step 11). The bug this guards against
- * is the one that made the ramps invisible: a single flat plane at `Z.ground`
- * covering everything that descends below grade.
+ * The ground with the freeway cut, generalised to every sunken edge (plan
+ * step 11, then generalised). The bug this guards against: a ramp's own
+ * descent is gentler than the freeway bank's slope, so for the shallow
+ * stretch near the top of the ramp the ground used to sit *above* the ramp
+ * surface -- the ramp was buried even though the trench around the freeway
+ * itself looked right. See `groundHeightAt`'s module comment in `ground.ts`
+ * for the full writeup of the fix (a displaced heightfield instead of a
+ * `Shape` with one hole per corridor, because overlapping holes break
+ * triangulation and there's no polygon-union library here to merge them).
  *
- * Coordinates in the assertions are Three space, because that is what the
- * geometry holds: local `(x, y, z)` is stored as `(x, z, -y)` (`coords.ts`), so
- * a vertex's *height* is index 1 and its local north/south is `-array[2]`.
+ * Coordinates in the mesh assertions are Three space, because that is what
+ * the geometry holds: local `(x, y, z)` is stored as `(x, z, -y)`
+ * (`coords.ts`), so a vertex's *height* is index 1 and its local north/south
+ * is `-array[2]`.
  */
 
 import { readFileSync } from 'node:fs';
@@ -14,9 +21,11 @@ import { resolve } from 'node:path';
 import { Mesh, type BufferGeometry } from 'three';
 import { describe, expect, it } from 'vitest';
 
-import type { Scenario } from '@shared/scenario.js';
+import type { Edge, Scenario } from '@shared/scenario.js';
+import { laneWidth, selectedEdgeOption } from '@shared/scenario.js';
 
-import { buildGround } from '@web/render/ground.js';
+import { buildCorridors, buildGround, groundHeightAt } from '@web/render/ground.js';
+import { elevationSampler } from '@web/render/elevation.js';
 import { theme } from '@web/render/theme.js';
 
 const dataDir = resolve(import.meta.dirname, '../../../data');
@@ -25,15 +34,50 @@ function loadTestGrid(): Scenario {
   return JSON.parse(readFileSync(resolve(dataDir, 'scenarios/test-grid.scenario.json'), 'utf8')) as Scenario;
 }
 
-function meshNamed(scenario: Scenario, name: string): { mesh: Mesh; dispose(): void } {
+function edgeById(scenario: Scenario, id: string): Edge {
+  const edge = scenario.edges.find((e) => e.id === id);
+  if (!edge) throw new Error(`no edge ${id} in the test grid`);
+  return edge;
+}
+
+function meshNamed(scenario: Scenario, name: string): { mesh: Mesh | undefined; dispose(): void } {
   const view = buildGround(scenario);
   const mesh = view.group.getObjectByName(name) as Mesh | undefined;
-  expect(mesh, name).toBeDefined();
-  return { mesh: mesh!, dispose: () => view.dispose() };
+  return { mesh, dispose: () => view.dispose() };
 }
 
 function positions(mesh: Mesh): Float32Array {
   return (mesh.geometry as BufferGeometry).getAttribute('position').array as Float32Array;
+}
+
+/** Dense samples of `edge`'s road surface: `{ x, y, z }` every `step` meters along its centerline. */
+function sampleRoadSurface(edge: Edge, step = 1): { x: number; y: number; z: number }[] {
+  const pts = edge.centerline;
+  const sample = elevationSampler(edge);
+  const out: { x: number; y: number; z: number }[] = [];
+  let total = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1]!;
+    const b = pts[i]!;
+    total += Math.hypot(b[0] - a[0], b[1] - a[1]);
+  }
+  const n = Math.max(1, Math.round(total / step));
+  let acc = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i]!;
+    const b = pts[i + 1]!;
+    const segLen = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const stepsInSeg = Math.max(1, Math.round((segLen / total) * n));
+    for (let s = 0; s <= stepsInSeg; s++) {
+      const t = s / stepsInSeg;
+      const x = a[0] + (b[0] - a[0]) * t;
+      const y = a[1] + (b[1] - a[1]) * t;
+      const tTotal = total === 0 ? 0 : (acc + segLen * t) / total;
+      out.push({ x, y, z: sample(tTotal) });
+    }
+    acc += segLen;
+  }
+  return out;
 }
 
 describe('buildGround with a freeway (the test grid)', () => {
@@ -45,103 +89,13 @@ describe('buildGround with a freeway (the test grid)', () => {
     view.dispose();
   });
 
-  it('keeps the ramp ends inside the flat trench floor, not buried in a bank', () => {
-    // eROff/eROn reach the freeway's z (-7) at y = -28, 17 m off the mainline
-    // centerline at y = -45. The flat floor has to reach at least that far or
-    // the ramp tips dip under the sloped bank -- the original bug, moved
-    // sideways.
+  it('puts the freeway floor at freeway z minus the configured drop', () => {
     const scenario = loadTestGrid();
     const freeway = scenario.scenery.freeways[0]!;
-    const rampTipOffset = Math.abs(-28 - freeway.centerline[0]![1]);
-    expect(freeway.width / 2 + theme.scenery.trenchFloorMargin).toBeGreaterThan(rampTipOffset);
-  });
-
-  it('puts cut vertices at the freeway height, so the ramps have something to descend into', () => {
-    const scenario = loadTestGrid();
-    const freeway = scenario.scenery.freeways[0]!;
-    const { mesh, dispose } = meshNamed(scenario, 'ground/cut');
-
-    const pos = positions(mesh);
+    const corridors = buildCorridors(scenario);
     const expectedFloor = freeway.z - theme.scenery.trenchFloorDrop;
-    let atFloor = 0;
-    let atGrade = 0;
-    let lowest = Infinity;
-    for (let i = 1; i < pos.length; i += 3) {
-      const height = pos[i] ?? 0;
-      lowest = Math.min(lowest, height);
-      if (Math.abs(height - expectedFloor) < 1e-4) atFloor++;
-      if (Math.abs(height - (-0.02)) < 1e-4) atGrade++; // Z.ground
-    }
-
-    expect(atFloor).toBeGreaterThan(0); // the trench floor
-    expect(atGrade).toBeGreaterThan(0); // the top of each bank
-    expect(lowest).toBeCloseTo(expectedFloor, 5);
-    // The freeway surface itself (z = -7) therefore sits above the floor.
-    expect(expectedFloor).toBeLessThan(freeway.z);
-    dispose();
-  });
-
-  it('runs the corridor along the freeway centerline', () => {
-    const scenario = loadTestGrid();
-    const freeway = scenario.scenery.freeways[0]!;
-    const { mesh, dispose } = meshNamed(scenario, 'ground/cut');
-    const pos = positions(mesh);
-
-    // The centerline is the straight line y = -45. Every floor vertex should be
-    // within half a width (plus the ramp margin) of it; Three stores local y as
-    // -array[2].
-    const expectedFloor = freeway.z - theme.scenery.trenchFloorDrop;
-    let floorVertices = 0;
-    for (let i = 0; i < pos.length; i += 3) {
-      if (Math.abs((pos[i + 1] ?? 0) - expectedFloor) > 1e-4) continue;
-      floorVertices++;
-      const localY = -(pos[i + 2] ?? 0);
-      expect(Math.abs(localY - -45)).toBeLessThanOrEqual(freeway.width / 2 + theme.scenery.trenchFloorMargin + 1e-3);
-    }
-    expect(floorVertices).toBeGreaterThan(0);
-    dispose();
-  });
-
-  it('cuts a hole in the ground surface over the corridor, and keeps the rest', () => {
-    const scenario = loadTestGrid();
-    const freeway = scenario.scenery.freeways[0]!;
-    const { mesh, dispose } = meshNamed(scenario, 'ground/surface');
-    const pos = positions(mesh);
-
-    // No surface triangle may have its centroid inside the corridor: that is
-    // precisely the hole. Checking centroids (not vertices) is the point --
-    // the hole's own boundary vertices sit exactly on the corridor edge.
-    const reach = freeway.width / 2 + theme.scenery.trenchFloorMargin + theme.scenery.trenchBankWidth;
-    let inside = 0;
-    let total = 0;
-    for (let i = 0; i < pos.length; i += 9) {
-      const localY = -(((pos[i + 2] ?? 0) + (pos[i + 5] ?? 0) + (pos[i + 8] ?? 0)) / 3);
-      total++;
-      if (Math.abs(localY - -45) < reach - 1e-3) inside++;
-    }
-    expect(total).toBeGreaterThan(2);
-    expect(inside).toBe(0);
-
-    // Everything is flat at the ground layer and finite.
-    for (let i = 1; i < pos.length; i += 3) expect(pos[i]).toBeCloseTo(-0.02, 6);
-    for (const value of pos) expect(Number.isFinite(value)).toBe(true);
-    dispose();
-  });
-
-  it('covers the scenario bounds and the whole freeway extent', () => {
-    const scenario = loadTestGrid();
-    const { mesh, dispose } = meshNamed(scenario, 'ground/surface');
-    const pos = positions(mesh);
-    let minX = Infinity;
-    let maxX = -Infinity;
-    for (let i = 0; i < pos.length; i += 3) {
-      minX = Math.min(minX, pos[i] ?? 0);
-      maxX = Math.max(maxX, pos[i] ?? 0);
-    }
-    // Freeway runs x = -200 .. 470, wider than the bounds (-150 .. 420).
-    expect(minX).toBeLessThan(-200);
-    expect(maxX).toBeGreaterThan(470);
-    dispose();
+    // Dead center of the mainline, far from either ramp.
+    expect(groundHeightAt(corridors, 100, freeway.centerline[0]![1])).toBeCloseTo(expectedFloor, 5);
   });
 
   it('produces no NaN anywhere in the group', () => {
@@ -160,12 +114,141 @@ describe('buildGround with a freeway (the test grid)', () => {
     expect(grid!.visible).toBe(theme.scenery.gridVisible);
     view.dispose();
   });
+
+  it('covers the scenario bounds and the whole freeway extent', () => {
+    const scenario = loadTestGrid();
+    const { mesh, dispose } = meshNamed(scenario, 'ground/surface');
+    expect(mesh).toBeDefined();
+    const pos = positions(mesh!);
+    let minX = Infinity;
+    let maxX = -Infinity;
+    for (let i = 0; i < pos.length; i += 3) {
+      minX = Math.min(minX, pos[i] ?? 0);
+      maxX = Math.max(maxX, pos[i] ?? 0);
+    }
+    // Freeway runs x = -200 .. 470, wider than the bounds (-150 .. 420).
+    expect(minX).toBeLessThan(-200);
+    expect(maxX).toBeGreaterThan(470);
+    dispose();
+  });
 });
 
-describe('buildGround without a freeway', () => {
+describe('the ramps -- the bug this step fixes', () => {
+  const SUNKEN_EDGE_IDS = ['eROn', 'eROff'];
+
+  it.each(SUNKEN_EDGE_IDS)(
+    'keeps the ground at or below the road surface everywhere along %s (dense sampling)',
+    (id) => {
+      const scenario = loadTestGrid();
+      const edge = edgeById(scenario, id);
+      const corridors = buildCorridors(scenario);
+      const samples = sampleRoadSurface(edge, 0.5);
+      expect(samples.length).toBeGreaterThan(10);
+
+      const tolerance = 0.02; // local meters; just float slop
+      let worst = -Infinity;
+      for (const { x, y, z } of samples) {
+        const ground = groundHeightAt(corridors, x, y);
+        worst = Math.max(worst, ground - z);
+        expect(ground, `(${x.toFixed(1)}, ${y.toFixed(1)})`).toBeLessThanOrEqual(z + tolerance);
+      }
+      // The ground should actually dip under the road, not just tie it --
+      // otherwise this test could pass by accident with a floor permanently
+      // pinned at grade.
+      expect(worst).toBeLessThan(-0.1);
+    },
+  );
+
+  it('regression: the documented y = -16 crossing on eROn is no longer buried', () => {
+    // Worked out in the plan from the two linear profiles:
+    // ramp z = y/4; old bank z = 0.5(y + 8); they cross at y = -16, and for
+    // y in (-16, 0] the old ground sat above the ramp.
+    const scenario = loadTestGrid();
+    const corridors = buildCorridors(scenario);
+    for (const y of [-16, -12, -8, -4, -1]) {
+      const rampZ = y / 4;
+      const groundZ = groundHeightAt(corridors, -60 + (y / -28) * (-150 - -60), y);
+      expect(groundZ, `y=${y}`).toBeLessThanOrEqual(rampZ + 0.02);
+    }
+  });
+
+  it('merges the ramp corridor into the freeway corridor without NaN or thrown errors near the seam', () => {
+    const scenario = loadTestGrid();
+    expect(() => buildGround(scenario)).not.toThrow();
+    const view = buildGround(scenario);
+    const freeway = scenario.scenery.freeways[0]!;
+    const corridors = buildCorridors(scenario);
+    // Sample a grid of points right around where eROn's tip (y=-28) meets the
+    // freeway (y=-45): this is exactly the overlap region between the two
+    // corridors that broke hole-based triangulation.
+    for (let y = -50; y <= -20; y += 2) {
+      for (let x = -170; x <= -130; x += 4) {
+        const z = groundHeightAt(corridors, x, y);
+        expect(Number.isFinite(z), `(${x}, ${y})`).toBe(true);
+        expect(z).toBeLessThanOrEqual(-0.02 + 1e-6);
+      }
+    }
+    expect(freeway.z).toBeLessThan(0);
+    view.dispose();
+  });
+
+  it('still fits a widened ramp inside its own cut', () => {
+    // The real ramps are locked (no alternate options), so construct the case
+    // synthetically: clone eROn and give it a much wider selected option.
+    const scenario = loadTestGrid();
+    const narrow = edgeById(scenario, 'eROn');
+    const corridorsNarrow = buildCorridors(scenario);
+    const narrowHalfWidth = corridorsNarrow.find((c) => c.centerline === narrow.centerline)?.halfWidth;
+
+    const widened: Edge = {
+      ...narrow,
+      options: [
+        ...narrow.options,
+        {
+          id: 'wide',
+          label: 'Widened (synthetic, for the test)',
+          kind: 'current',
+          forward: [{ type: 'car' }, { type: 'car' }, { type: 'car' }, { type: 'car' }],
+          backward: [],
+        },
+      ],
+      selected: 'wide',
+    };
+    const widenedScenario: Scenario = {
+      ...scenario,
+      edges: scenario.edges.map((e) => (e.id === 'eROn' ? widened : e)),
+    };
+
+    const corridorsWide = buildCorridors(widenedScenario);
+    const wideCorridor = corridorsWide.find((c) => c.centerline === widened.centerline);
+    expect(wideCorridor).toBeDefined();
+    expect(wideCorridor!.halfWidth).toBeGreaterThan(narrowHalfWidth ?? 0);
+
+    // And the widened ramp's own surface (now 4 lanes wide, one-way centered)
+    // must still sit entirely within the flat floor, not spilling into the bank.
+    const selected = selectedEdgeOption(widened);
+    const totalWidth =
+      selected.forward.reduce((sum, lane) => sum + laneWidth(lane), 0) +
+      selected.backward.reduce((sum, lane) => sum + laneWidth(lane), 0);
+    const edgeHalf = totalWidth / 2;
+    expect(edgeHalf).toBeLessThanOrEqual(wideCorridor!.halfWidth);
+
+    expect(() => buildGround(widenedScenario)).not.toThrow();
+    const view = buildGround(widenedScenario);
+    view.group.traverse((obj) => {
+      if (!(obj as Mesh).isMesh) return;
+      for (const value of positions(obj as Mesh)) expect(Number.isFinite(value)).toBe(true);
+    });
+    view.dispose();
+  });
+});
+
+describe('buildGround without a freeway or any sunken edge', () => {
   it('falls back to a usable flat plane', () => {
     const scenario = loadTestGrid();
     scenario.scenery.freeways = [];
+    // Flatten every edge so nothing counts as "sunken" either.
+    scenario.edges = scenario.edges.map((e) => ({ ...e, elevation: null }));
     const view = buildGround(scenario);
 
     expect(view.hasTrench).toBe(false);
@@ -200,7 +283,9 @@ describe('buildGround without a freeway', () => {
     expect(() => {
       view = buildGround(scenario);
     }).not.toThrow();
-    expect(view.hasTrench).toBe(false);
+    // The test grid's own ramps (eROn/eROff) are still sunken edges, so there
+    // is still a trench -- just none contributed by the junk freeway entries.
+    expect(view.hasTrench).toBe(true);
     view.dispose();
   });
 
@@ -208,8 +293,18 @@ describe('buildGround without a freeway', () => {
     const scenario = loadTestGrid();
     delete (scenario as unknown as Record<string, unknown>)['scenery'];
     const view = buildGround(scenario);
-    expect(view.hasTrench).toBe(false);
+    // Same reasoning: no `scenery.freeways` to read, but the ramps still count.
+    expect(view.hasTrench).toBe(true);
     expect(view.group.getObjectByName('ground/surface')).toBeDefined();
+    view.dispose();
+  });
+
+  it('truly falls back with neither freeways nor sunken edges', () => {
+    const scenario = loadTestGrid();
+    scenario.scenery.freeways = [];
+    scenario.edges = scenario.edges.map((e) => ({ ...e, elevation: null }));
+    const view = buildGround(scenario);
+    expect(view.hasTrench).toBe(false);
     view.dispose();
   });
 });

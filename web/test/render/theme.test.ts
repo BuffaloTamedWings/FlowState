@@ -68,6 +68,8 @@ const REQUIRED: Record<string, string[]> = {
     'trenchBankWidth',
     'trenchFloorDrop',
     'groundPadding',
+    'rampFloorMargin',
+    'groundGridStep',
     'gridVisible',
     'gridMajorColor',
     'gridMinorColor',

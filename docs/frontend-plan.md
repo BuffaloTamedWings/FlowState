@@ -199,6 +199,35 @@ non-golden option coverage, not only in the UI suite that happened to find it.
 
 ---
 
+## Look pass (2026-11-28) — scenery, lighting, terrain
+
+Pulled forward from step 11 because the demo's frame is "pick a time of day"
+and all three looked identical.
+
+- Scenery (buildings, parks, freeway) was sitting unused in every scenario and
+  is now rendered. Buildings extrude via `Shape` + `ExtrudeGeometry`, so
+  non-convex downtown footprints are safe.
+- `preset.lighting` was also unused. Morning / afternoon / night now differ in
+  sun, ambient, background and fog, and switch immediately on preset change
+  (a look change, not a sim change). Night fakes headlights with additive
+  instanced quads rather than thousands of real lights.
+- `theme.ts` holds every colour and dimension; `lil-gui` panel on `g` tunes it
+  live and can copy the tuned values back out as source.
+- **The ground is a heightfield, not a flat quad with holes cut in it.** The
+  first attempt cut one polygon hole per corridor, which earcut cannot
+  triangulate once a ramp's hole overlaps the freeway's. Each vertex instead
+  takes the *minimum* height across all corridors, so overlap is `Math.min`
+  of two numbers and the seam is correct by construction.
+- **Any edge that goes below grade gets its own cut**, with a floor following
+  its elevation — not just the freeway. The freeway-only version left ~60% of
+  each ramp buried: a ramp descends 0.25 m per metre of northing while the
+  trench bank descends 0.5, so they crossed at y = −16 and everything north of
+  that was under the surface. Verified by dense sampling along both ramps;
+  the ground is now at or below the road everywhere (worst case 0.25 m below).
+  This generalises to downtown, where the I-30 ramps need the same treatment.
+
+---
+
 ## Known problems to fix (raised by Dev, 2026-11-28)
 
 These are confirmed from use, not speculation. Both are scheduled after the
