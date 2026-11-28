@@ -7,7 +7,7 @@
 
 import type { Point2, Polyline } from '@shared/common.js';
 
-import { add, length, normalize, rightOf, scale, sub } from './vec2.js';
+import { add, dot, length, normalize, rightOf, scale, sub } from './vec2.js';
 
 /** Sum of segment lengths. Reference: `poly_len`. */
 export function polylineLength(pts: Polyline): number {
@@ -164,4 +164,63 @@ export function round2(v: number): number {
     rounded = Math.round(scaled);
   }
   return rounded / 100;
+}
+
+/** Nearest point on `pts` to `query`, plus the distance and the arc-length fraction (0-1) along `pts`. */
+export interface ClosestPoint {
+  point: Point2;
+  distance: number;
+  /** Arc-length fraction `[0, 1]` along `pts` at the closest point. 0 for a degenerate (0- or 1-point) polyline. */
+  t: number;
+}
+
+/**
+ * Projects `query` onto every segment of `pts` and keeps the closest. Used by
+ * `render/ground.ts` to find, for an arbitrary ground point, how far it is
+ * from a sunken edge's centerline and how far along that edge it sits (so the
+ * trench floor height there can be looked up from the edge's own elevation
+ * profile). No reference equivalent -- `make_sample.py` never needs the
+ * inverse of `offsetPolyline`/`pointAndTangentAt`.
+ */
+export function closestPointOnPolyline(pts: Polyline, query: Point2): ClosestPoint {
+  if (pts.length === 0) return { point: [0, 0], distance: Infinity, t: 0 };
+  if (pts.length === 1) {
+    const only = pts[0]!;
+    return { point: only, distance: length(sub(query, only)), t: 0 };
+  }
+
+  const cumulative: number[] = [0];
+  let total = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1];
+    const b = pts[i];
+    if (a && b) total += length(sub(b, a));
+    cumulative.push(total);
+  }
+
+  let best: ClosestPoint = { point: pts[0]!, distance: Infinity, t: 0 };
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i];
+    const b = pts[i + 1];
+    if (!a || !b) continue;
+    const seg = sub(b, a);
+    const segLen = length(seg);
+    let tt: number;
+    let proj: Point2;
+    if (segLen === 0) {
+      tt = 0;
+      proj = a;
+    } else {
+      const raw = dot(sub(query, a), seg) / (segLen * segLen);
+      tt = Math.min(1, Math.max(0, raw));
+      proj = add(a, scale(seg, tt));
+    }
+    const distance = length(sub(query, proj));
+    if (distance < best.distance) {
+      const segStart = cumulative[i] ?? 0;
+      const arc = segStart + tt * segLen;
+      best = { point: proj, distance, t: total === 0 ? 0 : arc / total };
+    }
+  }
+  return best;
 }
