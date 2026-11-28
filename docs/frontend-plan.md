@@ -196,3 +196,54 @@ why no earlier step saw it.
 
 Regression test lives in `web/test/compile/options.test.ts` alongside the other
 non-golden option coverage, not only in the UI suite that happened to find it.
+
+---
+
+## Known problems to fix (raised by Dev, 2026-11-28)
+
+These are confirmed from use, not speculation. Both are scheduled after the
+look pass.
+
+### P1. After an edit, the map takes far too long to repopulate
+**Symptom:** edit a road, press Run, and you wait a long time before there is
+enough traffic to judge whether the change helped.
+
+**Cause (diagnosed, not yet fixed):** warm-up is `skip(realSeconds ×
+playbackSpeed)` = `5 × 2` = **10 sim seconds**. That is almost nothing — the
+morning spawn curve doesn't peak until t ≈ 900 s. So every run restarts at an
+essentially empty map and you wait in real time for demand to build.
+
+**Proposed fix — skip to the *previous run's* sim time, not a fixed 10 s.**
+If you paused at t = 900 s to make an edit, the new run should fast-forward to
+t = 900 s before handing back control. That is both (a) much faster to a
+useful state and (b) *more correct for the A/B comparison the whole app is
+about*: you compare the two layouts under the same demand, instead of
+comparing a busy old run against a nearly-empty new one. Keep a floor (a
+minimum warm-up for the very first run) and expose it so the demo can skip
+straight to a chosen busy moment.
+
+Needs measuring first: `skip` runs without emitting ticks, but 900 s is 9,000
+steps at ~1,000 cars — confirm that is a short pause, not a hang, before
+wiring it to a button.
+
+### P2. The heatmap doesn't show anything readable or valuable
+**Symptom:** it technically works (colours come from real `stats`) but reading
+congestion off it is hard and it doesn't earn its place.
+
+**Candidate causes, in rough order of likely impact** — to be checked against
+the real thing rather than assumed:
+1. **It colours the wrong quantity.** `speedRatio` is near 1 for most lanes
+   most of the time; the interesting signal is the *queue* at an approach,
+   which is `queueLengthM` / `occupancy` — both already in the stats buffer
+   and both currently unused.
+2. **It's instantaneous.** Per-second mean speed flickers. A short rolling
+   average would read as congestion rather than noise.
+3. **It's physically hard to see.** The tint goes on the lane surface, which
+   is a 3.5 m ribbon viewed from ~700 m, largely covered by cars and lane
+   lines. An overlay *above* the road, or a widened band, would read far
+   better than tinting asphalt.
+4. **Low contrast** against dark asphalt and dark cars.
+
+Worth considering a different visual entirely (a raised glowing band per
+approach, or per-node delay indicators) rather than only re-tuning the colours.
+
