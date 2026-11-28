@@ -26,6 +26,7 @@ coordinate — the front end owns all geometry.
 - `src/demand.ts` — S3: Poisson arrivals from the preset curve, trip / origin / destination choice (reachable only), parking weights and the `parkingFailed` fallback.
 - `src/control.ts` — S5: intersection control. Fixed-time signals, stop signs, all-way stops, yields, merges, don't-block-the-box, via a gate that turns a refused stop line into a stopped leader.
 - `src/stats.ts` — S7: per-path stats for the heatmap.
+- `src/metrics.ts` — S8: control delay per intersection, max queue per path, HCM level of service.
 - `src/host.ts` — S7: `EngineHost`, the runtime protocol (PRD §7.6) and real-time loop; testable without a worker.
 - `src/worker.ts` — S7: Web Worker entry. Front end: `new Worker(new URL('../../../engine/src/worker.ts', import.meta.url), { type: 'module' })`.
 - `src/sim.ts` — `Sim(network, preset, seed)`: entry queues with safe insertion (lane starts and mid-lane garages), despawn, parking, trip records, gridlock removal, re-routing. The S7 worker will wrap this.
@@ -36,7 +37,7 @@ coordinate — the front end owns all geometry.
 ## Commands (from the repo root)
 - `npm test` — all tests, including the engine's.
 - `npm run typecheck` — covers `engine/src` and `engine/test`.
-- `npx tsx engine/test/run.ts [--preset morning|afternoon|night] [--minutes 30] [--seed N] [--network file]` — headless run, one line per sim minute plus a trip summary. Intersection control is on (S5).
+- `npm run sim -- [--preset morning|afternoon|night] [--minutes 30] [--seed N] [--network file] [--quiet]` — S9 headless harness: per-minute lines, throughput, trip delay, per-intersection delay and LOS, longest queues.
 - `npx tsx engine/test/load.ts [file]` — load a compiled network (default: the test grid) and print its counts, or the validation error.
 - `npx tsx engine/test/wave.ts [--cars 60] [--seconds 600] [--row 10]` — print the S1 wave diagram.
   Inside a sandbox that blocks local pipes, use `node --import tsx engine/test/wave.ts` instead.

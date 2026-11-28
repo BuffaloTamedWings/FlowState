@@ -183,11 +183,12 @@ export class EngineHost {
   private postMetrics(): void {
     const sim = this.sim!;
     const c = sim.counts();
-    // Per-node delay and per-path max queue arrive with S8; trips and counts are live now.
+    // completedTrips: since the last message. nodes / paths: running totals since load
+    // (average control delay and vehicles served per node, max queue per path). counts: now.
     const metrics: Metrics = {
       completedTrips: sim.takeCompleted(),
-      nodes: {},
-      paths: {},
+      nodes: sim.metrics.nodes(),
+      paths: sim.metrics.paths(),
       counts: {
         carsActive: c.carsActive,
         carsWaitingToEnter: c.carsWaitingToEnter,

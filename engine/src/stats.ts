@@ -56,7 +56,8 @@ export function computeStats(net: Network, cars: readonly Car[], exits: Uint32Ar
   return buf;
 }
 
-function queueLength(onPath: Car[], pathLength: number): number {
+/** Standing queue at the end of a path (m), from the vehicles whose front is on it. */
+export function queueLength(onPath: readonly Car[], pathLength: number): number {
   if (onPath.length === 0) return 0;
   const sorted = [...onPath].sort((a, b) => b.s - a.s);
   const front = sorted[0]!;
