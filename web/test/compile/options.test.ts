@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { compileScenario } from '@web/compile/index.js';
+import { compileScenario, validateNetwork } from '@web/compile/index.js';
 import { isConnectorPath, isLanePath, PROTECTED_LEFT_PHASE_IDS } from '@shared/network.js';
 import type { ConnectorPath } from '@shared/network.js';
 import type { Scenario } from '@shared/scenario.js';
@@ -158,5 +158,35 @@ describe('compiling a non-default option', () => {
       expect(() => compileScenario(withSelection('n01', 'roundabout'))).toThrow(/roundabout/i);
       expect(() => compileScenario(withSelection('n01', 'roundabout'))).toThrow(/not implemented/i);
     });
+  });
+});
+
+describe('merge/diverge lane-entry mapping (rule 5)', () => {
+  /**
+   * Regression: widening an edge that *leaves* a diverge gave its new
+   * outermost lane no connector at all. The through-connector loop indexed
+   * outgoing lanes by the incoming lane's index, so any outgoing lane past
+   * the last incoming one was simply never wired — `unreachable-lane`.
+   * `buildIntersection` already fanned the outermost source lane out across
+   * the extras; merge/diverge now does the same.
+   *
+   * Found by the step-7 edit safety net, which widens every edge in turn.
+   */
+  it('feeds outgoing lanes past the last incoming one from the outermost source lane', () => {
+    const s = structuredClone(base);
+    const edge = s.edges.find((e) => e.id === 'eF0');
+    if (!edge) throw new Error('test setup: no edge eF0 (D -> bFW, leaving a diverge)');
+    const widen = edge.options.find((o) => o.kind === 'widen');
+    if (!widen) throw new Error('test setup: eF0 offers no widen option');
+    edge.selected = widen.id;
+
+    const network = compileScenario(s);
+    const errors = validateNetwork(network).filter((p) => p.severity === 'error');
+    expect(errors).toEqual([]);
+
+    // The widened third lane is reachable: something lists it in `next`.
+    const widened = 'L/eF0/f/2';
+    expect(network.paths.some((p) => p.id === widened)).toBe(true);
+    expect(network.paths.some((p) => p.next.includes(widened))).toBe(true);
   });
 });

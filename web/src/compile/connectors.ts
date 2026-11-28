@@ -124,6 +124,22 @@ function buildMergeDiverge(
         if (!a || !b) continue;
         makeConnector(node.id, a, b, 'through', false, connectors, branchIds);
       }
+      // Outgoing lanes past the last incoming one are fed by the outermost
+      // source lane, the same fan-out `buildIntersection` does. Without this
+      // a widened edge leaving a diverge has lanes nothing can reach: the
+      // loop above only ever writes `lo[0 .. li.length-1]`. The reference
+      // (`tools/reference/make_sample.py`) has the same gap, but the default
+      // test-grid layout never hits it — every merge/diverge there has at
+      // least as many incoming main lanes as outgoing — so the golden file
+      // is unchanged by this. The player's `widen` option does hit it.
+      const last = li[li.length - 1];
+      if (last) {
+        for (let k = li.length; k < lo.length; k++) {
+          const b = lo[k];
+          if (!b) continue;
+          makeConnector(node.id, last, b, 'through', false, connectors, branchIds);
+        }
+      }
     }
   }
 

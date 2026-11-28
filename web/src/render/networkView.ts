@@ -1,8 +1,14 @@
 /**
  * Assembles the drawable Three.js representation of a compiled network:
  * lane ribbons, connector ribbons, intersection fill polygons and lane
- * boundary lines, as child `Group`s so they can be toggled independently
- * later (e.g. a heatmap overlay in step 10).
+ * boundary lines.
+ *
+ * Meshes are parented one subgroup per edge (`edge/{edgeId}`, lane ribbons +
+ * boundary lines) and one subgroup per node (`node/{nodeId}`, intersection
+ * fill + connectors), so `rebuild()` can dispose and recreate only the
+ * subgroups an edit touched instead of every mesh in the network (step 7,
+ * `docs/frontend-plan.md`). Every pickable mesh carries `userData.pick`
+ * (`web/src/ui/picking.ts` reads it instead of parsing names).
  */
 
 import {
@@ -21,11 +27,19 @@ import type { Scenario } from '@shared/scenario.js';
 import { Z, writeThree } from './coords.js';
 import { ribbonBuffers } from './ribbon.js';
 import { nodeFootprint } from './hull.js';
-import { drawableLanes, laneBoundaries } from './laneGeometry.js';
+import { drawableLanes, laneBoundaries, type DrawableLane, type LaneBoundary } from './laneGeometry.js';
 import { laneMaterial, lineMaterials, surfaceMaterials } from './materials.js';
+
+/** What a pickable mesh's `userData.pick` holds (see `web/src/ui/picking.ts`). */
+export interface PickTag {
+  kind: 'edge' | 'node';
+  id: string;
+}
 
 export interface NetworkView {
   group: Group;
+  /** Disposes and recreates only the named edge/node subgroups. */
+  rebuild(scenario: Scenario, network: CompiledNetwork, touched: { edges: string[]; nodes: string[] }): void;
   dispose(): void;
 }
 
@@ -99,37 +113,61 @@ function fanGeometry(polygon: Point2[], z: number): BufferGeometry | null {
   return geom;
 }
 
-export function buildNetworkView(scenario: Scenario, network: CompiledNetwork): NetworkView {
-  const geometries: BufferGeometry[] = [];
+function tagPick(obj: Mesh | LineSegments, pick: PickTag): void {
+  obj.userData['pick'] = pick;
+}
 
-  const lanesGroup = new Group();
-  lanesGroup.name = 'lanes';
-  const connectorsGroup = new Group();
-  connectorsGroup.name = 'connectors';
-  const nodesGroup = new Group();
-  nodesGroup.name = 'nodeFill';
-  const linesGroup = new Group();
-  linesGroup.name = 'laneBoundaries';
+/** Builds the one subgroup for `edgeId`: its lane ribbons and boundary lines. Geometries created go into `geomSink` so the caller can dispose them later. */
+function buildEdgeGroup(
+  edgeId: string,
+  lanesByEdge: Map<string, DrawableLane[]>,
+  boundariesByEdge: Map<string, LaneBoundary[]>,
+  geomSink: BufferGeometry[],
+): Group {
+  const group = new Group();
+  group.name = `edge/${edgeId}`;
 
-  // Lane ribbons, and an id -> z[] lookup the connectors below reuse to find
-  // each car lane's end/start elevation.
-  const laneZById = new Map<string, number[]>();
-  for (const dl of drawableLanes(scenario)) {
-    laneZById.set(dl.id, dl.z);
+  for (const dl of lanesByEdge.get(edgeId) ?? []) {
     if (dl.centerline.length < 2) continue; // setback ate the whole lane
     const buffers = ribbonBuffers(dl.centerline, dl.width, dl.z);
     const geom = toThreeGeometry(buffers, Z.lane);
-    geometries.push(geom);
+    geomSink.push(geom);
     const mesh = new Mesh(geom, laneMaterial(dl.type));
     mesh.name = dl.id;
-    lanesGroup.add(mesh);
+    tagPick(mesh, { kind: 'edge', id: edgeId });
+    group.add(mesh);
   }
+
+  for (const boundary of boundariesByEdge.get(edgeId) ?? []) {
+    if (boundary.points.length < 2) continue;
+    const geom = lineSegmentsGeometry(boundary.points, boundary.z, Z.laneLine);
+    geomSink.push(geom);
+    const mat = lineMaterials[boundary.kind];
+    const line = new LineSegments(geom, mat);
+    tagPick(line, { kind: 'edge', id: edgeId });
+    group.add(line);
+  }
+
+  return group;
+}
+
+/** Builds the one subgroup for `nodeId`: its connector ribbons and intersection fill. Empty (no group entry in `network.nodes`) when the node has no connectors (e.g. a boundary node). */
+function buildNodeGroup(
+  nodeId: string,
+  network: CompiledNetwork,
+  laneZById: Map<string, number[]>,
+  geomSink: BufferGeometry[],
+): Group {
+  const group = new Group();
+  group.name = `node/${nodeId}`;
+
+  const connectorsAt = network.paths.filter(isConnectorPath).filter((c) => c.node === nodeId);
+  if (connectorsAt.length === 0) return group;
 
   // Connector ribbons: width 3.5 m, z lerped from the end-z of the lane they
   // leave to the start-z of the lane they enter. Missing debugPolyline (the
   // in-memory handoff strips it) is skipped quietly, not an error.
-  for (const path of network.paths) {
-    if (!isConnectorPath(path)) continue;
+  for (const path of connectorsAt) {
     const poly = path.debugPolyline;
     if (!poly || poly.length < 2) continue;
     const fromZArr = laneZById.get(path.from);
@@ -139,20 +177,17 @@ export function buildNetworkView(scenario: Scenario, network: CompiledNetwork): 
     const z = lerpZ(poly.length, zStart, zEnd);
     const buffers = ribbonBuffers(poly, 3.5, z);
     const geom = toThreeGeometry(buffers, Z.connector);
-    geometries.push(geom);
+    geomSink.push(geom);
     const mesh = new Mesh(geom, surfaceMaterials.connector);
     mesh.name = path.id;
-    connectorsGroup.add(mesh);
+    tagPick(mesh, { kind: 'node', id: nodeId });
+    group.add(mesh);
   }
 
-  // Intersection fill: convex hull of each compiled node's connector
-  // geometry, fan-triangulated at the mean elevation of its source points.
-  for (const node of network.nodes) {
-    const connectorsAt = network.paths.filter(isConnectorPath).filter((c) => c.node === node.id);
-    if (connectorsAt.length === 0) continue;
-    const polygon = nodeFootprint(network, node.id);
-    if (polygon.length < 3) continue;
-
+  // Intersection fill: convex hull of the node's connector geometry,
+  // fan-triangulated at the mean elevation of its source points.
+  const polygon = nodeFootprint(network, nodeId);
+  if (polygon.length >= 3) {
     const srcZs: number[] = [];
     for (const c of connectorsAt) {
       const fromZArr = laneZById.get(c.from);
@@ -167,29 +202,109 @@ export function buildNetworkView(scenario: Scenario, network: CompiledNetwork): 
     const meanZ = srcZs.length > 0 ? srcZs.reduce((a, b) => a + b, 0) / srcZs.length : 0;
 
     const geom = fanGeometry(polygon, meanZ + Z.nodeFill);
-    if (!geom) continue;
-    geometries.push(geom);
-    const mesh = new Mesh(geom, surfaceMaterials.nodeFill);
-    mesh.name = `node-fill/${node.id}`;
-    nodesGroup.add(mesh);
+    if (geom) {
+      geomSink.push(geom);
+      const mesh = new Mesh(geom, surfaceMaterials.nodeFill);
+      mesh.name = `node-fill/${nodeId}`;
+      tagPick(mesh, { kind: 'node', id: nodeId });
+      group.add(mesh);
+    }
   }
 
-  // Lane boundary / divider / centerline lines.
-  for (const boundary of laneBoundaries(scenario)) {
-    if (boundary.points.length < 2) continue;
-    const geom = lineSegmentsGeometry(boundary.points, boundary.z, Z.laneLine);
-    geometries.push(geom);
-    const mat = lineMaterials[boundary.kind];
-    const line = new LineSegments(geom, mat);
-    linesGroup.add(line);
+  return group;
+}
+
+function groupByEdge<T extends { edge: string }>(items: T[]): Map<string, T[]> {
+  const map = new Map<string, T[]>();
+  for (const item of items) {
+    const arr = map.get(item.edge);
+    if (arr) arr.push(item);
+    else map.set(item.edge, [item]);
   }
+  return map;
+}
+
+export function buildNetworkView(scenario: Scenario, network: CompiledNetwork): NetworkView {
+  const geometries: BufferGeometry[] = [];
+  const edgeGeoms = new Map<string, BufferGeometry[]>();
+  const nodeGeoms = new Map<string, BufferGeometry[]>();
+  const edgeGroups = new Map<string, Group>();
+  const nodeGroups = new Map<string, Group>();
+
+  const edgesGroup = new Group();
+  edgesGroup.name = 'edges';
+  const nodesGroup = new Group();
+  nodesGroup.name = 'nodes';
 
   const group = new Group();
   group.name = 'network';
-  group.add(nodesGroup, lanesGroup, connectorsGroup, linesGroup);
+  group.add(edgesGroup, nodesGroup);
+
+  function populate(scn: Scenario, net: CompiledNetwork, edgeIds: string[], nodeIds: string[]): void {
+    const lanesByEdge = groupByEdge(drawableLanes(scn));
+    const boundariesByEdge = groupByEdge(laneBoundaries(scn));
+    const laneZById = new Map<string, number[]>();
+    for (const dl of drawableLanes(scn)) laneZById.set(dl.id, dl.z);
+
+    for (const edgeId of edgeIds) {
+      const sink: BufferGeometry[] = [];
+      const g = buildEdgeGroup(edgeId, lanesByEdge, boundariesByEdge, sink);
+      edgeGeoms.set(edgeId, sink);
+      edgeGroups.set(edgeId, g);
+      edgesGroup.add(g);
+      geometries.push(...sink);
+    }
+
+    for (const nodeId of nodeIds) {
+      const sink: BufferGeometry[] = [];
+      const g = buildNodeGroup(nodeId, net, laneZById, sink);
+      nodeGeoms.set(nodeId, sink);
+      nodeGroups.set(nodeId, g);
+      nodesGroup.add(g);
+      geometries.push(...sink);
+    }
+  }
+
+  populate(
+    scenario,
+    network,
+    scenario.edges.map((e) => e.id),
+    scenario.nodes.map((n) => n.id),
+  );
 
   return {
     group,
+    rebuild(scn: Scenario, net: CompiledNetwork, touched: { edges: string[]; nodes: string[] }): void {
+      for (const edgeId of touched.edges) {
+        const oldGroup = edgeGroups.get(edgeId);
+        if (oldGroup) {
+          edgesGroup.remove(oldGroup);
+        }
+        const oldGeoms = edgeGeoms.get(edgeId);
+        if (oldGeoms) {
+          for (const g of oldGeoms) {
+            g.dispose();
+            const idx = geometries.indexOf(g);
+            if (idx >= 0) geometries.splice(idx, 1);
+          }
+        }
+      }
+      for (const nodeId of touched.nodes) {
+        const oldGroup = nodeGroups.get(nodeId);
+        if (oldGroup) {
+          nodesGroup.remove(oldGroup);
+        }
+        const oldGeoms = nodeGeoms.get(nodeId);
+        if (oldGeoms) {
+          for (const g of oldGeoms) {
+            g.dispose();
+            const idx = geometries.indexOf(g);
+            if (idx >= 0) geometries.splice(idx, 1);
+          }
+        }
+      }
+      populate(scn, net, touched.edges, touched.nodes);
+    },
     dispose(): void {
       for (const g of geometries) g.dispose();
     },

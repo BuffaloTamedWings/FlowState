@@ -29,6 +29,7 @@ export interface DrawableLane {
 }
 
 export interface LaneBoundary {
+  edge: string;
   points: Polyline;
   z: number[];
   kind: 'edge' | 'divider' | 'centerline';
@@ -136,7 +137,7 @@ export function laneBoundaries(scenario: Scenario): LaneBoundary[] {
         const boundary = offsetPolyline(cl, off);
         const trimmed = trimPolyline(boundary, setbackStart, setbackEnd);
         const kind: LaneBoundary['kind'] = i === 0 || i === offsets.length - 1 ? 'edge' : 'divider';
-        out.push({ points: trimmed, z: polylineElevations(trimmed, samp), kind });
+        out.push({ edge: edge.id, points: trimmed, z: polylineElevations(trimmed, samp), kind });
       }
     }
 
@@ -152,7 +153,7 @@ export function laneBoundaries(scenario: Scenario): LaneBoundary[] {
       const setbackEnd = nodeSetback(endNode, selectedNodeOption(endNode));
       const trimmed = trimPolyline(edge.centerline, setbackStart, setbackEnd);
       const samp = dirSampler(edge, 'f');
-      out.push({ points: trimmed, z: polylineElevations(trimmed, samp), kind: 'centerline' });
+      out.push({ edge: edge.id, points: trimmed, z: polylineElevations(trimmed, samp), kind: 'centerline' });
     }
   }
 

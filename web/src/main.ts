@@ -16,10 +16,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PlaybackSpeed } from '@shared/messages.js';
 import { isConnectorPath, isLanePath, type CompiledNetwork } from '@shared/network.js';
 import type { Preset } from '@shared/preset.js';
-import type { Scenario } from '@shared/scenario.js';
+import type { Edge, Node, Scenario } from '@shared/scenario.js';
 import { compileScenario } from '@web/compile/index.js';
-import { buildNetworkView, buildPathLookup, createCarsView, frameBounds, SCENE_BACKGROUND, type CarsView } from '@web/render/index.js';
+import { buildNetworkView, buildPathLookup, createCarsView, frameBounds, SCENE_BACKGROUND, type CarsView, type NetworkView } from '@web/render/index.js';
 import { createTransport, EngineClient, type TickFrame } from '@web/sim/index.js';
+
+import { LayoutState } from './ui/layoutState.js';
+import { edgeOptionsFor, nodeOptionsFor } from './ui/options.js';
+import { decideRunAction } from './ui/runController.js';
+import { findSubgroup, setGroupHighlighted } from './ui/highlight.js';
+import { isClick, pick, toNdc, type PointerPos } from './ui/picking.js';
+import { Panel, type PanelSelectionInfo, type PanelState } from './ui/panel.js';
 
 const SCENARIO_URL = '/data/scenarios/test-grid.scenario.json';
 const PRESET_URL = '/data/presets/morning.json';
@@ -65,12 +72,20 @@ let grid = new GridHelper(FALLBACK_GROUND_SIZE, FALLBACK_GROUND_SIZE / 50, 0x3c4
 scene.add(grid);
 
 let networkGroup: Group | null = null;
+let networkView: NetworkView | null = null;
 
-// --- Sim wiring (step 6) -----------------------------------------------
-// This is deliberately minimal: no HUD, no pause/speed UI beyond raw
-// keyboard bindings. The real HUD is step 10.
+// --- Sim + editing state (step 7) ---------------------------------------
 let client: EngineClient | null = null;
 let carsView: CarsView | null = null;
+let layoutState: LayoutState | null = null;
+let currentPreset: Preset | null = null;
+let lastRunHash: string | null = null;
+let runInFlight = false;
+
+// Current selection, or null for "nothing picked".
+let selection: { kind: 'edge' | 'node'; id: string } | null = null;
+let panelMessage: string | null = null;
+
 // Real wall-clock timestamps (performance.now(), ms) of the two most recent
 // ticks, so the render loop can compute how far between them "now" sits,
 // independent of playback speed or frame rate.
@@ -101,23 +116,197 @@ renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
 
-let lastLogAt = 0;
-function maybeLogSimStatus(): void {
-  if (!client) return;
-  const now = performance.now();
-  if (now - lastLogAt < 1000) return;
-  lastLogAt = now;
-  console.log(`sim: t=${client.simTime.toFixed(1)}s cars=${client.carCount} running=${client.running}`);
+// --- Panel ----------------------------------------------------------------
+
+const panel = new Panel(document.body, {
+  onSelectOption: (optionId) => applySelection(optionId),
+  onRunPause: () => {
+    void runOrPause();
+  },
+  onRevertAll: () => revertAll(),
+});
+
+function findEdge(id: string): Edge | undefined {
+  return layoutState?.scenario.edges.find((e) => e.id === id);
 }
-setInterval(maybeLogSimStatus, 1000);
+
+function findNode(id: string): Node | undefined {
+  return layoutState?.scenario.nodes.find((n) => n.id === id);
+}
+
+function renderPanel(): void {
+  let selectionInfo: PanelSelectionInfo | null = null;
+  let options: PanelState['options'] = [];
+
+  if (selection && layoutState) {
+    if (selection.kind === 'edge') {
+      const edge = findEdge(selection.id);
+      if (edge) {
+        selectionInfo = { kind: 'edge', id: edge.id, name: edge.name };
+        options = edgeOptionsFor(edge).map((o) => ({ ...o, selected: o.id === edge.selected }));
+      }
+    } else {
+      const node = findNode(selection.id);
+      if (node) {
+        selectionInfo = { kind: 'node', id: node.id, name: node.name };
+        options = nodeOptionsFor(node).map((o) => ({ ...o, selected: o.id === node.selected }));
+      }
+    }
+  }
+
+  const state: PanelState = {
+    selection: selectionInfo,
+    options,
+    running: client?.running ?? false,
+    dirty: layoutState?.isDirty() ?? false,
+    simTime: client?.simTime ?? 0,
+    carCount: client?.carCount ?? 0,
+    message: panelMessage,
+  };
+  panel.render(state);
+}
+
+/** Applies the picked option to the current selection, recompiles, rebuilds just the touched geometry, and re-renders the panel. Reverts and reports on a compile failure instead of leaving the app broken. */
+function applySelection(optionId: string): void {
+  if (!layoutState || !networkView || !selection) return;
+  if (client?.running) return; // editing is only allowed while paused
+
+  panelMessage = null;
+
+  if (selection.kind === 'edge') {
+    const edge = findEdge(selection.id);
+    if (!edge) return;
+    const previous = edge.selected;
+    if (previous === optionId) return;
+    try {
+      layoutState.selectEdgeOption(edge.id, optionId);
+      const network = compileScenario(layoutState.scenario);
+      networkView.rebuild(layoutState.scenario, network, { edges: [edge.id], nodes: [edge.from, edge.to] });
+    } catch (err: unknown) {
+      layoutState.selectEdgeOption(edge.id, previous);
+      panelMessage = err instanceof Error ? err.message : String(err);
+    }
+  } else {
+    const node = findNode(selection.id);
+    if (!node) return;
+    const previous = node.selected;
+    if (previous === optionId) return;
+    try {
+      layoutState.selectNodeOption(node.id, optionId);
+      const network = compileScenario(layoutState.scenario);
+      networkView.rebuild(layoutState.scenario, network, { edges: [], nodes: [node.id] });
+    } catch (err: unknown) {
+      layoutState.selectNodeOption(node.id, previous);
+      panelMessage = err instanceof Error ? err.message : String(err);
+    }
+  }
+
+  renderPanel();
+}
+
+function revertAll(): void {
+  if (!layoutState || !networkView) return;
+  if (client?.running) return;
+  panelMessage = null;
+  layoutState.revertAll();
+  const network = compileScenario(layoutState.scenario);
+  networkView.rebuild(layoutState.scenario, network, {
+    edges: layoutState.scenario.edges.map((e) => e.id),
+    nodes: layoutState.scenario.nodes.map((n) => n.id),
+  });
+  renderPanel();
+}
+
+/** Rebuilds the car renderer + arc-length lookup to match a freshly-loaded network's path indices. */
+function swapSimNetwork(network: CompiledNetwork): void {
+  const lookup = buildPathLookup(network);
+  if (carsView) {
+    scene.remove(carsView.object);
+    carsView.dispose();
+  }
+  carsView = createCarsView(lookup);
+  scene.add(carsView.object);
+}
+
+async function runOrPause(): Promise<void> {
+  if (!client || !layoutState || runInFlight) return;
+
+  if (client.running) {
+    client.pause();
+    renderPanel();
+    return;
+  }
+
+  const action = decideRunAction(layoutState.hash(), lastRunHash);
+  if (action === 'resume') {
+    client.run();
+    renderPanel();
+    return;
+  }
+
+  // 'compile-load-run': layout or preset changed since the last run (or
+  // there was no last run) -> compile, load, run, restart from empty on the
+  // same seed. See CLAUDE.md's "Run semantics" paragraph.
+  if (!currentPreset) return;
+  runInFlight = true;
+  try {
+    const network = compileScenario(layoutState.scenario);
+    swapSimNetwork(network);
+    await client.load(network, currentPreset, currentPreset.seed);
+    client.run();
+    layoutState.markRunBaseline();
+    lastRunHash = layoutState.hash();
+  } catch (err: unknown) {
+    panelMessage = err instanceof Error ? err.message : String(err);
+  } finally {
+    runInFlight = false;
+    renderPanel();
+  }
+}
+
+// --- Picking ----------------------------------------------------------------
+
+let pointerDownPos: PointerPos | null = null;
+
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  pointerDownPos = { x: e.clientX, y: e.clientY };
+});
+
+renderer.domElement.addEventListener('pointerup', (e) => {
+  const down = pointerDownPos;
+  pointerDownPos = null;
+  if (!down || !networkGroup) return;
+  const up = { x: e.clientX, y: e.clientY };
+  if (!isClick(down, up)) return; // was a camera drag, not a click
+
+  const rect = renderer.domElement.getBoundingClientRect();
+  const ndc = toNdc(e.clientX, e.clientY, rect);
+  const result = pick(ndc, camera, networkGroup);
+
+  const previous = selection;
+  selection = result ? { kind: result.kind, id: result.id } : null;
+  panelMessage = null;
+
+  if (previous && networkGroup) {
+    const prevGroup = findSubgroup(networkGroup, previous.kind, previous.id);
+    if (prevGroup) setGroupHighlighted(prevGroup, false);
+  }
+  if (selection && networkGroup) {
+    const group = findSubgroup(networkGroup, selection.kind, selection.id);
+    if (group) setGroupHighlighted(group, true);
+  }
+
+  renderPanel();
+});
+
+// --- Keyboard shortcuts (kept from step 6) ---------------------------------
 
 window.addEventListener('keydown', (e) => {
   if (!client) return;
   switch (e.key) {
     case ' ':
       e.preventDefault();
-      if (client.running) client.pause();
-      else client.run();
+      void runOrPause();
       break;
     case '1':
       client.setSpeed(1);
@@ -139,6 +328,17 @@ window.addEventListener('keydown', (e) => {
   }
 });
 console.log('keyboard: space = run/pause, 1/2/4 = speed, s = skip 300s, r = reset');
+
+let lastLogAt = 0;
+function maybeLogSimStatus(): void {
+  if (!client) return;
+  const now = performance.now();
+  if (now - lastLogAt < 1000) return;
+  lastLogAt = now;
+  console.log(`sim: t=${client.simTime.toFixed(1)}s cars=${client.carCount} running=${client.running}`);
+  renderPanel();
+}
+setInterval(maybeLogSimStatus, 1000);
 
 /** Resizes the ground plane and grid to fit the scenario's bounds, centered on them. */
 function fitGroundToBounds(bounds: Scenario['meta']['bounds'], padding = 1.5): void {
@@ -174,16 +374,19 @@ async function loadScenario(): Promise<void> {
   );
 
   fitGroundToBounds(scenario.meta.bounds);
+  layoutState = new LayoutState(scenario);
 
   try {
-    const network = compileScenario(scenario);
+    const network = compileScenario(layoutState.scenario);
     const lanePaths = network.paths.filter(isLanePath).length;
     const connectorPaths = network.paths.filter(isConnectorPath).length;
 
     if (networkGroup) {
       scene.remove(networkGroup);
+      networkView?.dispose();
     }
-    const view = buildNetworkView(scenario, network);
+    const view = buildNetworkView(layoutState.scenario, network);
+    networkView = view;
     networkGroup = view.group;
     scene.add(networkGroup);
 
@@ -202,31 +405,26 @@ async function loadScenario(): Promise<void> {
     frameBounds(camera, controls, scenario.meta.bounds);
 
     await startSim(network);
+    renderPanel();
   } catch (err: unknown) {
     console.error('Failed to compile/render the network:', err);
   }
 }
 
 /**
- * Sets up the engine transport + client, loads the compiled network, and
- * starts the car renderer. Isolated from `loadScenario`'s render setup so a
- * sim failure (e.g. the real engine worker failing to start) doesn't also
- * take down the static network view.
+ * Sets up the engine transport + client and loads the compiled network, but
+ * does not auto-run: the player presses Run (step 7). Isolated from
+ * `loadScenario`'s render setup so a sim failure (e.g. the real engine
+ * worker failing to start) doesn't also take down the static network view.
  */
 async function startSim(network: CompiledNetwork): Promise<void> {
   const res = await fetch(PRESET_URL);
   if (!res.ok) throw new Error(`${PRESET_URL} -> HTTP ${res.status}`);
   const preset = (await res.json()) as Preset;
+  currentPreset = preset;
 
   const transport = createTransport(engineKind);
-  const lookup = buildPathLookup(network);
-
-  if (carsView) {
-    scene.remove(carsView.object);
-    carsView.dispose();
-  }
-  carsView = createCarsView(lookup);
-  scene.add(carsView.object);
+  swapSimNetwork(network);
 
   if (client) client.dispose();
   client = new EngineClient({
@@ -237,13 +435,16 @@ async function startSim(network: CompiledNetwork): Promise<void> {
     },
     onError: (message) => {
       console.error(`engine (${engineKind}) error:`, message);
+      panelMessage = message;
+      renderPanel();
     },
   });
 
   console.log(`sim: starting ${engineKind} engine, loading network (${network.paths.length} paths)`);
   await client.load(network, preset, preset.seed);
+  layoutState?.markRunBaseline();
+  lastRunHash = layoutState?.hash() ?? null;
   console.log(`sim: ready, ${client.carCount} cars after warm-up`);
-  client.run(); // auto-run after load
 }
 
 loadScenario().catch((err: unknown) => {

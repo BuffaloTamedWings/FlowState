@@ -19,7 +19,7 @@ export { drawableLanes, laneBoundaries } from './laneGeometry.js';
 
 export { disposeMaterials, laneMaterial, lineMaterials, surfaceMaterials, SCENE_BACKGROUND } from './materials.js';
 
-export type { NetworkView } from './networkView.js';
+export type { NetworkView, PickTag } from './networkView.js';
 export { buildNetworkView } from './networkView.js';
 
 export { frameBounds } from './camera.js';
